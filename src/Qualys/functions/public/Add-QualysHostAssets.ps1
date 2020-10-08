@@ -37,7 +37,6 @@ function Add-QualysHostAssets{
         }
 
         $Response = Invoke-RestMethod  @HostAssetSplat
-        $Response
-
+        $Response.SIMPLE_RETURN.RESPONSE.TEXT
     }
 }
