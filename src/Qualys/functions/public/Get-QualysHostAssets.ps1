@@ -3,17 +3,16 @@
     Returns an array of all host assets (IPs) in Qualys
 .DESCRIPTION
     Returns an array of all host assets (IPs) in Qualys
-.PARAMETER Cookie
-    Cookie generated with Get-QualysCookie
+.PARAMETER Credential
+    Credentials used to authenticate to Qualys
 .EXAMPLE
-    $Cookie = Get-QualysCookie -Credential $Credential
-    [array]$HostAssets = Get-QualysHostAssets -Cookie $Cookie
+    Get-QualysHostAssets -Credential $Credential
 #>
 function Get-QualysHostAssets{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [WebRequestSession]$Cookie
+        [System.Management.Automation.PSCredential]$Credential
     )
 
     process{
@@ -23,12 +22,12 @@ function Get-QualysHostAssets{
                 'X-Requested-With'='powershell'
             }
             Method = 'GET'
-            URI = "$($BaseURI)asset/ip/"
+            URI = "$($Script:Settings.BaseURI)asset/ip/"
             Body = @{
                 action = 'list'
                 echo_request = '1'
             }
-            WebSession = $Cookie
+            WebSession = Get-QualysCookie -Credential $Credential
         }
 
         $Response = Invoke-RestMethod  @HostAssetSplat
