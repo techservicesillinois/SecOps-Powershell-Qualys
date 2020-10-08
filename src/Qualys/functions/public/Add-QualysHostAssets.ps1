@@ -1,18 +1,22 @@
 <#
 .Synopsis
-    Returns an array of all host assets (IPs) in Qualys
+    Adds one or more networks into Qualys Host Assets
 .DESCRIPTION
-    Returns an array of all host assets (IPs) in Qualys
+    Adds one or more networks into Qualys Host Assets
 .PARAMETER Credential
     Credentials used to authenticate to Qualys
+.PARAMETER Networks
+    Comma separated string of networks by IP range (192.168.0.1-192.168.0.254) or CIDR notation (192.168.0.1/24)
 .EXAMPLE
-    Get-QualysHostAssets -Credential $Credential
+    Get-QualysHostAssets -Credential $Credential -Networks $Networks
 #>
 function Get-QualysHostAssets{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$Credential
+        [System.Management.Automation.PSCredential]$Credential,
+        [Parameter(Mandatory)]
+        [String]$Networks
     )
 
     process{
@@ -21,18 +25,19 @@ function Get-QualysHostAssets{
             Headers = @{
                 'X-Requested-With'='powershell'
             }
-            Method = 'GET'
+            Method = 'POST'
             URI = "$($Script:Settings.BaseURI)asset/ip/"
             Body = @{
-                action = 'list'
+                action = 'add'
                 echo_request = '1'
+                ips = $Networks
+                enable_vm = '1'
             }
             WebSession = Get-QualysCookie -Credential $Credential
         }
 
         $Response = Invoke-RestMethod  @HostAssetSplat
-        [array]$HostAssets = $Response.IP_LIST_OUTPUT.RESPONSE.IP_SET.IP_RANGE
-        $HostAssets
+        $Response
 
     }
 }
