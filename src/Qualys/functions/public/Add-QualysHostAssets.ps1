@@ -8,9 +8,9 @@
 .PARAMETER Networks
     Comma separated string of networks by IP range (192.168.0.1-192.168.0.254) or CIDR notation (192.168.0.1/24)
 .EXAMPLE
-    Get-QualysHostAssets -Credential $Credential -Networks $Networks
+    Add-QualysHostAssets -Credential $Credential -Networks $Networks
 #>
-function Get-QualysHostAssets{
+function Add-QualysHostAssets{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
