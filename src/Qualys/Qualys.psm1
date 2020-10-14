@@ -1,4 +1,4 @@
-$Script:Settings = Get-Content -Path "$PSScriptRoot\Settings.json" | ConvertFrom-Json
+$Script:Settings = Get-Content -Path "$PSScriptRoot\settings.json" | ConvertFrom-Json
 
 $Script:Session = $NULL
 
