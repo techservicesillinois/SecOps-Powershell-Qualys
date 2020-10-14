@@ -6,7 +6,7 @@
 .PARAMETER Networks
     Comma separated string of networks by IP range (192.168.0.1-192.168.0.254) or CIDR notation (192.168.0.1/24)
 .EXAMPLE
-    Add-QualysHostAssets -Credential $Credential -Networks $Networks
+    Add-QualysHostAssets -Networks "128.174.118.0-128.174.118.255, 192.168.0.1/24"
 #>
 function Add-QualysHostAssets{
     [CmdletBinding()]
@@ -17,7 +17,8 @@ function Add-QualysHostAssets{
 
     process{
 
-        #add foreach networks loop here
+        #ADD SUPPORT FOR CHECKING IF IPS ALREADY EXIST. CURRENTLY SAYS SUCCESFULLY ADDED IF NETWORK EXISTS.
+
         $HostAssetSplat = @{
             Headers = @{
                 'X-Requested-With'='powershell'
@@ -35,5 +36,6 @@ function Add-QualysHostAssets{
 
         $Response = Invoke-RestMethod  @HostAssetSplat
         $Response.SIMPLE_RETURN.RESPONSE.TEXT
+
     }
 }
