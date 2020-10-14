@@ -7,6 +7,8 @@
     Comma separated string of networks by IP range (192.168.0.1-192.168.0.254) or CIDR notation (192.168.0.1/24)
 .EXAMPLE
     Add-QualysHostAssets -Networks "128.174.118.0-128.174.118.255, 192.168.0.1/24"
+.EXAMPLE
+    Add-QualysHostAssets -Networks "128.174.118.0-128.174.118.255" -Verbose
 #>
 function Add-QualysHostAssets{
     [CmdletBinding()]
@@ -17,9 +19,13 @@ function Add-QualysHostAssets{
 
     process{
 
-        #ADD SUPPORT FOR CHECKING IF IPS ALREADY EXIST. CURRENTLY SAYS SUCCESFULLY ADDED IF NETWORK EXISTS.
         [Array]$NetworkArray = $Networks.Split(",")
-
+        foreach($Network in $NetworkArray){
+            $NetworkExists = Test-QualysHostAssets -Network $Network
+            if ($NetworkExists){
+                write-host -ForegroundColor DarkYellow "WARNING: $Network network already exists in Host Assets"
+            }
+        }
 
         $HostAssetSplat = @{
             Headers = @{
