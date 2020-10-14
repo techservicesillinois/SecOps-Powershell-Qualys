@@ -1,15 +1,15 @@
 <#
 .Synopsis
-   Returns a Cookie to use as the SessionVariable in Qualys REST invocations
+   This function creates a Qualys user session to be used with the other functions in this module.
 .DESCRIPTION
-   Returns a Cookie to use as the SessionVariable in Qualys REST invocations
+   This function creates a Qualys user session to be used with the other functions in this module.
 .PARAMETER Credential
     Credentials used to authenticate to Qualys
 .EXAMPLE
     $Credential = Get-Credential
-    $Cookie = Get-QualysCookie -Credential $Credential
+    New-QualysSession -Credential $Credential
 #>
-function Get-QualysCookie{
+function New-QualysSession{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -34,7 +34,7 @@ function Get-QualysCookie{
         Write-Verbose -Message "Generating Qualys API cookie for $($Credential.UserName)"
         $Response = Invoke-RestMethod @IVRSplat
         if( $Response.SIMPLE_RETURN.RESPONSE.TEXT -eq 'Logged in' ){
-            $Cookie
+            $Script:Session = $Cookie
         }
         else{
             Throw $Response.SIMPLE_RETURN.RESPONSE.TEXT

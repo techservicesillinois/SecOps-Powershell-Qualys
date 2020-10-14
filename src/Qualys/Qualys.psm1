@@ -1,4 +1,6 @@
-$Script:Settings = Get-Content -Path "$PSScriptRoot\Settings.json" | ConvertFrom-Json
+$Script:Settings = Get-Content -Path "$PSScriptRoot\settings.json" | ConvertFrom-Json
+
+$Script:Session = $NULL
 
 [String]$FunctionPath = Join-Path -Path $PSScriptRoot -ChildPath 'Functions'
 #All function files are executed while only public functions are exported to the shell.
