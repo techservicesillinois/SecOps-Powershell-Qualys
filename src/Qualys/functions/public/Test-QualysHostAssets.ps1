@@ -9,6 +9,7 @@
     Test-QualysHostAssets -Network "128.174.118.0-128.174.118.255"
     #>
 function Test-QualysHostAssets{
+    [OutputType([bool])]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]

@@ -21,7 +21,7 @@ function Add-QualysHostAssets{
         foreach($Network in $NetworkArray){
             $NetworkExists = Test-QualysHostAssets -Network $Network
             if ($NetworkExists){
-                write-host -ForegroundColor DarkYellow "WARNING: $Network network already exists in Host Assets"
+                write-output -ForegroundColor Yellow "WARNING: $Network network already exists in Host Assets"
             }
         }
 
