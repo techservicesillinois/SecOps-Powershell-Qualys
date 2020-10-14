@@ -7,8 +7,6 @@
     Comma separated string of networks by IP range (192.168.0.1-192.168.0.254) or CIDR notation (192.168.0.1/24)
 .EXAMPLE
     Add-QualysHostAssets -Networks "128.174.118.0-128.174.118.255, 192.168.0.1/24"
-.EXAMPLE
-    Add-QualysHostAssets -Networks "128.174.118.0-128.174.118.255" -Verbose
 #>
 function Add-QualysHostAssets{
     [CmdletBinding()]
