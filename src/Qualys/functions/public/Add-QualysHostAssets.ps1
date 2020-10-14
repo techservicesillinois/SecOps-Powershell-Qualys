@@ -18,6 +18,8 @@ function Add-QualysHostAssets{
     process{
 
         #ADD SUPPORT FOR CHECKING IF IPS ALREADY EXIST. CURRENTLY SAYS SUCCESFULLY ADDED IF NETWORK EXISTS.
+        [Array]$NetworkArray = $Networks.Split(",")
+
 
         $HostAssetSplat = @{
             Headers = @{
