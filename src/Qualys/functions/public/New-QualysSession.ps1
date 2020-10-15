@@ -10,7 +10,7 @@
     New-QualysSession -Credential $Credential
 #>
 function New-QualysSession{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$Credential
