@@ -14,20 +14,14 @@ function Get-QualysHostAssets{
 
     process{
 
-        $HostAssetSplat = @{
-            Headers = @{
-                'X-Requested-With'='powershell'
-            }
-            Method = 'GET'
-            URI = "$($Script:Settings.BaseURI)asset/ip/"
-            Body = @{
-                action = 'list'
-                echo_request = '1'
-            }
-            WebSession = $Script:Session
+        $Method = 'GET'
+        $RelativeURI = 'asset/ip/'
+        $Body = @{
+            action = 'list'
+            echo_request = '1'
         }
 
-        $Response = Invoke-RestMethod  @HostAssetSplat
+        $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
         [array]$HostAssets = $Response.IP_LIST_OUTPUT.RESPONSE.IP_SET.IP_RANGE
         $HostAssets
 
