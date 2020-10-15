@@ -18,7 +18,7 @@ function New-QualysSession{
 
     process{
 
-        if ($PSCmdlet.ShouldProcess($Credential)){
+        if ($PSCmdlet.ShouldProcess("$($Script:Settings.BaseURI)session/")){
             $IVRSplat = @{
                 Headers = @{
                     "X-Requested-With"="powershell"
