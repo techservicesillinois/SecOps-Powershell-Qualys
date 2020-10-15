@@ -21,26 +21,21 @@ function Add-QualysHostAssets{
         foreach($Network in $NetworkArray){
             $NetworkExists = Test-QualysHostAssets -Network $Network
             if ($NetworkExists){
-                write-output "WARNING: $Network network already exists in Host Assets"
+                Write-Warning "$Network network already exists in Host Assets"
             }
         }
 
-        $HostAssetSplat = @{
-            Headers = @{
-                'X-Requested-With'='powershell'
-            }
-            Method = 'POST'
-            URI = "$($Script:Settings.BaseURI)asset/ip/"
-            Body = @{
+
+            $Method = 'POST'
+            $RelativeURI = 'asset/ip/'
+            $Body = @{
                 action = 'add'
                 echo_request = '1'
                 ips = $Networks
                 enable_vm = '1'
             }
-            WebSession = $Script:Session
-        }
 
-        $Response = Invoke-RestMethod  @HostAssetSplat
+        $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
         $Response.SIMPLE_RETURN.RESPONSE.TEXT
 
     }
