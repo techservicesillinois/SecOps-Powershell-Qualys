@@ -25,7 +25,6 @@ function Add-QualysHostAssets{
             }
         }
 
-
             $Method = 'POST'
             $RelativeURI = 'asset/ip/'
             $Body = @{
@@ -37,6 +36,5 @@ function Add-QualysHostAssets{
 
         $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
         $Response.SIMPLE_RETURN.RESPONSE.TEXT
-
     }
 }

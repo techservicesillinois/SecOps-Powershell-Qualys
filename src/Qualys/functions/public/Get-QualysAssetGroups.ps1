@@ -1,29 +1,66 @@
 <#
 .Synopsis
-    Returns an array of all host assets (IPs) in Qualys
+    Returns one or all Asset Groups in Qualys
 .DESCRIPTION
-    Returns an array of all host assets (IPs) in Qualys
+    Returns one or all Asset Groups in Qualys
+.PARAMETER Identity
+    The Title or ID of the Asset Group in Qualys
 .EXAMPLE
-    Get-QualysHostAssets
+    Get-QualysAssetGroups
+    Returns all Asset Groups
+.EXAMPLE
+    Get-QualysAssetGroups -Identity "7270750"
+    Returns the Asset Group with this ID
+.EXAMPLE
+    Get-QualysAssetGroups -Identity "Test"
+    Returns the Asset Group titled "Test"
     #>
-function Get-QualysHostAssets{
+function Get-QualysAssetGroups{
     [CmdletBinding()]
     param (
-
+        [String]$Identity
     )
 
     process{
 
         $Method = 'GET'
-        $RelativeURI = 'asset/ip/'
+        $RelativeURI = 'asset/group/'
         $Body = @{
             action = 'list'
             echo_request = '1'
         }
 
-        $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
-        [array]$HostAssets = $Response.IP_LIST_OUTPUT.RESPONSE.IP_SET.IP_RANGE
-        $HostAssets
+        #Check if a name or ID is provided and add it to the Body hashtable
+        If($Identity){
+            If($Identity -match '\d\d\d\d\d'){
+                $Body['ids'] = $Identity
+            }
+            Else{
+                $Body['title'] = $Identity
+            }
+        }
 
+        $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
+
+        if(!($Identity)){
+            $Index = 0
+            foreach ($ID in $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.ID ) {
+                $AssetGroup = [PSCustomObject]@{
+                    ID = $ID
+                    Title = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.TITLE.'#cdata-section'[$Index]
+                    IP_Range = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET[$Index].IP_RANGE
+                }
+                $Index++
+                $AssetGroup
+            }
+        }
+        else{
+            $AssetGroup = [PSCustomObject]@{
+                ID = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.ID
+                Title = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.TITLE.'#cdata-section'
+                IP_Range = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET.IP_RANGE
+            }
+            $AssetGroup
+        }
     }
 }
