@@ -25,16 +25,18 @@ function Add-QualysHostAssets{
             }
         }
 
-            $Method = 'POST'
-            $RelativeURI = 'asset/ip/'
-            $Body = @{
+        $RestSplat = @{
+            Method = 'POST'
+            RelativeURI = 'asset/ip/'
+            Body = @{
                 action = 'add'
                 echo_request = '1'
                 ips = $Networks
                 enable_vm = '1'
             }
+        }
 
-        $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
+        $Response = Invoke-QualysRestCall @RestSplat
         $Response.SIMPLE_RETURN.RESPONSE.TEXT
     }
 }

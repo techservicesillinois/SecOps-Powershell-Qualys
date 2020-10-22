@@ -21,19 +21,21 @@
 
         process{
 
-            $Method = 'POST'
-            $RelativeURI = 'asset/group/'
-            $Body = @{
-                action = 'add'
-                echo_request = '1'
-                title = $Title
+            $RestSplat = @{
+                Method = 'POST'
+                RelativeURI = 'asset/group/'
+                Body = @{
+                    action = 'add'
+                    echo_request = '1'
+                    title = $Title
+                }
             }
 
             If($IPs){
-                $Body['ips'] = $IPs
+                $RestSplat.Body['ips'] = $IPs
             }
 
-            $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
+            $Response = Invoke-QualysRestCall @RestSplat
             $Response.SIMPLE_RETURN.RESPONSE.TEXT
 
             }

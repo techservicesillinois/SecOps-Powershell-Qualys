@@ -23,25 +23,26 @@ function Get-QualysAssetGroups{
 
     process{
 
-        $Method = 'GET'
-        $RelativeURI = 'asset/group/'
-        $Body = @{
-            action = 'list'
-            echo_request = '1'
+        $RestSplat = @{
+            Method = 'GET'
+            RelativeURI = 'asset/group/'
+            Body = @{
+                action = 'list'
+                echo_request = '1'
+            }
         }
 
         #Check if a name or ID is provided and add it to the Body hashtable
         If($Identity){
             If($Identity -match '\d\d\d\d\d'){
-                $Body['ids'] = $Identity
+                $RestSplat.Body['ids'] = $Identity
             }
             Else{
-                $Body['title'] = $Identity
+                $RestSplat.Body['title'] = $Identity
             }
         }
 
-        $Response = Invoke-QualysRestCall -RelativeURI $RelativeURI -Method $Method -Body $Body
-
+        $Response = Invoke-QualysRestCall @RestSplat
         if(!($Identity)){
             $Index = 0
             foreach ($ID in $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.ID ) {
