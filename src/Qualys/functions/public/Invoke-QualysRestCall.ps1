@@ -22,7 +22,9 @@ function Invoke-QualysRestCall {
     param (
         [Parameter(Mandatory=$true)]
         [String]$RelativeURI,
+        [Parameter(Mandatory=$true)]
         [String]$Method,
+        [Parameter(Mandatory=$true)]
         [hashtable]$Body
 
     )
@@ -35,6 +37,10 @@ function Invoke-QualysRestCall {
     }
 
     process {
+
+        if ($RelativeURI.StartsWith('/')){
+            $RelativeURI.Substring(1)
+        }
 
         $IVRSplat = @{
             Headers = @{
