@@ -5,18 +5,22 @@
     Adds an Asset Group to Qualys
 .PARAMETER Title
     The Title of the Asset Group
-.PARAMETER Title
-    Comma separated IP ranges to add to new asset group. Ex "128.174.118.0-128.174.118.255, 130.126.127.32-130.126.127.63"
+.PARAMETER IPs
+    Comma separated IP ranges to add to new asset group. Ex "128.174.118.0-128.174.118.255, 192.168.0.1/24"
+.PARAMETER Comments
+    Description or comments about the group; max 255 characters
 .EXAMPLE
     Add-QualysAssetGroups -Title "My Asset Group"
-    Returns all Asset Groups
+.EXAMPLE
+    Add-QualysAssetGroups -Title "My Asset Group" -IPs "192.168.0.1/24"
     #>
     function Add-QualysAssetGroups{
         [CmdletBinding()]
         param (
             [Parameter(Mandatory=$true)]
             [String]$Title,
-            [string]$IPs
+            [string]$IPs,
+            [string]$Comments
         )
 
         process{
@@ -33,6 +37,10 @@
 
             If($IPs){
                 $RestSplat.Body['ips'] = $IPs
+            }
+
+            If($Comments){
+                $RestSplat.Body['comments'] = $Comments
             }
 
             $Response = Invoke-QualysRestCall @RestSplat

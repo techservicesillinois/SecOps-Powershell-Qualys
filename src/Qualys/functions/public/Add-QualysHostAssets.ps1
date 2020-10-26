@@ -17,14 +17,6 @@ function Add-QualysHostAssets{
 
     process{
 
-        [Array]$NetworkArray = $Networks.Split(",")
-        foreach($Network in $NetworkArray){
-            $NetworkExists = Test-QualysHostAssets -Network $Network
-            if ($NetworkExists){
-                Write-Warning "$Network network already exists in Host Assets"
-            }
-        }
-
         $RestSplat = @{
             Method = 'POST'
             RelativeURI = 'asset/ip/'
