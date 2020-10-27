@@ -13,7 +13,7 @@ Adds an Asset Group to Qualys
 ## SYNTAX
 
 ```
-Add-QualysAssetGroups [-Title] <String> [[-IPs] <String>] [[-Comments] <String>] [<CommonParameters>]
+Add-QualysAssetGroups [-Title] <String> [[-IPs] <String[]>] [[-Comments] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -50,10 +50,10 @@ Accept wildcard characters: False
 
 ### -IPs
 Comma separated IP ranges to add to new asset group.
-Ex "128.174.118.0-128.174.118.255, 192.168.0.1/24"
+Ex "128.174.118.0-128.174.118.255", "192.168.0.1/24"
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 

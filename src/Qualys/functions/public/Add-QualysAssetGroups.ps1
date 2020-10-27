@@ -6,7 +6,7 @@
 .PARAMETER Title
     The Title of the Asset Group
 .PARAMETER IPs
-    Comma separated IP ranges to add to new asset group. Ex "128.174.118.0-128.174.118.255, 192.168.0.1/24"
+    Comma separated IP ranges to add to new asset group. Ex "128.174.118.0-128.174.118.255", "192.168.0.1/24"
 .PARAMETER Comments
     Description or comments about the group; max 255 characters
 .EXAMPLE
@@ -19,7 +19,7 @@
         param (
             [Parameter(Mandatory=$true)]
             [String]$Title,
-            [string]$IPs,
+            [string[]]$IPs,
             [string]$Comments
         )
 
@@ -36,6 +36,7 @@
             }
 
             If($IPs){
+                $IPs = $IPs -join ", "
                 $RestSplat.Body['ips'] = $IPs
             }
 
