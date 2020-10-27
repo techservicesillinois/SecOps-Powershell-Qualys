@@ -39,9 +39,7 @@
             }
 
             If($IPs){
-                $IPs = $IPs -join ", "
-                $IPs.Trim()
-                $RestSplat.Body['ips'] = $IPs
+                $RestSplat.Body['ips'] = ($IPs.Trim() -join ", ")
             }
 
             If($Comments){
