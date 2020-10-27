@@ -37,6 +37,7 @@
 
             If($IPs){
                 $IPs = $IPs -join ", "
+                $IPs.Trim()
                 $RestSplat.Body['ips'] = $IPs
             }
 
