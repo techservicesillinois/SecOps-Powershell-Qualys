@@ -12,6 +12,8 @@ function Add-QualysHostAssets{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
+        #QOL Improvement to use string array
+        #Why aren't you taking strings
         [String]$Networks
     )
 

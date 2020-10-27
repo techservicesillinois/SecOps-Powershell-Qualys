@@ -9,6 +9,8 @@
     Comma separated IP ranges to add to new asset group. Ex "128.174.118.0-128.174.118.255", "192.168.0.1/24"
 .PARAMETER Comments
     Description or comments about the group; max 255 characters
+.PARAMETER Division
+    The Division of the Asset Group, typically the Owner Code from CDB
 .EXAMPLE
     Add-QualysAssetGroups -Title "My Asset Group"
 .EXAMPLE
@@ -20,7 +22,8 @@
             [Parameter(Mandatory=$true)]
             [String]$Title,
             [string[]]$IPs,
-            [string]$Comments
+            [string]$Comments,
+            [string]$Division
         )
 
         process{
@@ -43,6 +46,10 @@
 
             If($Comments){
                 $RestSplat.Body['comments'] = $Comments
+            }
+
+            If($Division){
+                $RestSplat.Body['division'] = $Division
             }
 
             $Response = Invoke-QualysRestCall @RestSplat
