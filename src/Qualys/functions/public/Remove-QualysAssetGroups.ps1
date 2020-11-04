@@ -4,7 +4,7 @@
 .DESCRIPTION
     Removes an Asset Group to Qualys
 .PARAMETER Identity
-    The Title or ID of the Asset Group to delete
+    The Title or ID of the Asset Group to delete. Only one Identity may be provided per API call.
 .EXAMPLE
     Delete-QualysAssetGroups -Identity "My Asset Group"
     #>
