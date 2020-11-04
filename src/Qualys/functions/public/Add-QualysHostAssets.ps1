@@ -12,9 +12,7 @@ function Add-QualysHostAssets{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        #QOL Improvement to use string array
-        #Why aren't you taking strings
-        [String]$Networks
+        [String[]]$Networks
     )
 
     process{
@@ -25,7 +23,7 @@ function Add-QualysHostAssets{
             Body = @{
                 action = 'add'
                 echo_request = '1'
-                ips = $Networks
+                ips = ($Networks.Trim() -join ", ")
                 enable_vm = '1'
             }
         }
