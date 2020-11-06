@@ -12,18 +12,10 @@ function Add-QualysHostAssets{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [String]$Networks
+        [String[]]$Networks
     )
 
     process{
-
-        [Array]$NetworkArray = $Networks.Split(",")
-        foreach($Network in $NetworkArray){
-            $NetworkExists = Test-QualysHostAssets -Network $Network
-            if ($NetworkExists){
-                Write-Warning "$Network network already exists in Host Assets"
-            }
-        }
 
         $RestSplat = @{
             Method = 'POST'
@@ -31,7 +23,7 @@ function Add-QualysHostAssets{
             Body = @{
                 action = 'add'
                 echo_request = '1'
-                ips = $Networks
+                ips = ($Networks.Trim() -join ", ")
                 enable_vm = '1'
             }
         }
