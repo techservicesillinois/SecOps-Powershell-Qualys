@@ -13,7 +13,7 @@ Returns one or all Asset Groups in Qualys
 ## SYNTAX
 
 ```
-Get-QualysAssetGroups [[-Identity] <String>] [<CommonParameters>]
+Get-QualysAssetGroups [[-Identity] <String>] [[-Limit] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,6 +52,21 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Number of items to return. By default this is 0 (all)
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

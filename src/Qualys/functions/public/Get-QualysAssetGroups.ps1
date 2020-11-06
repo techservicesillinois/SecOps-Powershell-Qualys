@@ -5,6 +5,8 @@
     Returns one or all Asset Groups in Qualys
 .PARAMETER Identity
     The Title or ID of the Asset Group in Qualys
+.PARAMETER Limit
+    Number of items to return. By default this is 0 (all)
 .EXAMPLE
     Get-QualysAssetGroups
     Returns all Asset Groups
@@ -18,7 +20,8 @@
 function Get-QualysAssetGroups{
     [CmdletBinding()]
     param (
-        [String]$Identity
+        [String]$Identity,
+        [int]$Limit = 0
     )
 
     process{
@@ -29,6 +32,7 @@ function Get-QualysAssetGroups{
             Body = @{
                 action = 'list'
                 echo_request = '1'
+                truncation_limit = $Limit
             }
         }
 

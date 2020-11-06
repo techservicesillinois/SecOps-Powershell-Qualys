@@ -13,7 +13,7 @@ Adds one or more networks into Qualys Host Assets
 ## SYNTAX
 
 ```
-Add-QualysHostAssets [-Networks] <String> [<CommonParameters>]
+Add-QualysHostAssets [-Networks] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,7 +32,7 @@ Add-QualysHostAssets -Networks "128.174.118.0-128.174.118.255, 192.168.0.1/24"
 Comma separated string of networks by IP range (192.168.0.1-192.168.0.254) or CIDR notation (192.168.0.1/24)
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 

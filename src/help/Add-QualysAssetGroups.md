@@ -13,7 +13,8 @@ Adds an Asset Group to Qualys
 ## SYNTAX
 
 ```
-Add-QualysAssetGroups [-Title] <String> [[-IPs] <String[]>] [[-Comments] <String>] [<CommonParameters>]
+Add-QualysAssetGroups [-Title] <String> [[-IPs] <String[]>] [[-Comments] <String>] [[-Division] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,6 +75,21 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Division
+The Division of the Asset Group, typically the Owner Code from CDB
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
