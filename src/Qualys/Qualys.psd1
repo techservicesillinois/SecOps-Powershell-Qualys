@@ -10,7 +10,7 @@
 RootModule = 'Qualys.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.0.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -75,7 +75,8 @@ FunctionsToExport = @(
     'Get-QualysHostAssets',
     'Invoke-QualysRestCall',
     'Get-QualysAssetGroups',
-    'Add-QualysAssetGroups'
+    'Add-QualysAssetGroups',
+    'Add-QualysUser'
     )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

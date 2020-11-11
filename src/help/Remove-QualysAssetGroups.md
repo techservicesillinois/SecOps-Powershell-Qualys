@@ -5,69 +5,72 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-QualysAssetGroups
+# Remove-QualysAssetGroups
 
 ## SYNOPSIS
-Returns one or all Asset Groups in Qualys
+Removes an Asset Group to Qualys
 
 ## SYNTAX
 
 ```
-Get-QualysAssetGroups [[-Identity] <String>] [[-Limit] <Int32>] [<CommonParameters>]
+Remove-QualysAssetGroups [-Identity] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns one or all Asset Groups in Qualys
+Removes an Asset Group to Qualys
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-QualysAssetGroups
-Returns all Asset Groups
-```
-
-### EXAMPLE 2
-```
-Get-QualysAssetGroups -Identity "7270750"
-Returns the Asset Group with this ID
-```
-
-### EXAMPLE 3
-```
-Get-QualysAssetGroups -Identity "Test"
-Returns the Asset Group titled "Test"
+Delete-QualysAssetGroups -Identity "My Asset Group"
 ```
 
 ## PARAMETERS
 
 ### -Identity
-The Title or ID of the Asset Group in Qualys
+The Title or ID of the Asset Group to delete.
+Only one Identity may be provided per API call.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-Number of items to return.
-By default this is 0 (all)
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: Int32
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: wi
 
 Required: False
-Position: 2
-Default value: 0
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
