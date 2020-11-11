@@ -78,12 +78,10 @@ function Add-QualysUser{
 
     process{
 
-        $Authorization = $Credential
-
         $RestSplat = @{
             Headers = @{
                 "X-Requested-With"="powershell"
-                "Authorization"= ('Basic {0}' -f ([Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Authorization.UserName,$Authorization.GetNetworkCredential().Password)))))
+                "Authorization"= ('Basic {0}' -f ([Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Credential.UserName,$Credential.GetNetworkCredential().Password)))))
             }
             Method = 'POST'
             URI = 'https://qualysapi.qg3.apps.qualys.com/msp/user.php'
