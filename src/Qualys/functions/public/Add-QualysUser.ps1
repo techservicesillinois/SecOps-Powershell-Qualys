@@ -4,7 +4,7 @@
 .DESCRIPTION
     Adds a new user to Qualys
 .PARAMETER Credential
-    This API call only supports basic HTTP authentication. You must provide your credentials separately for this call.
+    This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
 .PARAMETER SendEmail
     Specifies whether the new user will receive an email notification with a secure link to their login credentials.
 .PARAMETER Role
