@@ -32,8 +32,21 @@
 .PARAMETER State
     Specifies the user’s state.
 .EXAMPLE
-    Add-QualysUser
-    #>
+    $NewUserSplat = @{
+        Phone = '555-555-555'
+        Address = 'University of Illinois'
+        city = 'Urbana'
+        country = 'United States of America'
+        state = 'Illinois'
+        Role = 'scanner'
+        FirstName = 'Jane'
+        LastName = 'Doe'
+        Title = 'Test User'
+        email = 'JaneDoe@test.null'
+        Credential = $Credential
+    }
+    Add-QualysUser @NewUserSplat
+#>
 function Add-QualysUser{
     [CmdletBinding()]
     param (
