@@ -26,7 +26,20 @@ Adds a new user to Qualys
 
 ### EXAMPLE 1
 ```
-Add-QualysUser
+$NewUserSplat = @{
+    Phone = '555-555-555'
+    Address = 'University of Illinois'
+    city = 'Urbana'
+    country = 'United States of America'
+    state = 'Illinois'
+    Role = 'scanner'
+    FirstName = 'Jane'
+    LastName = 'Doe'
+    Title = 'Test User'
+    email = 'JaneDoe@test.null'
+    Credential = $Credential
+}
+Add-QualysUser @NewUserSplat
 ```
 
 ## PARAMETERS
@@ -229,7 +242,7 @@ Accept wildcard characters: False
 
 ### -Credential
 This API call only supports basic HTTP authentication.
-You must provide your credentials separately for this call.
+You must provide your credentials separately for this function.
 
 ```yaml
 Type: PSCredential
