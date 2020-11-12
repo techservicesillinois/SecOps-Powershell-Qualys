@@ -79,12 +79,9 @@ function Add-QualysUser{
     process{
 
         $RestSplat = @{
-            Headers = @{
-                "X-Requested-With"="powershell"
-                "Authorization"= ('Basic {0}' -f ([Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Credential.UserName,$Credential.GetNetworkCredential().Password)))))
-            }
             Method = 'POST'
-            URI = 'https://qualysapi.qg3.apps.qualys.com/msp/user.php'
+            RelativeURI = 'msp/user.php'
+            Credential = $Credential
             Body = @{
                 action = 'add'
                 send_email = '0'
@@ -114,7 +111,7 @@ function Add-QualysUser{
             $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ", ")
         }
 
-        $Response = Invoke-RestMethod @RestSplat
+        $Response = Invoke-QualysRestCall @RestSplat
         $Response.USER_OUTPUT.RETURN.MESSAGE
 
     }

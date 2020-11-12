@@ -14,7 +14,8 @@ Utilizes credentials created with New-QualysSession.
 ## SYNTAX
 
 ```
-Invoke-QualysRestCall [-RelativeURI] <String> [-Method] <String> [-Body] <Hashtable> [<CommonParameters>]
+Invoke-QualysRestCall [-RelativeURI] <String> [-Method] <String> [-Body] <Hashtable>
+ [[-Credential] <PSCredential>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,9 +27,9 @@ Utilizes credentials created with New-QualysSession.
 ### EXAMPLE 1
 ```
 $Body = @{
-             action = 'list'
-             echo_request = '1'
-         }
+     action = 'list'
+     echo_request = '1'
+ }
  Invoke-QualysRestCall -RelativeURI asset/ip/ -Method GET -Body $Body
  This will return an array of all host assets (IPs) in Qualys
 ```
@@ -76,6 +77,21 @@ Aliases:
 
 Required: True
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Credential
+Optionally used for making REST calls that require Basic Authentication
+
+```yaml
+Type: PSCredential
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

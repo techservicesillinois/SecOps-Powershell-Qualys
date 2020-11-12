@@ -9,6 +9,8 @@
     Method of the REST call Ex: GET
 .PARAMETER Body
     Body of the REST call as a hashtable
+.PARAMETER Credential
+    Optionally used for making REST calls that require Basic Authentication
 .EXAMPLE
    $Body = @{
         action = 'list'
@@ -52,7 +54,7 @@ function Invoke-QualysRestCall {
         }
 
         if($Credential){
-            $IVRSplat['Uri'] = 'https://qualysapi.qg3.apps.qualys.com/msp/user.php'
+            $IVRSplat['Uri'] = "$($Script:Settings.BasicAuthURI)$RelativeURI"
             $BasicAuth = ('Basic {0}' -f ([Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Credential.UserName,$Credential.GetNetworkCredential().Password)))))
             $IVRSplat['Headers'].add('Authorization',$BasicAuth)
         }
