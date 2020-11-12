@@ -44,7 +44,7 @@ function Invoke-QualysRestCall {
 
         $IVRSplat = @{
             Headers = @{
-                "X-Requested-With"="powershell"
+                'X-Requested-With'='powershell'
             }
             Method = $Method
             URI = [string]::Empty
