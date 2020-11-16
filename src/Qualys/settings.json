@@ -1,6 +1,5 @@
 {
-    //BaseURI of Qualys
-    "BaseURI":  [
-        "https://qualysapi.qg3.apps.qualys.com/api/2.0/fo/"
-    ]
+  //BaseURI of Qualys
+  "BaseURI": ["https://qualysapi.qg3.apps.qualys.com/api/2.0/fo/"],
+  "BasicAuthURI": ["https://qualysapi.qg3.apps.qualys.com/"]
 }
