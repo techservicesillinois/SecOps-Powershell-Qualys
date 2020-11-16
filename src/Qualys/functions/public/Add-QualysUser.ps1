@@ -1,4 +1,4 @@
-<#
+﻿<#
 .Synopsis
     Adds a new user to Qualys
 .DESCRIPTION
