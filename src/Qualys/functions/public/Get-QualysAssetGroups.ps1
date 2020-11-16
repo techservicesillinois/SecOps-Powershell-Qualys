@@ -38,11 +38,11 @@ function Get-QualysAssetGroups{
 
         #Check if a name or ID is provided and add it to the Body hashtable
         If($Identity){
-            If($Identity -match '\d{5}'){
-                $RestSplat.Body['ids'] = $Identity
+            If($Identity -match '\D'){
+                $RestSplat.Body['title'] = $Identity
             }
             Else{
-                $RestSplat.Body['title'] = $Identity
+                $RestSplat.Body['ids'] = $Identity
             }
         }
 
