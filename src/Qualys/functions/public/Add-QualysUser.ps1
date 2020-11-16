@@ -53,7 +53,7 @@ function Add-QualysUser{
         [Switch]$SendEmail,
         [Parameter(Mandatory=$true)]
         [String]$Role,
-        [String]$BusinessUnit,
+        [String]$BusinessUnit = 'Unassigned',
         [String[]]$AssetGroups,
         [Parameter(Mandatory=$true)]
         [String]$FirstName,
@@ -84,8 +84,8 @@ function Add-QualysUser{
             Credential = $Credential
             Body = @{
                 action = 'add'
-                send_email = '0'
-                business_unit = 'Unassigned'
+                send_email = [string][int]$SendEmail.IsPresent
+                business_unit = $BusinessUnit
                 user_role = $Role
                 first_name = $FirstName
                 last_name = $LastName
@@ -97,14 +97,6 @@ function Add-QualysUser{
                 country = $Country
                 state = $State
             }
-        }
-
-        If($SendEmail){
-            $RestSplat.Body['send_email'] = '1'
-        }
-
-        If($BusinessUnit){
-            $RestSplat.Body['business_unit'] = $BusinessUnit
         }
 
         If($AssetGroups){
