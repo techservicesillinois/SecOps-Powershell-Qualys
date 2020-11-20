@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Add-QualysUser
+# Set-QualysUser
 
 ## SYNOPSIS
 Adds a new user to Qualys
@@ -13,10 +13,10 @@ Adds a new user to Qualys
 ## SYNTAX
 
 ```
-Add-QualysUser [-SendEmail] [-Role] <String> [[-BusinessUnit] <String>] [[-AssetGroups] <String[]>]
- [-FirstName] <String> [-LastName] <String> [-Title] <String> [-Email] <String> [-Phone] <String>
- [-Address] <String> [-City] <String> [-Country] <String> [[-State] <String>] [[-ExternalID] <String>]
- [-Credential] <PSCredential> [<CommonParameters>]
+Set-QualysUser [-Login] <String> [[-AssetGroups] <String[]>] [[-FirstName] <String>] [[-LastName] <String>]
+ [[-Title] <String>] [[-Email] <String>] [[-Phone] <String>] [[-Address] <String>] [[-City] <String>]
+ [[-Country] <String>] [[-State] <String>] [[-ExternalID] <String>] [-Credential] <PSCredential>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,42 +26,31 @@ Adds a new user to Qualys
 
 ### EXAMPLE 1
 ```
-$NewUserSplat = @{
+Set-QualysUser -Credential $Credential -Login testuser -AssetGroups TestGroup
+```
+
+### EXAMPLE 2
+```
+$SetUserSplat = @{
+    Login = testuser
     Phone = '555-555-555'
     Address = 'University of Illinois'
     city = 'Urbana'
     country = 'United States of America'
     state = 'Illinois'
-    Role = 'scanner'
     FirstName = 'Jane'
     LastName = 'Doe'
     Title = 'Test User'
     email = 'JaneDoe@test.null'
     Credential = $Credential
 }
-Add-QualysUser @NewUserSplat
+Set-QualysUser @SetUserSplat
 ```
 
 ## PARAMETERS
 
-### -SendEmail
-Specifies whether the new user will receive an email notification with a secure link to their login credentials.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Role
-Specifies the user role.
-A valid value is: manager, unit_manager, scanner, reader, contact or administrator.
+### -Login
+Specifies the Qualys user login of the user account you wish to edit.
 
 ```yaml
 Type: String
@@ -75,21 +64,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -BusinessUnit
-Specifies the user's business unit.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: Unassigned
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -AssetGroups
 Specifies the asset groups assigned to the user, when theuser role is Scanner, Reader or Contact.
 
@@ -99,7 +73,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -113,8 +87,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 4
+Required: False
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -128,8 +102,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 5
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -143,8 +117,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 6
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -158,8 +132,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 7
+Required: False
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -173,8 +147,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 8
+Required: False
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -188,8 +162,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 9
+Required: False
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -203,8 +177,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 10
+Required: False
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -218,8 +192,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 11
+Required: False
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -234,7 +208,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -249,7 +223,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -265,7 +239,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 14
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

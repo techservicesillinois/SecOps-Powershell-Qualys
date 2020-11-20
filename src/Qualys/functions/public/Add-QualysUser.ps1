@@ -5,6 +5,8 @@
     Adds a new user to Qualys
 .PARAMETER Credential
     This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
+.PARAMETER ExternalID
+    Set a custom External ID (required for SSO)
 .PARAMETER SendEmail
     Specifies whether the new user will receive an email notification with a secure link to their login credentials.
 .PARAMETER Role
@@ -72,6 +74,7 @@ function Add-QualysUser{
         [Parameter(Mandatory=$true)]
         [String]$Country,
         [String]$State,
+        [String]$ExternalID,
         [Parameter(Mandatory=$true)]
         [System.Management.Automation.PSCredential]$Credential
     )
@@ -96,6 +99,7 @@ function Add-QualysUser{
                 city = $City
                 country = $Country
                 state = $State
+                external_id = $ExternalID
             }
         }
 

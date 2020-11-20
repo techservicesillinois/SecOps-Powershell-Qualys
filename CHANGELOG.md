@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.1.0] - 2020-11-17
+
+### Added
+
+- Added function to list Users
+- Added production URLs to settings
+- Added function to set Users
+
+### Changed
+
+- ExternalID parameter added to Add-QualysUser
+
 ## [1.0.2] - 2020-11-16
 
 ### Changed
