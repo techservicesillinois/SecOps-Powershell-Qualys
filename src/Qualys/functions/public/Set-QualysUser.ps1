@@ -48,7 +48,7 @@
     Set-QualysUser @SetUserSplat
 #>
 function Set-QualysUser{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory=$true)]
         [String]$Login,
@@ -69,28 +69,29 @@ function Set-QualysUser{
 
     process{
 
+        if ($PSCmdlet.ShouldProcess("$($Login)")){
 
-
-        $RestSplat = @{
-            Method = 'POST'
-            RelativeURI = 'msp/user.php'
-            Credential = $Credential
-            Body = @{
-                action = 'edit'
+            $RestSplat = @{
+                Method = 'POST'
+                RelativeURI = 'msp/user.php'
+                Credential = $Credential
+                Body = @{
+                    action = 'edit'
+                }
             }
+
+            [String[]]$Exclusions = ('Credential', 'AssetGroups')
+            $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
+                $RestSplat.Body.$_ = $PSBoundParameters[$_]
+            }
+
+            If($AssetGroups){
+                $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
+            }
+
+            $Response = Invoke-QualysRestCall @RestSplat
+            $Response.USER_OUTPUT.RETURN.MESSAGE
+
         }
-
-        [String[]]$Exclusions = ('Credential', 'AssetGroups')
-        $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
-            $RestSplat.Body.$_ = $PSBoundParameters[$_]
-        }
-
-        If($AssetGroups){
-            $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
-        }
-
-        $Response = Invoke-QualysRestCall @RestSplat
-        $Response.USER_OUTPUT.RETURN.MESSAGE
-
     }
 }
