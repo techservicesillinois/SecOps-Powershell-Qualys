@@ -7,7 +7,7 @@
     This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
 .PARAMETER Login
     Specifies the Qualys user login of the user account you wish to edit.
-.PARAMETER ExternalID
+.PARAMETER External_ID
     Set a custom External ID (required for SSO)
 .PARAMETER AssetGroups
     Specifies the asset groups assigned to the user, when theuser role is Scanner, Reader or Contact.
@@ -51,6 +51,8 @@ function Set-QualysUser{
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory=$true)]
+        [System.Management.Automation.PSCredential]$Credential,
+        [Parameter(Mandatory=$true)]
         [String]$Login,
         [String[]]$AssetGroups,
         [String]$FirstName,
@@ -62,9 +64,8 @@ function Set-QualysUser{
         [String]$City,
         [String]$Country,
         [String]$State,
-        [String]$ExternalID,
-        [Parameter(Mandatory=$true)]
-        [System.Management.Automation.PSCredential]$Credential
+        [String]$External_ID
+
     )
 
     process{

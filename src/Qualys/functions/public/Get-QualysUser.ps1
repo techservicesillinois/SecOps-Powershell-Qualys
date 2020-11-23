@@ -5,7 +5,7 @@
     Adds a new user to Qualys
 .PARAMETER Credential
     This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
-.PARAMETER ExternalID
+.PARAMETER External_ID
     Specifies user accounts with an external ID value that contains this string
 .EXAMPLE
     Get-QualysUser
@@ -13,9 +13,9 @@
 function Get-QualysUser{
     [CmdletBinding()]
     param (
-        [String]$ExternalID,
         [Parameter(Mandatory=$true)]
-        [System.Management.Automation.PSCredential]$Credential
+        [System.Management.Automation.PSCredential]$Credential,
+        [String]$External_ID
     )
 
     process{
@@ -25,7 +25,7 @@ function Get-QualysUser{
             RelativeURI = 'msp/user_list.php'
             Credential = $Credential
             Body = @{
-                external_id_contains = $ExternalID
+                external_id_contains = $External_ID
             }
         }
 
