@@ -94,12 +94,13 @@ function Add-QualysUser{
             Credential = $Credential
             Body = @{
                 action = 'add'
+                business_unit = $BusinessUnit
                 send_email = [string][int]$SendEmail.IsPresent
             }
         }
 
         #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
-        [String[]]$Exclusions = ('Credential', 'AssetGroups', "SendEmail")
+        [String[]]$Exclusions = ('Credential', 'AssetGroups', 'SendEmail', 'BusinessUnit')
         $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
             if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
                 [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
