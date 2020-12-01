@@ -7,7 +7,7 @@
     This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
 .PARAMETER Login
     Specifies the Qualys user login of the user account you wish to edit.
-.PARAMETER External_ID
+.PARAMETER ExternalID
     Set a custom External ID (required for SSO)
 .PARAMETER AssetGroups
     Specifies the asset groups assigned to the user, when theuser role is Scanner, Reader or Contact.

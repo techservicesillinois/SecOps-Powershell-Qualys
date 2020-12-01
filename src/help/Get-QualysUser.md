@@ -13,7 +13,7 @@ Adds a new user to Qualys
 ## SYNTAX
 
 ```
-Get-QualysUser [[-ExternalID] <String>] [-Credential] <PSCredential> [<CommonParameters>]
+Get-QualysUser [-Credential] <PSCredential> [[-ExternalID] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,21 +28,6 @@ Get-QualysUser
 
 ## PARAMETERS
 
-### -ExternalID
-Specifies user accounts with an external ID value that contains this string
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Credential
 This API call only supports basic HTTP authentication.
 You must provide your credentials separately for this function.
@@ -53,6 +38,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExternalID
+Specifies user accounts with an external ID value that contains this string
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False

@@ -5,7 +5,7 @@
     Adds a new user to Qualys
 .PARAMETER Credential
     This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
-.PARAMETER External_ID
+.PARAMETER ExternalID
     Specifies user accounts with an external ID value that contains this string
 .EXAMPLE
     Get-QualysUser
