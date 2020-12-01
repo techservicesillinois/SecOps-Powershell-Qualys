@@ -17,12 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--
-
 ### Changed
 
 - Update User functions ExternalID to match API External_ID
 - Made Credential first parameter of User functions
+- Fixed bug with parameter mismatches in Set-QualysUser, added aliases
+- Changed other User functions to match Set-QualysUser's aliases
 
 ## [1.1.0] - 2020-11-17
 

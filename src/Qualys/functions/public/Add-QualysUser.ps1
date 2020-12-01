@@ -37,14 +37,14 @@
     $NewUserSplat = @{
         Phone = '555-555-555'
         Address = 'University of Illinois'
-        city = 'Urbana'
-        country = 'United States of America'
-        state = 'Illinois'
+        City = 'Urbana'
+        Country = 'United States of America'
+        State = 'Illinois'
         Role = 'scanner'
         FirstName = 'Jane'
         LastName = 'Doe'
         Title = 'Test User'
-        email = 'JaneDoe@test.null'
+        Email = 'JaneDoe@test.null'
         Credential = $Credential
     }
     Add-QualysUser @NewUserSplat
@@ -56,12 +56,16 @@ function Add-QualysUser{
         [System.Management.Automation.PSCredential]$Credential,
         [Switch]$SendEmail,
         [Parameter(Mandatory=$true)]
+        [Alias('user_role')]
         [String]$Role,
+        [Alias('business_unit')]
         [String]$BusinessUnit = 'Unassigned',
         [String[]]$AssetGroups,
         [Parameter(Mandatory=$true)]
+        [Alias('first_name')]
         [String]$FirstName,
         [Parameter(Mandatory=$true)]
+        [Alias('last_name')]
         [String]$LastName,
         [Parameter(Mandatory=$true)]
         [String]$Title,
@@ -70,13 +74,15 @@ function Add-QualysUser{
         [Parameter(Mandatory=$true)]
         [String]$Phone,
         [Parameter(Mandatory=$true)]
+        [Alias('address1')]
         [String]$Address,
         [Parameter(Mandatory=$true)]
         [String]$City,
         [Parameter(Mandatory=$true)]
         [String]$Country,
         [String]$State,
-        [String]$External_ID
+        [Alias('external_id')]
+        [String]$ExternalID
 
     )
 
@@ -89,19 +95,14 @@ function Add-QualysUser{
             Body = @{
                 action = 'add'
                 send_email = [string][int]$SendEmail.IsPresent
-                business_unit = $BusinessUnit
-                user_role = $Role
-                first_name = $FirstName
-                last_name = $LastName
-                title = $Title
-                phone = $Phone
-                email = $Email
-                address1 = $Address
-                city = $City
-                country = $Country
-                state = $State
-                external_id = $External_ID
             }
+        }
+
+        #This block takes any parameter that's set except excluded ones and adds one of the same name to the API body
+        [String[]]$Exclusions = ('Credential', 'AssetGroups', "SendEmail")
+        $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
+            [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
+            $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
         }
 
         If($AssetGroups){

@@ -15,7 +15,7 @@ function Get-QualysUser{
     param (
         [Parameter(Mandatory=$true)]
         [System.Management.Automation.PSCredential]$Credential,
-        [String]$External_ID
+        [String]$ExternalID
     )
 
     process{
@@ -25,7 +25,7 @@ function Get-QualysUser{
             RelativeURI = 'msp/user_list.php'
             Credential = $Credential
             Body = @{
-                external_id_contains = $External_ID
+                external_id_contains = $ExternalID
             }
         }
 
