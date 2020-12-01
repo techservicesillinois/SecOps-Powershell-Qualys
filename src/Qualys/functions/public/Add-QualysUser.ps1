@@ -101,8 +101,13 @@ function Add-QualysUser{
         #This block takes any parameter that's set except excluded ones and adds one of the same name to the API body
         [String[]]$Exclusions = ('Credential', 'AssetGroups', "SendEmail")
         $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
-            [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
-            $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+            if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
+                [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
+                $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+            }
+            else {
+                $RestSplat.Body.$_ = $PSBoundParameters[$_]
+            }
         }
 
         If($AssetGroups){
