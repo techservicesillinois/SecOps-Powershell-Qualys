@@ -13,9 +13,9 @@
 function Get-QualysUser{
     [CmdletBinding()]
     param (
-        [String]$ExternalID,
         [Parameter(Mandatory=$true)]
-        [System.Management.Automation.PSCredential]$Credential
+        [System.Management.Automation.PSCredential]$Credential,
+        [String]$ExternalID
     )
 
     process{

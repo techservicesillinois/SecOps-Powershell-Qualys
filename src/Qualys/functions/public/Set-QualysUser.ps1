@@ -49,22 +49,28 @@
 #>
 function Set-QualysUser{
     [CmdletBinding(SupportsShouldProcess)]
+    [Alias()]
     param (
+        [Parameter(Mandatory=$true)]
+        [System.Management.Automation.PSCredential]$Credential,
         [Parameter(Mandatory=$true)]
         [String]$Login,
         [String[]]$AssetGroups,
+        [Alias('first_name')]
         [String]$FirstName,
+        [Alias('last_name')]
         [String]$LastName,
         [String]$Title,
         [String]$Email,
         [String]$Phone,
+        [Alias('address1')]
         [String]$Address,
         [String]$City,
         [String]$Country,
         [String]$State,
-        [String]$ExternalID,
-        [Parameter(Mandatory=$true)]
-        [System.Management.Automation.PSCredential]$Credential
+        [Alias('external_id')]
+        [String]$ExternalID
+
     )
 
     process{
@@ -80,9 +86,16 @@ function Set-QualysUser{
                 }
             }
 
+            #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
             [String[]]$Exclusions = ('Credential', 'AssetGroups')
             $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
-                $RestSplat.Body.$_ = $PSBoundParameters[$_]
+                if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
+                    [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
+                    $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+                }
+                else {
+                    $RestSplat.Body.$_ = $PSBoundParameters[$_]
+                }
             }
 
             If($AssetGroups){

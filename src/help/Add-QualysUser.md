@@ -13,10 +13,10 @@ Adds a new user to Qualys
 ## SYNTAX
 
 ```
-Add-QualysUser [-SendEmail] [-Role] <String> [[-BusinessUnit] <String>] [[-AssetGroups] <String[]>]
- [-FirstName] <String> [-LastName] <String> [-Title] <String> [-Email] <String> [-Phone] <String>
- [-Address] <String> [-City] <String> [-Country] <String> [[-State] <String>] [[-ExternalID] <String>]
- [-Credential] <PSCredential> [<CommonParameters>]
+Add-QualysUser [-Credential] <PSCredential> [-SendEmail] [-Role] <String> [[-BusinessUnit] <String>]
+ [[-AssetGroups] <String[]>] [-FirstName] <String> [-LastName] <String> [-Title] <String> [-Email] <String>
+ [-Phone] <String> [-Address] <String> [-City] <String> [-Country] <String> [[-State] <String>]
+ [[-ExternalID] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,20 +29,36 @@ Adds a new user to Qualys
 $NewUserSplat = @{
     Phone = '555-555-555'
     Address = 'University of Illinois'
-    city = 'Urbana'
-    country = 'United States of America'
-    state = 'Illinois'
+    City = 'Urbana'
+    Country = 'United States of America'
+    State = 'Illinois'
     Role = 'scanner'
     FirstName = 'Jane'
     LastName = 'Doe'
     Title = 'Test User'
-    email = 'JaneDoe@test.null'
+    Email = 'JaneDoe@test.null'
     Credential = $Credential
 }
 Add-QualysUser @NewUserSplat
 ```
 
 ## PARAMETERS
+
+### -Credential
+This API call only supports basic HTTP authentication.
+You must provide your credentials separately for this function.
+
+```yaml
+Type: PSCredential
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -SendEmail
 Specifies whether the new user will receive an email notification with a secure link to their login credentials.
@@ -66,10 +82,10 @@ A valid value is: manager, unit_manager, scanner, reader, contact or administrat
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: user_role
 
 Required: True
-Position: 1
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -81,10 +97,10 @@ Specifies the user's business unit.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: business_unit
 
 Required: False
-Position: 2
+Position: 3
 Default value: Unassigned
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -99,7 +115,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -111,10 +127,10 @@ Specifies the user's first name.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: first_name
 
 Required: True
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -126,10 +142,10 @@ Specifies the user's last name
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: last_name
 
 Required: True
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -144,7 +160,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -159,7 +175,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -174,7 +190,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -186,10 +202,10 @@ Specifies the user's address.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: address1
 
 Required: True
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -204,7 +220,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -219,7 +235,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -234,7 +250,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -246,25 +262,9 @@ Set a custom External ID (required for SSO)
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: external_id
 
 Required: False
-Position: 13
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Credential
-This API call only supports basic HTTP authentication.
-You must provide your credentials separately for this function.
-
-```yaml
-Type: PSCredential
-Parameter Sets: (All)
-Aliases:
-
-Required: True
 Position: 14
 Default value: None
 Accept pipeline input: False

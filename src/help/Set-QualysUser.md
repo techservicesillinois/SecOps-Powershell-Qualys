@@ -13,10 +13,10 @@ Adds a new user to Qualys
 ## SYNTAX
 
 ```
-Set-QualysUser [-Login] <String> [[-AssetGroups] <String[]>] [[-FirstName] <String>] [[-LastName] <String>]
- [[-Title] <String>] [[-Email] <String>] [[-Phone] <String>] [[-Address] <String>] [[-City] <String>]
- [[-Country] <String>] [[-State] <String>] [[-ExternalID] <String>] [-Credential] <PSCredential>
- [<CommonParameters>]
+Set-QualysUser [-Credential] <PSCredential> [-Login] <String> [[-AssetGroups] <String[]>]
+ [[-FirstName] <String>] [[-LastName] <String>] [[-Title] <String>] [[-Email] <String>] [[-Phone] <String>]
+ [[-Address] <String>] [[-City] <String>] [[-Country] <String>] [[-State] <String>] [[-ExternalID] <String>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,6 +49,22 @@ Set-QualysUser @SetUserSplat
 
 ## PARAMETERS
 
+### -Credential
+This API call only supports basic HTTP authentication.
+You must provide your credentials separately for this function.
+
+```yaml
+Type: PSCredential
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Login
 Specifies the Qualys user login of the user account you wish to edit.
 
@@ -58,7 +74,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -73,7 +89,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -85,10 +101,10 @@ Specifies the user's first name.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: first_name
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -100,10 +116,10 @@ Specifies the user's last name
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: last_name
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -118,7 +134,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -133,7 +149,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -148,7 +164,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -160,10 +176,10 @@ Specifies the user's address.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: address1
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -178,7 +194,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -193,7 +209,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -208,7 +224,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -220,26 +236,41 @@ Set a custom External ID (required for SSO)
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: external_id
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Credential
-This API call only supports basic HTTP authentication.
-You must provide your credentials separately for this function.
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: PSCredential
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: wi
 
-Required: True
-Position: 13
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
