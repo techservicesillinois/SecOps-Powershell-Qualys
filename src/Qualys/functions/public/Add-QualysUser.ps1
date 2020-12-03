@@ -112,7 +112,7 @@ function Add-QualysUser{
         }
 
         If($AssetGroups){
-            $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ", ")
+            $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
         }
 
         $Response = Invoke-QualysRestCall @RestSplat
