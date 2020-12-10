@@ -37,7 +37,7 @@
                 }
 
                 $Response = Invoke-QualysRestCall @RestSplat
-                $Response.SIMPLE_RETURN.RESPONSE.TEXT
+                Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
 
                 }
             }

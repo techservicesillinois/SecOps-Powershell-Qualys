@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.1.3] - 2020-12-10
+
+### Changed
+
+- Add, Remove and Set functions now only display console output when specifying -Verbose
+
 ## [1.1.2] - 2020-11-23
 
 ### Changed
