@@ -103,8 +103,9 @@ function Set-QualysUser{
             }
 
             $Response = Invoke-QualysRestCall @RestSplat
-            Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE
-
+            if ($Response) {
+                Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE
+            }
         }
     }
 }

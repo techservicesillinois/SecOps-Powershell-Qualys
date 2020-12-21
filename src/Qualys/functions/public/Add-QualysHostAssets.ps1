@@ -29,6 +29,8 @@ function Add-QualysHostAssets{
         }
 
         $Response = Invoke-QualysRestCall @RestSplat
-        Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
+        if ($Response) {
+            Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
+        }
     }
 }
