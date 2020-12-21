@@ -21,4 +21,4 @@ Submit a PR on GitHub
 
 # To Do
 
-Prod/Dev BaseURI switching, Get-QualysUser, Set-QualysUser, Example Scripts
+Prod/Dev BaseURI switching, Example Scripts
