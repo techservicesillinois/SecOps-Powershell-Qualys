@@ -21,9 +21,9 @@
         param (
             [Parameter(Mandatory=$true)]
             [String]$Title,
-            [string[]]$IPs,
-            [string]$Comments,
-            [string]$Division
+            [String[]]$IPs,
+            [String]$Comments,
+            [String]$Division
         )
 
         process{

@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.0] - 2020-01-04
+
+### Added
+
+### Changed
+
+- Fixed incorrect comment-based help
+
+### Removed
+
 ## [1.1.4] - 2020-12-21
 
 ### Changed

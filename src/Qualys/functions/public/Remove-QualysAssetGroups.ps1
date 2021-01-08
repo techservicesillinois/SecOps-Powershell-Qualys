@@ -6,7 +6,7 @@
 .PARAMETER Identity
     The Title or ID of the Asset Group to delete. Only one Identity may be provided per API call.
 .EXAMPLE
-    Delete-QualysAssetGroups -Identity "My Asset Group"
+    Remove-QualysAssetGroups -Identity "My Asset Group"
     #>
     function Remove-QualysAssetGroups{
         [CmdletBinding(SupportsShouldProcess)]

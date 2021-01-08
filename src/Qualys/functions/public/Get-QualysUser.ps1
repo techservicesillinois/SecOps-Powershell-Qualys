@@ -1,8 +1,8 @@
 ﻿<#
 .Synopsis
-    Adds a new user to Qualys
+    Returns a user from Qualys
 .DESCRIPTION
-    Adds a new user to Qualys
+    Returns a user from Qualys
 .PARAMETER Credential
     This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
 .PARAMETER ExternalID
