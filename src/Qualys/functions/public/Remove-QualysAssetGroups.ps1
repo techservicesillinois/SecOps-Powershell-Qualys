@@ -28,11 +28,11 @@
 
                 #Check if a name or ID is provided and add it to the Body hashtable
                 If($Identity){
-                    If($Identity -match '\d{5}'){
-                        $RestSplat.Body['id'] = $Identity
+                    If($Identity -match '\D'){
+                        $RestSplat.Body['id'] = (Get-QualysAssetGroups -Identity $Identity).Id
                     }
                     Else{
-                        $RestSplat.Body['id'] = (Get-QualysAssetGroups -Identity $Identity).ID
+                        $RestSplat.Body['id'] = $Identity
                     }
                 }
 

@@ -76,6 +76,7 @@ FunctionsToExport = @(
     'Invoke-QualysRestCall',
     'Get-QualysAssetGroups',
     'Add-QualysAssetGroups',
+    'Set-QualysAssetGroups',
     'Add-QualysUser',
     'Get-QualysUser',
     'Set-QualysUser',
