@@ -28,7 +28,7 @@
     Start-QualysScan -Title 'Test Scan' -AssetGroups 'Test Asset Group'
 #>
 function Start-QualysScan{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Alias('scan_title')]
         [String]$Title,
@@ -44,72 +44,74 @@ function Start-QualysScan{
     )
 
     process{
-
-        $RestSplat = @{
-            Method = 'POST'
-            RelativeURI = 'scan/'
-            Body = @{
-                action = 'launch'
-                echo_request = '1'
-                default_scanner = [string][int]$DefaultScanners.IsPresent
-                target_from = 'assets'
+        $Target = $AssetGroups ? $AssetGroups : $IPs
+        if ($PSCmdlet.ShouldProcess("$($Target)")){
+            $RestSplat = @{
+                Method = 'POST'
+                RelativeURI = 'scan/'
+                Body = @{
+                    action = 'launch'
+                    echo_request = '1'
+                    default_scanner = [string][int]$DefaultScanners.IsPresent
+                    target_from = 'assets'
+                }
             }
-        }
 
-        If($IPs){
-            $RestSplat.Body['ip'] = (($IPs).Trim() -join ",")
-        }
+            If($IPs){
+                $RestSplat.Body['ip'] = (($IPs).Trim() -join ",")
+            }
 
-        If($ExcludeIPs){
-            $RestSplat.Body['exclude_ip_per_scan'] = (($ExcludeIPs).Trim() -join ",")
-        }
+            If($ExcludeIPs){
+                $RestSplat.Body['exclude_ip_per_scan'] = (($ExcludeIPs).Trim() -join ",")
+            }
 
-        If($FQDN){
-            $RestSplat.Body['fqdn'] = (($FQDN).Trim() -join ",")
-        }
+            If($FQDN){
+                $RestSplat.Body['fqdn'] = (($FQDN).Trim() -join ",")
+            }
 
-        If($Scanners){
-            If($Scanners -match '\D'){
-                $RestSplat.Body['iscanner_name'] = $Scanners
+            If($Scanners){
+                If($Scanners -match '\D'){
+                    $RestSplat.Body['iscanner_name'] = $Scanners
+                }
+                Else{
+                    $RestSplat.Body['iscanner_id'] = $Scanners
+                }
             }
-            Else{
-                $RestSplat.Body['iscanner_id'] = $Scanners
-            }
-        }
 
-        If($AssetGroups){
-            If($AssetGroups -match '\D'){
-                $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
+            If($AssetGroups){
+                If($AssetGroups -match '\D'){
+                    $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
+                }
+                Else{
+                    $RestSplat.Body['asset_group_ids'] = (($AssetGroups).Trim() -join ",")
+                }
             }
-            Else{
-                $RestSplat.Body['asset_group_ids'] = (($AssetGroups).Trim() -join ",")
-            }
-        }
 
-        If($OptionProfile){
-            If($OptionProfile -match '\D'){
-                $RestSplat.Body['option_title'] = $OptionProfile
+            If($OptionProfile){
+                If($OptionProfile -match '\D'){
+                    $RestSplat.Body['option_title'] = $OptionProfile
+                }
+                Else{
+                    $RestSplat.Body['option_id'] = $OptionProfile
+                }
             }
-            Else{
-                $RestSplat.Body['option_id'] = $OptionProfile
-            }
-        }
 
-        #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
-        [String[]]$Exclusions = ('IPs','DefaultScanners', 'AssetGroups', 'OptionProfile', 'Scanners', 'FQDN')
-        $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
-            if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
-                [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
-                $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+            #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
+            [String[]]$Exclusions = ('IPs','DefaultScanners', 'AssetGroups', 'OptionProfile', 'Scanners', 'FQDN')
+            $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
+                if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
+                    [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
+                    $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+                }
+                else {
+                    $RestSplat.Body.$_ = $PSBoundParameters[$_]
+                }
             }
-            else {
-                $RestSplat.Body.$_ = $PSBoundParameters[$_]
-            }
-        }
 
-        $Response = Invoke-QualysRestCall @RestSplat
-        If($Response){
-            Write-Verbose -Message $Response
+            $Response = Invoke-QualysRestCall @RestSplat
+            If($Response){
+                Write-Verbose -Message $Response
+            }
         }
     }
 }

@@ -23,7 +23,7 @@
     Set-QualysAssetGroups -Identity "My Asset Group" -IPs "192.168.0.1/24"
     #>
     function Set-QualysAssetGroups{
-        [CmdletBinding()]
+        [CmdletBinding(SupportsShouldProcess)]
         param (
             [Parameter(Mandatory=$true)]
             [String]$Identity,
@@ -36,53 +36,54 @@
         )
 
         process{
-
-            $RestSplat = @{
-                Method = 'POST'
-                RelativeURI = 'asset/group/'
-                Body = @{
-                    action = 'edit'
-                    echo_request = '1'
+            if ($PSCmdlet.ShouldProcess("$($Identity)")){
+                $RestSplat = @{
+                    Method = 'POST'
+                    RelativeURI = 'asset/group/'
+                    Body = @{
+                        action = 'edit'
+                        echo_request = '1'
+                    }
                 }
-            }
 
-            #Check if a name or ID is provided and add it to the Body hashtable
-            If($Identity){
-                If($Identity -match '\D'){
-                    $RestSplat.Body['id'] = (Get-QualysAssetGroups -Identity $Identity).Id
+                #Check if a name or ID is provided and add it to the Body hashtable
+                If($Identity){
+                    If($Identity -match '\D'){
+                        $RestSplat.Body['id'] = (Get-QualysAssetGroups -Identity $Identity).Id
+                    }
+                    Else{
+                        $RestSplat.Body['id'] = $Identity
+                    }
                 }
-                Else{
-                    $RestSplat.Body['id'] = $Identity
+
+                If($SetIPs){
+                    $RestSplat.Body['set_ips'] = ($SetIPs.Trim() -join ", ")
                 }
-            }
 
-            If($SetIPs){
-                $RestSplat.Body['set_ips'] = ($SetIPs.Trim() -join ", ")
-            }
+                If($AddIPs){
+                    $RestSplat.Body['add_ips'] = ($AddIPs.Trim() -join ", ")
+                }
 
-            If($AddIPs){
-                $RestSplat.Body['add_ips'] = ($AddIPs.Trim() -join ", ")
-            }
+                If($RemoveIPs){
+                    $RestSplat.Body['remove_ips'] = ($RemoveIPs.Trim() -join ", ")
+                }
 
-            If($RemoveIPs){
-                $RestSplat.Body['remove_ips'] = ($RemoveIPs.Trim() -join ", ")
-            }
+                If($Comments){
+                    $RestSplat.Body['set_comments'] = $Comments
+                }
 
-            If($Comments){
-                $RestSplat.Body['set_comments'] = $Comments
-            }
+                If($Division){
+                    $RestSplat.Body['set_division'] = $Division
+                }
 
-            If($Division){
-                $RestSplat.Body['set_division'] = $Division
-            }
+                If($Division){
+                    $RestSplat.Body['set_title'] = $Title
+                }
 
-            If($Division){
-                $RestSplat.Body['set_title'] = $Title
-            }
-
-            $Response = Invoke-QualysRestCall @RestSplat
-            if ($Response) {
-                Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
+                $Response = Invoke-QualysRestCall @RestSplat
+                if ($Response) {
+                    Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
+                }
             }
         }
     }
