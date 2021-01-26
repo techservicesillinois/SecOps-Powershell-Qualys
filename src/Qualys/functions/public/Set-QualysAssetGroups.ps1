@@ -1,8 +1,8 @@
 <#
 .Synopsis
-    Edits an Asset Group to Qualys
+    Edits an Asset Group in Qualys
 .DESCRIPTION
-    Edits an Asset Group to Qualys
+    Edits an Asset Group in Qualys
 .PARAMETER Identity
     The ID or Title of the asset group you want to edit
 .PARAMETER Title
