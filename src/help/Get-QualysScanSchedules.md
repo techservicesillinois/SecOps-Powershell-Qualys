@@ -5,47 +5,31 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-QualysUser
+# Get-QualysScanSchedules
 
 ## SYNOPSIS
-Returns a user from Qualys
+List schedules for vulnerability scans
 
 ## SYNTAX
 
 ```
-Get-QualysUser [-Credential] <PSCredential> [[-ExternalID] <String>] [<CommonParameters>]
+Get-QualysScanSchedules [[-ID] <String>] [-Active] [-Deactivated] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns a user from Qualys
+List schedules for vulnerability scans
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-QualysUser
+Get-QualysScanSchedules -Active
 ```
 
 ## PARAMETERS
 
-### -Credential
-This API call only supports basic HTTP authentication.
-You must provide your credentials separately for this function.
-
-```yaml
-Type: PSCredential
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExternalID
-Specifies user accounts with an external ID value that contains this string
+### -ID
+The ID of the scan schedule you want to display.
 
 ```yaml
 Type: String
@@ -53,8 +37,38 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Active
+Specify for active schedules only
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Deactivated
+Specify for deactivated schedules only
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

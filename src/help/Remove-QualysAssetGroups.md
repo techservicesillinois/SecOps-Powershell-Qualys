@@ -23,7 +23,7 @@ Removes an Asset Group to Qualys
 
 ### EXAMPLE 1
 ```
-Delete-QualysAssetGroups -Identity "My Asset Group"
+Remove-QualysAssetGroups -Identity "My Asset Group"
 ```
 
 ## PARAMETERS
