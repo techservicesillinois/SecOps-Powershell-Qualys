@@ -25,7 +25,7 @@ Launch vulnerability scan in the user's account
 
 ### EXAMPLE 1
 ```
-Get-QualysScans
+Start-QualysScan -Title 'Test Scan' -AssetGroups 'Test Asset Group'
 ```
 
 ## PARAMETERS
