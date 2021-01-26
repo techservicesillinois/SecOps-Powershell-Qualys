@@ -21,4 +21,7 @@ Submit a PR on GitHub
 
 # To Do
 
-Prod/Dev BaseURI switching, Example Scripts, Options for targeting "tags" with scans
+- Add-QualysScanSchedule
+- Prod/Dev BaseURI switching
+- Example Scripts
+- Options for targeting "tags" with scans

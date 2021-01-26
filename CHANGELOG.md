@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Start-QualysScan, Get-QualysScans, Get-QualysScanSchedules, Add-QualysScanSchedule, Set-QualysAssetGroups
+- Start-QualysScan, Get-QualysScans, Get-QualysScanSchedules, Set-QualysAssetGroups
 
 ### Changed
 

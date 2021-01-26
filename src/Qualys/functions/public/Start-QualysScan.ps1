@@ -25,7 +25,7 @@
     The target FQDN for a vulnerability scan. Multiple values are comma separated.
     You can specify FQDNs in combination with IPs and asset groups
 .EXAMPLE
-    Get-QualysScans
+    Start-QualysScan -Title 'Test Scan' -AssetGroups 'Test Asset Group'
 #>
 function Start-QualysScan{
     [CmdletBinding()]
