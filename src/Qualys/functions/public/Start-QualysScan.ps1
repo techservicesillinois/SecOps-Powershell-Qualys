@@ -108,6 +108,8 @@ function Start-QualysScan{
         }
 
         $Response = Invoke-QualysRestCall @RestSplat
-        $Response
+        If($Response){
+            Write-Verbose -Message $Response
+        }
     }
 }
