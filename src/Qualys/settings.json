@@ -1,6 +1,6 @@
 {
   //BaseURI of Qualys
-  // Production
+  //Production
   // "BaseURI": ["https://qualysguard.qualys.com/api/2.0/fo/"],
   // "BasicAuthURI": ["https://qualysguard.qualys.com/"]
   //Dev
