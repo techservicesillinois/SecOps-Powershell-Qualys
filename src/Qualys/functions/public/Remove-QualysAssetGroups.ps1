@@ -6,7 +6,7 @@
 .PARAMETER Identity
     The Title or ID of the Asset Group to delete. Only one Identity may be provided per API call.
 .EXAMPLE
-    Delete-QualysAssetGroups -Identity "My Asset Group"
+    Remove-QualysAssetGroups -Identity "My Asset Group"
     #>
     function Remove-QualysAssetGroups{
         [CmdletBinding(SupportsShouldProcess)]
@@ -28,11 +28,11 @@
 
                 #Check if a name or ID is provided and add it to the Body hashtable
                 If($Identity){
-                    If($Identity -match '\d{5}'){
-                        $RestSplat.Body['id'] = $Identity
+                    If($Identity -match '\D'){
+                        $RestSplat.Body['id'] = (Get-QualysAssetGroups -Identity $Identity).Id
                     }
                     Else{
-                        $RestSplat.Body['id'] = (Get-QualysAssetGroups -Identity $Identity).ID
+                        $RestSplat.Body['id'] = $Identity
                     }
                 }
 

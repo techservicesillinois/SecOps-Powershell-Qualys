@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-QualysUser
 
 ## SYNOPSIS
-Adds a new user to Qualys
+Edits a user in Qualys
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Set-QualysUser [-Credential] <PSCredential> [-Login] <String> [[-AssetGroups] <S
 ```
 
 ## DESCRIPTION
-Adds a new user to Qualys
+Edits a user in Qualys
 
 ## EXAMPLES
 

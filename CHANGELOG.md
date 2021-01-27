@@ -13,6 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.0] - 2020-01-26
+
+### Added
+
+- Start-QualysScan, Get-QualysScans, Get-QualysScanSchedules, Set-QualysAssetGroups
+
+### Changed
+
+- Fixed incorrect comment-based help
+- Bugfix for Remove-QualysAssetGroups identity parameter
+
+### Removed
+
 ## [1.1.4] - 2020-12-21
 
 ### Changed
