@@ -76,7 +76,7 @@
                     $RestSplat.Body['set_division'] = $Division
                 }
 
-                If($Division){
+                If($Title){
                     $RestSplat.Body['set_title'] = $Title
                 }
 

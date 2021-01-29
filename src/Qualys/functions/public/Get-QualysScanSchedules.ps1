@@ -32,6 +32,7 @@ function Get-QualysScanSchedules{
             }
         }
 
+        #We could raise a courtesy error here if someone specifies both 'active' and 'deactivated'.
         If($Active){
             $RestSplat.Body['active'] = '1'
         }

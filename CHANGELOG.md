@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.1] - 2020-01-28
+
+### Added
+
+- Get-QualysTags
+
+### Changed
+
+### Removed
+
 ## [1.2.0] - 2020-01-26
 
 ### Added
