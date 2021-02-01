@@ -17,11 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- DefaultScanner parameter for add/set Qualys Asset Groups
+- DefaultScanner parameter for Add/Set-QualysAssetGroups
 
 ### Changed
 
 - Bugfix for Add-QualysUser when error in $Responsess
+- Parameter set for Active/Deactivated scans in Get-QualysScanSchedule
 
 ### Removed
 
