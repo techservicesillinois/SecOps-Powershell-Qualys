@@ -21,8 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Bugfix for Add-QualysUser when error in $Responsess
+- Bugfix for Add/Set-QualysUser when error in $Responses
 - Parameter set for Active/Deactivated scans in Get-QualysScanSchedule
+- Bugfix for Division parameter setting title in body of Set-QualysAssetGroups
 
 ### Removed
 

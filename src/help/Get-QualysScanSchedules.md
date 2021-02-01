@@ -12,8 +12,14 @@ List schedules for vulnerability scans
 
 ## SYNTAX
 
+### Deactivated
 ```
-Get-QualysScanSchedules [[-ID] <String>] [-Active] [-Deactivated] [<CommonParameters>]
+Get-QualysScanSchedules [-ID <String>] [-Deactivated] [<CommonParameters>]
+```
+
+### Active
+```
+Get-QualysScanSchedules [-ID <String>] [-Active] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +43,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -48,7 +54,7 @@ Specify for active schedules only
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: Active
 Aliases:
 
 Required: False
@@ -63,7 +69,7 @@ Specify for deactivated schedules only
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: Deactivated
 Aliases:
 
 Required: False
