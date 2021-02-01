@@ -15,8 +15,12 @@
 function Get-QualysScanSchedules{
     [CmdletBinding()]
     param (
+        [Parameter(ParameterSetName = "Active")]
+        [Parameter(ParameterSetName = "Deactivated")]
         [String]$ID,
+        [Parameter(ParameterSetName = "Active")]
         [Switch]$Active,
+        [Parameter(ParameterSetName = "Deactivated")]
         [Switch]$Deactivated
     )
 
