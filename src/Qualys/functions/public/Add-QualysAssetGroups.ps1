@@ -11,6 +11,8 @@
     Description or comments about the group; max 255 characters
 .PARAMETER Division
     The Division of the Asset Group, typically the Owner Code from CDB
+.PARAMETER DefaultScanner
+    The ID of the scanner to use as the default scanner for this asset group
 .EXAMPLE
     Add-QualysAssetGroups -Title "My Asset Group"
 .EXAMPLE
@@ -23,7 +25,8 @@
             [String]$Title,
             [String[]]$IPs,
             [String]$Comments,
-            [String]$Division
+            [String]$Division,
+            [String]$DefaultScanner
         )
 
         process{
@@ -48,6 +51,10 @@
 
             If($Division){
                 $RestSplat.Body['division'] = $Division
+            }
+
+            If($DefaultScanner){
+                $RestSplat.Body['default_appliance_id'] = $DefaultScanner
             }
 
             $Response = Invoke-QualysRestCall @RestSplat
