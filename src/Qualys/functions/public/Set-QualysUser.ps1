@@ -87,7 +87,7 @@ function Set-QualysUser{
             }
 
             #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
-            [String[]]$Exclusions = ('Credential', 'AssetGroups')
+            [String[]]$Exclusions = ('Credential', 'AssetGroups', 'Verbose')
             $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
                 if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
                     [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
@@ -106,8 +106,8 @@ function Set-QualysUser{
             if ($Response.USER_OUTPUT.RETURN.MESSAGE) {
                 Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE
             }
-            elseif ($Response){
-                Write-Verbose -Message $Response
+            else {
+                $Response.USER_OUTPUT.RETURN.MESSAGE
             }
         }
     }
