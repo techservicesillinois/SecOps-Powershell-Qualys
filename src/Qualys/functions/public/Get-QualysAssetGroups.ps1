@@ -56,7 +56,6 @@ function Get-QualysAssetGroups{
                 $AssetGroup = [PSCustomObject]@{
                     ID = $ID
                     Title = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.TITLE.'#cdata-section'[$Index]
-                    #something broken for single IP ranges
                     IP_Range = $IPs
                     DefaultScanner = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.DEFAULT_APPLIANCE_ID
                 }
