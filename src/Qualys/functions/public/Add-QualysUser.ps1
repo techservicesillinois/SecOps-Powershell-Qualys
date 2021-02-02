@@ -119,8 +119,8 @@ function Add-QualysUser{
         if ($Response.USER_OUTPUT.RETURN.MESSAGE) {
             Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE
         }
-        elseif ($Response){
-            Write-Verbose -Message $Response
+        else {
+            $Response.USER_OUTPUT.RETURN.MESSAGE
         }
     }
 }
