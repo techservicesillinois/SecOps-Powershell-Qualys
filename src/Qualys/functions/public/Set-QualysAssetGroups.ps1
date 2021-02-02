@@ -35,7 +35,7 @@
             [String[]]$RemoveIPs,
             [String]$Comments,
             [String]$Division,
-            [String]$DefaultScanner
+            [Int]$DefaultScanner
         )
 
         process{

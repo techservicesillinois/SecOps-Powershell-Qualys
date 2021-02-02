@@ -53,7 +53,9 @@ function Get-QualysAssetGroups{
                 $AssetGroup = [PSCustomObject]@{
                     ID = $ID
                     Title = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.TITLE.'#cdata-section'[$Index]
+                    #something broken for single IP ranges
                     IP_Range = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET[$Index].IP_RANGE
+                    DefaultScanner = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.DEFAULT_APPLIANCE_ID
                 }
                 $Index++
                 $AssetGroup
@@ -64,6 +66,7 @@ function Get-QualysAssetGroups{
                 ID = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.ID
                 Title = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.TITLE.'#cdata-section'
                 IP_Range = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET.IP_RANGE
+                DefaultScanner = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.DEFAULT_APPLIANCE_ID
             }
             $AssetGroup
         }
