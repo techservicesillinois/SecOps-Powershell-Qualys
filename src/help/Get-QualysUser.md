@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-QualysUser
 
 ## SYNOPSIS
-Returns a user from Qualys
+Returns users from Qualys
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-QualysUser [-Credential] <PSCredential> [[-ExternalID] <String>] [<CommonPar
 ```
 
 ## DESCRIPTION
-Returns a user from Qualys
+Returns users from Qualys
 
 ## EXAMPLES
 

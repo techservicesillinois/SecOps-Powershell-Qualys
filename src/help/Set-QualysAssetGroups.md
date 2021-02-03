@@ -8,17 +8,18 @@ schema: 2.0.0
 # Set-QualysAssetGroups
 
 ## SYNOPSIS
-Edits an Asset Group to Qualys
+Edits an Asset Group in Qualys
 
 ## SYNTAX
 
 ```
 Set-QualysAssetGroups [-Identity] <String> [[-Title] <String>] [[-SetIPs] <String[]>] [[-AddIPs] <String[]>]
- [[-RemoveIPs] <String[]>] [[-Comments] <String>] [[-Division] <String>] [<CommonParameters>]
+ [[-RemoveIPs] <String[]>] [[-Comments] <String>] [[-Division] <String>] [[-DefaultScanner] <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Edits an Asset Group to Qualys
+Edits an Asset Group in Qualys
 
 ## EXAMPLES
 
@@ -138,6 +139,52 @@ Aliases:
 
 Required: False
 Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultScanner
+The ID of the scanner to use as the default scanner for this asset group
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
