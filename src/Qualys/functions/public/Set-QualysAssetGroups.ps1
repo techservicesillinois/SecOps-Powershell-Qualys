@@ -84,6 +84,7 @@
                 }
 
                 If($DefaultScanner){
+                    $RestSplat.Body['add_appliance_ids'] = $DefaultScanner
                     $RestSplat.Body['set_default_appliance_id'] = $DefaultScanner
                 }
 
