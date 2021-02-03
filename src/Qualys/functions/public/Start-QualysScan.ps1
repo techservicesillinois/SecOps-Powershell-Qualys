@@ -97,7 +97,7 @@ function Start-QualysScan{
             }
 
             #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
-            [String[]]$Exclusions = ('IPs','DefaultScanners', 'AssetGroups', 'OptionProfile', 'Scanners', 'FQDN')
+            [String[]]$Exclusions = ('IPs','DefaultScanners', 'AssetGroups', 'OptionProfile', 'Scanners', 'FQDN', 'Verbose')
             $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
                 if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
                     [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
