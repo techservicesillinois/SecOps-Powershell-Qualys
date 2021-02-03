@@ -26,7 +26,7 @@
             [String[]]$IPs,
             [String]$Comments,
             [String]$Division,
-            [String]$DefaultScanner
+            [Int]$DefaultScanner
         )
 
         process{
@@ -54,6 +54,7 @@
             }
 
             If($DefaultScanner){
+                $RestSplat.Body['appliance_ids'] = $DefaultScanner
                 $RestSplat.Body['default_appliance_id'] = $DefaultScanner
             }
 
