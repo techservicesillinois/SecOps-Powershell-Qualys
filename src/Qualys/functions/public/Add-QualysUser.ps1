@@ -120,7 +120,7 @@ function Add-QualysUser{
             Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE
         }
         else {
-            $Response.USER_OUTPUT.RETURN.MESSAGE
+            $Response
         }
     }
 }
