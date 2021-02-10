@@ -49,9 +49,8 @@
     Resume a paused scan in some number of days. A valid value is an integer from 0 - 9
 .PARAMETER ResumeInHours
     Resume a paused scan in some number of hours. A valid value is an integer from 0 - 23
-
 .EXAMPLE
-    Start-QualysScan -Title 'Test Scan' -AssetGroups 'Test Asset Group'
+    Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
 #>
 function Add-QualysScanSchedule{
     [CmdletBinding()]
