@@ -1,8 +1,8 @@
 ﻿<#
 .Synopsis
-    Launch vulnerability scan in the user’s account
+    Launch vulnerability scan in the user’s account. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
 .DESCRIPTION
-    Launch vulnerability scan in the user’s account
+    Launch vulnerability scan in the user’s account. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
 .PARAMETER Title (scan_title)
     The scan title
 .PARAMETER IPs

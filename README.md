@@ -21,7 +21,6 @@ Submit a PR on GitHub
 
 # To Do
 
-- Add-QualysScanSchedule
+- Support for targeting by IPs with Scan functions
 - Prod/Dev BaseURI switching
 - Example Scripts
-- Options for targeting "tags" with scans
