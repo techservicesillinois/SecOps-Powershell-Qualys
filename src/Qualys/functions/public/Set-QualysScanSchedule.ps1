@@ -51,7 +51,7 @@
 .EXAMPLE
     Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
 #>
-function Add-QualysScanSchedule{
+function Set-QualysScanSchedule{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -170,7 +170,7 @@ function Add-QualysScanSchedule{
         #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
         [String[]]$Exclusions = (
             'Daily','TimeZoneCode','Weekly','ExcludeIPs','DefaultScanners', 'AssetGroups',
-            'OptionProfile', 'Scanners', 'FQDN', 'StartDate','Verbose'
+            'OptionProfile', 'Scanners', 'FQDN', 'StartDate','Identity','Verbose'
         )
         $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
             if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
