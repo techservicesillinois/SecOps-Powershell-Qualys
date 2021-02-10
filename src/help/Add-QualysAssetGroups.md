@@ -14,7 +14,7 @@ Adds an Asset Group to Qualys
 
 ```
 Add-QualysAssetGroups [-Title] <String> [[-IPs] <String[]>] [[-Comments] <String>] [[-Division] <String>]
- [[-DefaultScanner] <String>] [<CommonParameters>]
+ [[-DefaultScanner] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -99,13 +99,13 @@ Accept wildcard characters: False
 The ID of the scanner to use as the default scanner for this asset group
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 5
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

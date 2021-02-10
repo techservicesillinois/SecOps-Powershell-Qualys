@@ -63,7 +63,9 @@ Accept wildcard characters: False
 ```
 
 ### -AssetGroups
-{{ Fill AssetGroups Description }}
+The titles or ids of asset groups containing the hosts to be scanned.
+Multiple titles are comma separated
+Use only IDs or titles, do not mix and match.
 
 ```yaml
 Type: String[]
@@ -110,7 +112,7 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultScanners
-{{ Fill DefaultScanners Description }}
+Specify to use the default scanner in each target asset group
 
 ```yaml
 Type: SwitchParameter
