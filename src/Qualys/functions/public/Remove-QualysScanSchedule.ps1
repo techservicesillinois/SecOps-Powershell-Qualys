@@ -8,7 +8,7 @@
 .EXAMPLE
     Remove-QualysScanSchedule -Identity "3848863"
     #>
-    function Remove-QualysAssetGroups{
+    function Remove-QualysScanSchedule{
         [CmdletBinding(SupportsShouldProcess)]
         param (
             [Parameter(Mandatory=$true)]

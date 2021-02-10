@@ -1,12 +1,14 @@
 ﻿<#
 .Synopsis
-    Schedule a VM scan. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
+    Edit a VM scan schedule
 .DESCRIPTION
-    Schedule a VM scan. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
+    Edit a VM scan schedule
+.PARAMETER Identity
+    The ID of the scan schedule to edit
 .PARAMETER Title
     The title of the scan schedule
-.PARAMETER Active
-    Specify to create an active schedule, otherwise the schedule will be created deactivated
+.PARAMETER Status
+    Specify 0 to deactivate the scan schedule, 1 to activate the scan schedule
 .PARAMETER OptionProfile
     The id or title of the option profile to use
 .PARAMETER AssetGroups
@@ -19,9 +21,6 @@
     Specify to use the default scanner in each target asset group
 .PARAMETER Priority
     Specify a value of 0 - 9 to set a processing priority level for the scan
-.PARAMETER FQDN
-    The target FQDN for a vulnerability scan. Multiple values are comma separated
-    You can specify FQDNs in combination with IPs and asset groups
 .PARAMETER Daily
     Have the scan run every specified number of days. Value is an integer from 1 - 365
 .PARAMETER Weekly
@@ -56,17 +55,18 @@ function Add-QualysScanSchedule{
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
+        [String]$Identity,
         [Alias('scan_title')]
         [String]$Title,
-        [Switch]$Active,
-        [Parameter(Mandatory=$true)]
+        [ValidateRange(0,1)]
+        [Alias('active')]
+        [Switch]$Status,
         [String]$OptionProfile,
         [String[]]$AssetGroups,
         [String]$Scanners,
         [Switch]$DefaultScanners,
         [ValidateRange(0,9)]
         [Int]$Priority = 0,
-        [String[]]$FQDN,
         [ValidateRange(1,365)]
         [Int]$Daily,
         [ValidateRange(1,52)]
@@ -74,11 +74,9 @@ function Add-QualysScanSchedule{
         [String]$Weekdays = 'sunday, monday, tuesday, wednesday, thursday, friday, saturday',
         [Alias('start_date')]
         [DateTime]$StartDate,
-        [Parameter(Mandatory=$true)]
         [ValidateRange(0,23)]
         [Alias('start_hour')]
         [Int]$StartHour,
-        [Parameter(Mandatory=$true)]
         [ValidateRange(0,59)]
         [Alias('start_minute')]
         [Int]$StartMinute,
@@ -109,15 +107,18 @@ function Add-QualysScanSchedule{
             Method = 'POST'
             RelativeURI = 'schedule/scan/'
             Body = @{
-                action = 'create'
+                action = 'update'
                 echo_request = '1'
-                scan_title = $Title
-                active = [string][int]$Active.IsPresent
+                id = $Identity
                 default_scanner = [string][int]$DefaultScanners.IsPresent
-                target_from = 'assets'
-                observe_dst = 'yes'
-                time_zone_code = 'US-IL'
+
             }
+        }
+
+        if($StartDate){
+            $RestSplat.Body['observe_dst'] = 'yes'
+            $RestSplat.Body['time_zone_code'] = 'US-IL'
+            $RestSplat.Body['set_start_time'] = 1
         }
 
         If($Daily){
