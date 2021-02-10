@@ -187,7 +187,7 @@ function Add-QualysScanSchedule{
 
         $Response = Invoke-QualysRestCall @RestSplat
         If($Response){
-            Write-Verbose -Message $Response
+            Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
         }
     }
 }

@@ -4,9 +4,9 @@
 .DESCRIPTION
     Removes a scan schedule from Qualys
 .PARAMETER Identity
-    The Title or ID of the Asset Group to delete. Only one Identity may be provided per API call.
+    The ID of the Scan Schedule to delete. Only one Identity may be provided per API call.
 .EXAMPLE
-    Remove-QualysAssetGroups -Identity "My Asset Group"
+    Remove-QualysScanSchedule -Identity "3848863"
     #>
     function Remove-QualysAssetGroups{
         [CmdletBinding(SupportsShouldProcess)]
@@ -23,16 +23,7 @@
                     Body = @{
                         action = 'delete'
                         echo_request = '1'
-                    }
-                }
-
-                #Check if a name or ID is provided and add it to the Body hashtable
-                If($Identity){
-                    If($Identity -match '\D'){
-                        $RestSplat.Body['id'] = (Get-QualysAssetGroups -Identity $Identity).Id
-                    }
-                    Else{
-                        $RestSplat.Body['id'] = $Identity
+                        id = $Identity
                     }
                 }
 
