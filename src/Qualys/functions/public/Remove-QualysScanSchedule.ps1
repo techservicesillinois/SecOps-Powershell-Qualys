@@ -2,7 +2,7 @@
 .Synopsis
     Removes a scan schedule from Qualys
 .DESCRIPTION
-    Removes an Asset Group to Qualys
+    Removes a scan schedule from Qualys
 .PARAMETER Identity
     The Title or ID of the Asset Group to delete. Only one Identity may be provided per API call.
 .EXAMPLE
@@ -19,7 +19,7 @@
             if ($PSCmdlet.ShouldProcess($Identity)){
                 $RestSplat = @{
                     Method = 'POST'
-                    RelativeURI = 'asset/group/'
+                    RelativeURI = 'schedule/scan/'
                     Body = @{
                         action = 'delete'
                         echo_request = '1'
