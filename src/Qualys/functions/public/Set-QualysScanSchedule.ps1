@@ -52,7 +52,7 @@
     Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
 #>
 function Set-QualysScanSchedule{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory=$true)]
         [String]$Identity,
@@ -103,88 +103,90 @@ function Set-QualysScanSchedule{
     )
 
     process{
-        $RestSplat = @{
-            Method = 'POST'
-            RelativeURI = 'schedule/scan/'
-            Body = @{
-                action = 'update'
-                echo_request = '1'
-                id = $Identity
-                default_scanner = [string][int]$DefaultScanners.IsPresent
+        if ($PSCmdlet.ShouldProcess("$($Identity)")){
+            $RestSplat = @{
+                Method = 'POST'
+                RelativeURI = 'schedule/scan/'
+                Body = @{
+                    action = 'update'
+                    echo_request = '1'
+                    id = $Identity
+                    default_scanner = [string][int]$DefaultScanners.IsPresent
 
+                }
             }
-        }
 
-        if($StartDate){
-            $RestSplat.Body['observe_dst'] = 'yes'
-            $RestSplat.Body['time_zone_code'] = 'US-IL'
-            $RestSplat.Body['set_start_time'] = 1
-        }
-
-        If($Daily){
-            $RestSplat.Body['occurrence'] = 'daily'
-            $RestSplat.Body['frequency_days'] = $Daily
-        }
-
-        If($Weekly){
-            $RestSplat.Body['occurrence'] = 'weekly'
-            $RestSplat.Body['frequency_weeks'] = $Weekly
-            $RestSplat.Body['weekdays'] = $Weekdays
-        }
-
-        If($AssetGroups){
-            If($AssetGroups[0] -match '\D'){
-                $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
+            if($StartDate){
+                $RestSplat.Body['observe_dst'] = 'yes'
+                $RestSplat.Body['time_zone_code'] = 'US-IL'
+                $RestSplat.Body['set_start_time'] = 1
             }
-            Else{
-                $RestSplat.Body['asset_group_ids'] = (($AssetGroups).Trim() -join ",")
-            }
-        }
 
-        If($OptionProfile){
-            If($OptionProfile -match '\D'){
-                $RestSplat.Body['option_title'] = $OptionProfile
+            If($Daily){
+                $RestSplat.Body['occurrence'] = 'daily'
+                $RestSplat.Body['frequency_days'] = $Daily
             }
-            Else{
-                $RestSplat.Body['option_id'] = $OptionProfile
-            }
-        }
 
-        If($Scanners){
-            If($Scanners -match '\D'){
-                $RestSplat.Body['iscanner_name'] = $Scanners
+            If($Weekly){
+                $RestSplat.Body['occurrence'] = 'weekly'
+                $RestSplat.Body['frequency_weeks'] = $Weekly
+                $RestSplat.Body['weekdays'] = $Weekdays
             }
-            Else{
-                $RestSplat.Body['iscanner_id'] = $Scanners
+
+            If($AssetGroups){
+                If($AssetGroups[0] -match '\D'){
+                    $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
+                }
+                Else{
+                    $RestSplat.Body['asset_group_ids'] = (($AssetGroups).Trim() -join ",")
+                }
             }
-        }
 
-        If($FQDN){
-            $RestSplat.Body['fqdn'] = (($FQDN).Trim() -join ",")
-        }
-
-        If($StartDate){
-            $RestSplat.Body['start_date'] = $StartDate.ToString("MM/dd/yyyy")
-        }
-
-        #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
-        [String[]]$Exclusions = (
-            'Daily','TimeZoneCode','Weekly','ExcludeIPs','DefaultScanners', 'AssetGroups',
-            'OptionProfile', 'Scanners', 'FQDN', 'StartDate','Identity','Verbose'
-        )
-        $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
-            if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
-                [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
-                $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+            If($OptionProfile){
+                If($OptionProfile -match '\D'){
+                    $RestSplat.Body['option_title'] = $OptionProfile
+                }
+                Else{
+                    $RestSplat.Body['option_id'] = $OptionProfile
+                }
             }
-            else {
-                $RestSplat.Body.$_ = $PSBoundParameters[$_]
-            }
-        }
 
-        $Response = Invoke-QualysRestCall @RestSplat
-        If($Response){
-            Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
+            If($Scanners){
+                If($Scanners -match '\D'){
+                    $RestSplat.Body['iscanner_name'] = $Scanners
+                }
+                Else{
+                    $RestSplat.Body['iscanner_id'] = $Scanners
+                }
+            }
+
+            If($FQDN){
+                $RestSplat.Body['fqdn'] = (($FQDN).Trim() -join ",")
+            }
+
+            If($StartDate){
+                $RestSplat.Body['start_date'] = $StartDate.ToString("MM/dd/yyyy")
+            }
+
+            #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
+            [String[]]$Exclusions = (
+                'Daily','TimeZoneCode','Weekly','ExcludeIPs','DefaultScanners', 'AssetGroups',
+                'OptionProfile', 'Scanners', 'FQDN', 'StartDate','Identity','Verbose'
+            )
+            $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
+                if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
+                    [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
+                    $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+                }
+                else {
+                    $RestSplat.Body.$_ = $PSBoundParameters[$_]
+                }
+            }
+
+            $Response = Invoke-QualysRestCall @RestSplat
+            If($Response){
+                Write-Verbose -Message $Response.SIMPLE_RETURN.RESPONSE.TEXT
+            }
         }
     }
 }
