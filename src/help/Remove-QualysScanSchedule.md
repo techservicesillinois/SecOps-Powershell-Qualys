@@ -5,70 +5,72 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-QualysScanSchedules
+# Remove-QualysScanSchedule
 
 ## SYNOPSIS
-List schedules for vulnerability scans
+Removes a scan schedule from Qualys
 
 ## SYNTAX
 
 ```
-Get-QualysScanSchedules [[-ID] <String>] [-Active] [-Deactivated] [<CommonParameters>]
+Remove-QualysScanSchedule [-Identity] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-List schedules for vulnerability scans
+Removes a scan schedule from Qualys
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-QualysScanSchedules -Active
+Remove-QualysScanSchedule -Identity "3848863"
 ```
 
 ## PARAMETERS
 
-### -ID
-The ID of the scan schedule you want to display.
+### -Identity
+The ID of the Scan Schedule to delete.
+Only one Identity may be provided per API call.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Active
-Specify for active schedules only
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Deactivated
-Specify for deactivated schedules only
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

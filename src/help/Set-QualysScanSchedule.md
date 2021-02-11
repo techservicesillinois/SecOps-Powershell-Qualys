@@ -5,28 +5,24 @@ online version:
 schema: 2.0.0
 ---
 
-# Add-QualysScanSchedule
+# Set-QualysScanSchedule
 
 ## SYNOPSIS
-Schedule a VM scan.
-Only targeting asset groups is supported currently.
-Support for targeting by IPs to be added later.
+Edit a VM scan schedule
 
 ## SYNTAX
 
 ```
-Add-QualysScanSchedule [-Title] <String> [-Active] [-OptionProfile] <String> [[-AssetGroups] <String[]>]
- [[-Scanners] <String>] [-DefaultScanners] [[-Priority] <Int32>] [[-FQDN] <String[]>] [[-Daily] <Int32>]
- [[-Weekly] <Int32>] [[-Weekdays] <String>] [[-StartDate] <DateTime>] [-StartHour] <Int32>
- [-StartMinute] <Int32> [[-Recurrence] <Int32>] [[-EndAfterHours] <Int32>] [[-EndAfterMins] <Int32>]
+Set-QualysScanSchedule [-Identity] <String> [[-Title] <String>] [-Status] [[-OptionProfile] <String>]
+ [[-AssetGroups] <String[]>] [[-Scanners] <String>] [-DefaultScanners] [[-Priority] <Int32>] [[-Daily] <Int32>]
+ [[-Weekly] <Int32>] [[-Weekdays] <String>] [[-StartDate] <DateTime>] [[-StartHour] <Int32>]
+ [[-StartMinute] <Int32>] [[-Recurrence] <Int32>] [[-EndAfterHours] <Int32>] [[-EndAfterMins] <Int32>]
  [[-PauseAfterHours] <Int32>] [[-PauseAfterMins] <Int32>] [[-ResumeInDays] <Int32>] [[-ResumeInHours] <Int32>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Schedule a VM scan.
-Only targeting asset groups is supported currently.
-Support for targeting by IPs to be added later.
+Edit a VM scan schedule
 
 ## EXAMPLES
 
@@ -37,13 +33,13 @@ Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -Def
 
 ## PARAMETERS
 
-### -Title
-The title of the scan schedule
+### -Identity
+The ID of the scan schedule to edit
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: scan_title
+Aliases:
 
 Required: True
 Position: 1
@@ -52,13 +48,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Active
-Specify to create an active schedule, otherwise the schedule will be created deactivated
+### -Title
+The title of the scan schedule
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: scan_title
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Status
+Specify 0 to deactivate the scan schedule, 1 to activate the scan schedule
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: active
 
 Required: False
 Position: Named
@@ -75,8 +86,8 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 2
+Required: False
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -93,7 +104,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,7 +121,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -140,25 +151,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FQDN
-The target FQDN for a vulnerability scan.
-Multiple values are comma separated
-You can specify FQDNs in combination with IPs and asset groups
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
 Position: 6
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -238,7 +232,7 @@ Type: Int32
 Parameter Sets: (All)
 Aliases: start_hour
 
-Required: True
+Required: False
 Position: 11
 Default value: 0
 Accept pipeline input: False
@@ -254,7 +248,7 @@ Type: Int32
 Parameter Sets: (All)
 Aliases: start_minute
 
-Required: True
+Required: False
 Position: 12
 Default value: 0
 Accept pipeline input: False

@@ -8,7 +8,9 @@ schema: 2.0.0
 # Start-QualysScan
 
 ## SYNOPSIS
-Launch vulnerability scan in the user's account
+Launch vulnerability scan in the user's account.
+Only targeting asset groups is supported currently.
+Support for targeting by IPs to be added later.
 
 ## SYNTAX
 
@@ -19,7 +21,9 @@ Start-QualysScan [[-Title] <String>] [[-IPs] <String[]>] [[-AssetGroups] <String
 ```
 
 ## DESCRIPTION
-Launch vulnerability scan in the user's account
+Launch vulnerability scan in the user's account.
+Only targeting asset groups is supported currently.
+Support for targeting by IPs to be added later.
 
 ## EXAMPLES
 
