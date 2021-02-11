@@ -13,7 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-## [1.2.2] - 2020-02-10
+## [1.2.3] - 2021-02-11
+
+### Added
+
+- Get-QualysScanSchedules
+- Remove-QualysScanSchedule
+- Set-QualysScanSchedule
+
+### Changed
+
+### Removed
+
+## [1.2.2] - 2021-02-09
 
 ### Added
 
@@ -24,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make ID parameters that are always numbers Ints
 - Added appliance_ids to REST body for DefaultScanner params
 
-## [1.2.1] - 2020-02-01
+## [1.2.1] - 2021-02-01
 
 ### Added
 
@@ -39,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix IP output for single IPs and add output for defaultscanner in Get-QualysAssetGroups
 - Fix bug with verbose parameter on some functions
 
-## [1.2.0] - 2020-01-26
+## [1.2.0] - 2021-01-26
 
 ### Added
 
