@@ -1,13 +1,13 @@
 ﻿<#
 .Synopsis
-    Launch vulnerability scan in the user’s account
+    Launch vulnerability scan in the user’s account. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
 .DESCRIPTION
-    Launch vulnerability scan in the user’s account
+    Launch vulnerability scan in the user’s account. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
 .PARAMETER Title (scan_title)
     The scan title
 .PARAMETER IPs
     The IP addresses to be scanned. You may enter individual IP addresses and/or ranges. Multiple entries are comma separated
-.PARAMETER AssetGroups (asset_groups)
+.PARAMETER AssetGroups
     The titles or ids of asset groups containing the hosts to be scanned. Multiple titles are comma separated
     Use only IDs or titles, do not mix and match.
 .PARAMETER ExcludeIPs (exclude_ip_per_scan)
@@ -15,7 +15,7 @@
 .PARAMETER Scanners
     The IDs or friendly names of the scanner appliances to be used or “External” for external scanners. Multiple entries are comma separated.
     Use only IDs or friendly names, do not mix and match
-.PARAMETER DefaultScanners (default_scanner)
+.PARAMETER DefaultScanners
     Specify to use the default scanner in each target asset group
 .PARAMETER Priority
      Specify a value of 0 - 9 to set a processing priority level for the scan
@@ -79,7 +79,7 @@ function Start-QualysScan{
             }
 
             If($AssetGroups){
-                If($AssetGroups -match '\D'){
+                If($AssetGroups[0] -match '\D'){
                     $RestSplat.Body['asset_groups'] = (($AssetGroups).Trim() -join ",")
                 }
                 Else{

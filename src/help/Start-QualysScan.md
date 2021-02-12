@@ -8,7 +8,9 @@ schema: 2.0.0
 # Start-QualysScan
 
 ## SYNOPSIS
-Launch vulnerability scan in the user's account
+Launch vulnerability scan in the user's account.
+Only targeting asset groups is supported currently.
+Support for targeting by IPs to be added later.
 
 ## SYNTAX
 
@@ -19,7 +21,9 @@ Start-QualysScan [[-Title] <String>] [[-IPs] <String[]>] [[-AssetGroups] <String
 ```
 
 ## DESCRIPTION
-Launch vulnerability scan in the user's account
+Launch vulnerability scan in the user's account.
+Only targeting asset groups is supported currently.
+Support for targeting by IPs to be added later.
 
 ## EXAMPLES
 
@@ -63,7 +67,9 @@ Accept wildcard characters: False
 ```
 
 ### -AssetGroups
-{{ Fill AssetGroups Description }}
+The titles or ids of asset groups containing the hosts to be scanned.
+Multiple titles are comma separated
+Use only IDs or titles, do not mix and match.
 
 ```yaml
 Type: String[]
@@ -110,7 +116,7 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultScanners
-{{ Fill DefaultScanners Description }}
+Specify to use the default scanner in each target asset group
 
 ```yaml
 Type: SwitchParameter

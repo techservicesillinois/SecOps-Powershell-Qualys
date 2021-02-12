@@ -11,7 +11,7 @@
 function Add-QualysHostAssets{
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory=$true)]
         [String[]]$Networks
     )
 
