@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.4] - 2021-02-16
+
+### Changed
+
+- Status parameter on Set-QualysScanSchedules changed from Switch to Int
+
 ## [1.2.3] - 2021-02-11
 
 ### Added
