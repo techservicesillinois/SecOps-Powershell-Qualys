@@ -60,7 +60,7 @@ function Set-QualysScanSchedule{
         [String]$Title,
         [ValidateRange(0,1)]
         [Alias('active')]
-        [Switch]$Status,
+        [Int]$Status,
         [String]$OptionProfile,
         [String[]]$AssetGroups,
         [String]$Scanners,
