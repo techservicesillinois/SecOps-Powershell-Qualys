@@ -17,8 +17,6 @@
 .PARAMETER Scanners
     The IDs or friendly names of the scanner appliances to be used or “External” for external scanners. Multiple entries are comma separated.
     Use only IDs or friendly names, do not mix and match
-.PARAMETER DefaultScanners
-    Specify to use the default scanner in each target asset group
 .PARAMETER Priority
     Specify a value of 0 - 9 to set a processing priority level for the scan
 .PARAMETER Daily
@@ -64,7 +62,6 @@ function Set-QualysScanSchedule{
         [String]$OptionProfile,
         [String[]]$AssetGroups,
         [String]$Scanners,
-        [Switch]$DefaultScanners,
         [ValidateRange(0,9)]
         [Int]$Priority = 0,
         [ValidateRange(1,365)]
@@ -111,8 +108,6 @@ function Set-QualysScanSchedule{
                     action = 'update'
                     echo_request = '1'
                     id = $Identity
-                    default_scanner = [string][int]$DefaultScanners.IsPresent
-
                 }
             }
 

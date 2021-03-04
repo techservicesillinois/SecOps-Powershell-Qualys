@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.5] - 2021-03-04
+
+### Added
+
+### Changed
+
+- Settings from dev to prod
+
+### Removed
+
+- Nonfunctioning DefaultScanners parameter
+
 ## [1.2.4] - 2021-02-16
 
 ### Changed

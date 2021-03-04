@@ -14,7 +14,7 @@ Edit a VM scan schedule
 
 ```
 Set-QualysScanSchedule [-Identity] <String> [[-Title] <String>] [[-Status] <Int32>] [[-OptionProfile] <String>]
- [[-AssetGroups] <String[]>] [[-Scanners] <String>] [-DefaultScanners] [[-Priority] <Int32>] [[-Daily] <Int32>]
+ [[-AssetGroups] <String[]>] [[-Scanners] <String>] [[-Priority] <Int32>] [[-Daily] <Int32>]
  [[-Weekly] <Int32>] [[-Weekdays] <String>] [[-StartDate] <DateTime>] [[-StartHour] <Int32>]
  [[-StartMinute] <Int32>] [[-Recurrence] <Int32>] [[-EndAfterHours] <Int32>] [[-EndAfterMins] <Int32>]
  [[-PauseAfterHours] <Int32>] [[-PauseAfterMins] <Int32>] [[-ResumeInDays] <Int32>] [[-ResumeInHours] <Int32>]
@@ -123,21 +123,6 @@ Aliases:
 Required: False
 Position: 6
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DefaultScanners
-Specify to use the default scanner in each target asset group
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
