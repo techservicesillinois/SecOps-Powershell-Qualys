@@ -1,16 +1,16 @@
 <#
 .Synopsis
-    Deactivates a user in Qualys
+    Activates a user in Qualys
 .DESCRIPTION
-    Deactivates a user in Qualys
+    Activates a user in Qualys
 .PARAMETER Credential
     This API call only supports basic HTTP authentication. You must provide your credentials separately for this function.
 .PARAMETER Login
-    The login of the Qualys user account you wish to deactivate
+    The login of the Qualys user account you wish to activate
 .EXAMPLE
-    Disable-QualysUser -Credential $Credential -Login "theun_tu0"
+    Enable-QualysUser -Credential $Credential -Login "theun_tu0"
     #>
-    function Disable-QualysUser{
+    function Enable-QualysUser{
         [CmdletBinding(SupportsShouldProcess)]
         param (
             [Parameter(Mandatory=$true)]
@@ -26,7 +26,7 @@
                     RelativeURI = 'msp/user.php'
                     Credential = $Credential
                     Body = @{
-                        action = 'deactivate'
+                        action = 'activate'
                         login = $Login
                     }
                 }
