@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.6] - 2021-03-12
+
+### Added
+
+- Disable-QualysUsers.ps1
+- Enable-QualysUsers.ps1
+
 ## [1.2.5] - 2021-03-04
 
 ### Added
