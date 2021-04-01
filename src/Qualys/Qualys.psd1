@@ -10,7 +10,7 @@
 RootModule = 'Qualys.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.2.6'
+ModuleVersion = '1.2.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -87,7 +87,8 @@ FunctionsToExport = @(
     'Remove-QualysScanSchedule',
     'Set-QualysScanSchedule',
     'Disable-QualysUser',
-    'Enable-QualysUser'
+    'Enable-QualysUser',
+    'Get-QualysScanSummary'
     )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
