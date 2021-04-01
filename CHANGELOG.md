@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.7] - 2021-04-01
+
+### Added
+
+- Get-QualysScanSummary.ps1
+
 ## [1.2.6] - 2021-03-12
 
 ### Added
