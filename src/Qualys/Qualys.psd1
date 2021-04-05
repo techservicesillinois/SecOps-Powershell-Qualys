@@ -10,7 +10,7 @@
 RootModule = 'Qualys.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.2.7'
+ModuleVersion = '1.2.8'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()

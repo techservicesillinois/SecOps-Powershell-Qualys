@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.8] - 2021-04-05
+
+### Changed
+
+- Fixed example in Set-QualysAssetGroups
+
 ## [1.2.7] - 2021-04-01
 
 ### Added
