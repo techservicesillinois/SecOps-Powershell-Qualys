@@ -26,6 +26,8 @@
     The date/time is specified in yyyy-MM-dd[THH:mm:ssZ] format (UTC/GMT), like “2007-07-01” or “2007-01-25T23:12:00Z”
 .EXAMPLE
     Get-QualysScans
+    Get-QualysScans -LaunchedBeforeDate '2021-04-05T00:00:00Z' -LaunchedAfterDate '2021-04-03T00:00:00Z' -State 'Canceled, Finished, Error' -Processed
+
 #>
 function Get-QualysScans{
     [CmdletBinding()]
@@ -39,9 +41,9 @@ function Get-QualysScans{
         [Alias('user_login')]
         [String]$UserLogin,
         [Alias('launched_after_datetime')]
-        [Datetime]$LaunchedAfterDate,
+        [String]$LaunchedAfterDate,
         [Alias('launched_before_datetime')]
-        [Datetime]$LaunchedBeforeDate
+        [String]$LaunchedBeforeDate
     )
 
     process{
@@ -56,8 +58,12 @@ function Get-QualysScans{
             }
         }
 
+        If($State){
+            $RestSplat.Body['state'] = $State
+        }
+
          #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
-         [String[]]$Exclusions = ('Processed')
+         [String[]]$Exclusions = ('Processed', 'State')
          $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
              if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
                  [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
