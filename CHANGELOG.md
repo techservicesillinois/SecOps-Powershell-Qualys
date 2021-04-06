@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed example in Set-QualysAssetGroups
 - Fixed type bug in Get-QualysScans
+- Fixed bug with parameter name in Add-QualysScanSchedule
 
 ## [1.2.7] - 2021-04-01
 
