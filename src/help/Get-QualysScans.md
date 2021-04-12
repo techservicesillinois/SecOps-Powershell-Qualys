@@ -15,8 +15,7 @@ By default the output lists scans launched in the past 30 days
 
 ```
 Get-QualysScans [[-ScanRef] <String>] [[-State] <String>] [-Processed] [[-Type] <String>] [[-Target] <String>]
- [[-UserLogin] <String>] [[-LaunchedAfterDate] <DateTime>] [[-LaunchedBeforeDate] <DateTime>]
- [<CommonParameters>]
+ [[-UserLogin] <String>] [[-LaunchedAfterDate] <String>] [[-LaunchedBeforeDate] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,6 +27,7 @@ By default the output lists scans launched in the past 30 days
 ### EXAMPLE 1
 ```
 Get-QualysScans
+Get-QualysScans -LaunchedBeforeDate '2021-04-05T00:00:00Z' -LaunchedAfterDate '2021-04-03T00:00:00Z' -State 'Canceled, Finished, Error' -Processed
 ```
 
 ## PARAMETERS
@@ -135,7 +135,7 @@ Show only scans launched after a certain date and time.
 The date/time is specified in yyyy-MM-dd\[THH:mm:ssZ\] format (UTC/GMT), like "2007-07-01" or "2007-01-25T23:12:00Z"
 
 ```yaml
-Type: DateTime
+Type: String
 Parameter Sets: (All)
 Aliases: launched_after_datetime
 
@@ -151,7 +151,7 @@ Show only scans launched before a certain date and time.
 The date/time is specified in yyyy-MM-dd\[THH:mm:ssZ\] format (UTC/GMT), like "2007-07-01" or "2007-01-25T23:12:00Z"
 
 ```yaml
-Type: DateTime
+Type: String
 Parameter Sets: (All)
 Aliases: launched_before_datetime
 

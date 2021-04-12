@@ -22,7 +22,7 @@
 .EXAMPLE
     Set-QualysAssetGroups -Identity '7445535' -Title "My Edited Asset Group Title"
 .EXAMPLE
-    Set-QualysAssetGroups -Identity "My Asset Group" -IPs "192.168.0.1/24"
+    Set-QualysAssetGroups -Identity "My Asset Group" -AddIPs "192.168.0.1/24"
     #>
     function Set-QualysAssetGroups{
         [CmdletBinding(SupportsShouldProcess)]

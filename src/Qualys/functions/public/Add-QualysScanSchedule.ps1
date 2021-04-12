@@ -166,10 +166,14 @@ function Add-QualysScanSchedule{
             $RestSplat.Body['start_date'] = $StartDate.ToString("MM/dd/yyyy")
         }
 
+        If($Recurrence){
+            $RestSplat.Body['recurrence'] = $Recurrence
+        }
+
         #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
         [String[]]$Exclusions = (
             'Daily','TimeZoneCode','Weekly','ExcludeIPs','DefaultScanners', 'AssetGroups',
-            'OptionProfile', 'Scanners', 'FQDN', 'StartDate','Verbose'
+            'OptionProfile', 'Scanners', 'FQDN', 'StartDate','Verbose', 'Recurrence'
         )
         $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
             if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
