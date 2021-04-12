@@ -28,7 +28,7 @@ Edit a VM scan schedule
 
 ### EXAMPLE 1
 ```
-Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
+Set-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
 ```
 
 ## PARAMETERS
@@ -210,7 +210,7 @@ Accept wildcard characters: False
 
 ### -StartHour
 The hour when the scan will start.
-The hour is aninteger from 0 - 23, where 0 represents 12AM, 7 represents 7AM, and 22 represents 10PM
+The hour is an integer from 0 - 23, where 0 represents 12AM, 7 represents 7AM, and 22 represents 10PM
 
 ```yaml
 Type: Int32

@@ -29,7 +29,7 @@
 .PARAMETER StartDate
     The start date in mm/dd/yyyy format. By default the start date is the date when the schedule is created
 .PARAMETER StartHour
-    The hour when the scan will start. The hour is aninteger from 0 - 23, where 0 represents 12AM, 7 represents 7AM, and 22 represents 10PM
+    The hour when the scan will start. The hour is an integer from 0 - 23, where 0 represents 12AM, 7 represents 7AM, and 22 represents 10PM
 .PARAMETER StartMinute
     The minute when a scan will start. A valid value is an integer from 0 - 59
 .PARAMETER Recurrence
@@ -47,7 +47,7 @@
 .PARAMETER ResumeInHours
     Resume a paused scan in some number of hours. A valid value is an integer from 0 - 23
 .EXAMPLE
-    Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
+    Set-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
 #>
 function Set-QualysScanSchedule{
     [CmdletBinding(SupportsShouldProcess)]
