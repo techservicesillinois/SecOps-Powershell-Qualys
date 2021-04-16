@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.10] - 2021-04-16
+
+### Changed
+
+- Fixed Set and Add QualysScanSchedule Active/Status parameter
+
 ## [1.2.9] - 2021-04-12
 
 ### Changed
