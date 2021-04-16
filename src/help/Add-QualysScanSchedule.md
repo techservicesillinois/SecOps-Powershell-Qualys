@@ -15,12 +15,12 @@ Support for targeting by IPs to be added later.
 ## SYNTAX
 
 ```
-Add-QualysScanSchedule [-Title] <String> [-Active] [-OptionProfile] <String> [[-AssetGroups] <String[]>]
- [[-Scanners] <String>] [-DefaultScanners] [[-Priority] <Int32>] [[-FQDN] <String[]>] [[-Daily] <Int32>]
- [[-Weekly] <Int32>] [[-Weekdays] <String>] [[-StartDate] <DateTime>] [-StartHour] <Int32>
- [-StartMinute] <Int32> [[-Recurrence] <Int32>] [[-EndAfterHours] <Int32>] [[-EndAfterMins] <Int32>]
- [[-PauseAfterHours] <Int32>] [[-PauseAfterMins] <Int32>] [[-ResumeInDays] <Int32>] [[-ResumeInHours] <Int32>]
- [<CommonParameters>]
+Add-QualysScanSchedule [-Title] <String> [-Status] <Int32> [-OptionProfile] <String>
+ [[-AssetGroups] <String[]>] [[-Scanners] <String>] [-DefaultScanners] [[-Priority] <Int32>]
+ [[-FQDN] <String[]>] [[-Daily] <Int32>] [[-Weekly] <Int32>] [[-Weekdays] <String>] [[-StartDate] <DateTime>]
+ [-StartHour] <Int32> [-StartMinute] <Int32> [[-Recurrence] <Int32>] [[-EndAfterHours] <Int32>]
+ [[-EndAfterMins] <Int32>] [[-PauseAfterHours] <Int32>] [[-PauseAfterMins] <Int32>] [[-ResumeInDays] <Int32>]
+ [[-ResumeInHours] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,17 +52,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Active
-Specify to create an active schedule, otherwise the schedule will be created deactivated
+### -Status
+Specify 0 to deactivate the scan schedule, 1 to activate the scan schedule
 
 ```yaml
-Type: SwitchParameter
+Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: active
 
-Required: False
-Position: Named
-Default value: False
+Required: True
+Position: 2
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -76,7 +76,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -93,7 +93,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,7 +110,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -140,7 +140,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -157,7 +157,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -173,7 +173,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -189,7 +189,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -207,7 +207,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: Sunday, monday, tuesday, wednesday, thursday, friday, saturday
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -223,7 +223,7 @@ Parameter Sets: (All)
 Aliases: start_date
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -239,7 +239,7 @@ Parameter Sets: (All)
 Aliases: start_hour
 
 Required: True
-Position: 11
+Position: 12
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -255,7 +255,7 @@ Parameter Sets: (All)
 Aliases: start_minute
 
 Required: True
-Position: 12
+Position: 13
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -272,7 +272,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 14
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -288,7 +288,7 @@ Parameter Sets: (All)
 Aliases: end_after
 
 Required: False
-Position: 14
+Position: 15
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -304,7 +304,7 @@ Parameter Sets: (All)
 Aliases: end_after_mins
 
 Required: False
-Position: 15
+Position: 16
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -320,7 +320,7 @@ Parameter Sets: (All)
 Aliases: pause_after_hours
 
 Required: False
-Position: 16
+Position: 17
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -336,7 +336,7 @@ Parameter Sets: (All)
 Aliases: pause_after_mins
 
 Required: False
-Position: 17
+Position: 18
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -352,7 +352,7 @@ Parameter Sets: (All)
 Aliases: resume_in_days
 
 Required: False
-Position: 18
+Position: 19
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -368,7 +368,7 @@ Parameter Sets: (All)
 Aliases: resume_in_hours
 
 Required: False
-Position: 19
+Position: 20
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False

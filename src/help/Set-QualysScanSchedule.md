@@ -13,7 +13,7 @@ Edit a VM scan schedule
 ## SYNTAX
 
 ```
-Set-QualysScanSchedule [-Identity] <String> [[-Title] <String>] [[-Status] <Int32>] [[-OptionProfile] <String>]
+Set-QualysScanSchedule [-Identity] <String> [[-Title] <String>] [-Status] <Int32> [[-OptionProfile] <String>]
  [[-AssetGroups] <String[]>] [[-Scanners] <String>] [[-Priority] <Int32>] [[-Daily] <Int32>]
  [[-Weekly] <Int32>] [[-Weekdays] <String>] [[-StartDate] <DateTime>] [[-StartHour] <Int32>]
  [[-StartMinute] <Int32>] [[-Recurrence] <Int32>] [[-EndAfterHours] <Int32>] [[-EndAfterMins] <Int32>]
@@ -71,7 +71,7 @@ Type: Int32
 Parameter Sets: (All)
 Aliases: active
 
-Required: False
+Required: True
 Position: 3
 Default value: 0
 Accept pipeline input: False
