@@ -56,6 +56,7 @@ function Set-QualysScanSchedule{
         [String]$Identity,
         [Alias('scan_title')]
         [String]$Title,
+        [Parameter(Mandatory=$true)]
         [ValidateRange(0,1)]
         [Alias('active')]
         [Int]$Status,

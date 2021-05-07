@@ -13,11 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-## [1.2.9] - 2021-05-07
+## [1.2.10] - 2021-04-16
 
 ### Changed
 
-- Added script scope variable to count API calls
+- Fixed Set and Add QualysScanSchedule Active/Status parameter
+
+## [1.2.9] - 2021-04-12
+
+### Changed
+
+- Fixed Get-QualysAssetGroups bug that only returned ranges OR single IPs not both
 
 ## [1.2.8] - 2021-04-05
 

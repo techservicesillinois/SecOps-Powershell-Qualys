@@ -5,8 +5,8 @@
     Schedule a VM scan. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
 .PARAMETER Title
     The title of the scan schedule
-.PARAMETER Active
-    Specify to create an active schedule, otherwise the schedule will be created deactivated
+.PARAMETER Status
+    Specify 0 to deactivate the scan schedule, 1 to activate the scan schedule
 .PARAMETER OptionProfile
     The id or title of the option profile to use
 .PARAMETER AssetGroups
@@ -58,7 +58,10 @@ function Add-QualysScanSchedule{
         [Parameter(Mandatory=$true)]
         [Alias('scan_title')]
         [String]$Title,
-        [Switch]$Active,
+        [Parameter(Mandatory=$true)]
+        [ValidateRange(0,1)]
+        [Alias('active')]
+        [Int]$Status,
         [Parameter(Mandatory=$true)]
         [String]$OptionProfile,
         [String[]]$AssetGroups,
@@ -112,7 +115,6 @@ function Add-QualysScanSchedule{
                 action = 'create'
                 echo_request = '1'
                 scan_title = $Title
-                active = [string][int]$Active.IsPresent
                 default_scanner = [string][int]$DefaultScanners.IsPresent
                 target_from = 'assets'
                 observe_dst = 'yes'
