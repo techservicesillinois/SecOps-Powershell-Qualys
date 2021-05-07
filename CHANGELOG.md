@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.9] - 2021-05-07
+
+### Changed
+
+- Added script scope variable to count API calls
+
 ## [1.2.8] - 2021-04-05
 
 ### Changed

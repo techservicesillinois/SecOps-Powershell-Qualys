@@ -64,6 +64,7 @@ function Invoke-QualysRestCall {
         }
 
         Invoke-RestMethod @IVRSplat
+        $Script:APICallCount++
     }
 
     end {
