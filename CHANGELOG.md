@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.2.12] - 2021-05-07
+
+### Changed
+
+- Added function to support returning the script variable APICallCount
+
 ## [1.2.11] - 2021-05-07
 
 ### Changed
