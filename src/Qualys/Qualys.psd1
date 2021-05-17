@@ -88,7 +88,8 @@ FunctionsToExport = @(
     'Set-QualysScanSchedule',
     'Disable-QualysUser',
     'Enable-QualysUser',
-    'Get-QualysScanSummary'
+    'Get-QualysScanSummary',
+    'Get-QualysAPICallCount'
     )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
