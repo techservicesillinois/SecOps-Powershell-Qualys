@@ -109,7 +109,6 @@ function Set-QualysScanSchedule{
                     action = 'update'
                     echo_request = '1'
                     id = $Identity
-                    observe_dst = 'yes'
                 }
             }
 
