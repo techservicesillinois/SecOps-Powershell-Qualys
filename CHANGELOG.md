@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.3.0] - 2021-08-16
+
+### Added
+
+- Code of Conduct, Contributing, Security docs and a Pull Request Template
+- Icon for module
+
+### Changed
+
+- Module name from Qualys to UofIQualys
+
 ## [1.2.12] - 2021-05-07
 
 ### Changed
