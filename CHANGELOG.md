@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.3.1] - 2021-08-17
+
+### Added
+
+- feature_request template and bug_report template
+- Publishtogallery script and github action
+
 ## [1.3.0] - 2021-08-16
 
 ### Added
