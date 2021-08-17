@@ -1,0 +1,16 @@
+name: PublishToGallery
+
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run publish script
+        env:
+          NuGetApiKey: ${{ secrets.NuGetApiKey }}
+        run: .github\workflows\PublishToGallery.ps1
+        shell: pwsh
