@@ -1,15 +1,15 @@
 ﻿<#
 .Synopsis
-    List vulnerability scans in the user’s account. By default the output lists scans launched in the past 30 days
+    List vulnerability scans in the user’s account. By default the output lists unprocessed scans launched in the past 30 days
 .DESCRIPTION
-    List vulnerability scans in the user’s account. By default the output lists scans launched in the past 30 days
+    List vulnerability scans in the user’s account. By default the output lists unprocessed scans launched in the past 30 days
 .PARAMETER ScanRef
     Show only a scan with a certain scan reference code. For a vulnerability scan, the format is: scan/987659876.19876
     For a compliance scan the format is: compliance/98765456.12345
 .PARAMETER State
     Show only one or more scan states. A valid value is: Running, Paused, Canceled, Finished, Error, Queued
 .PARAMETER Processed
-    Specify to show only scans that have been processed
+    Specify to show only scans that have been processed. Processed scans are not included by default
 .PARAMETER Type
     Show only a certain scan type. A valid value is: On-Demand, Scheduled, or API
 .PARAMETER Target

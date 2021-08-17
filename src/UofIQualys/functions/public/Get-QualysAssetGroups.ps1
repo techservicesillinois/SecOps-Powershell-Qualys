@@ -87,6 +87,11 @@ function Get-QualysAssetGroups{
                 IP_Range = $IPs
                 DefaultScanner = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.DEFAULT_APPLIANCE_ID
             }
+            If(!($AssetGroup.ID))
+                {
+                    Throw "No Asset Group found matching the title or ID $($Identity)"
+                    Break
+                }
             $AssetGroup
         }
     }
