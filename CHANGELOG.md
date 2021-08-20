@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Description in Get-QualysScans regarding 'Processed' parameter
 - Error handling for when no asset group is returned by Get-QualysAssetGroups
+- Fix icon URL to point to raw image
 
 ## [1.3.1] - 2021-08-17
 
