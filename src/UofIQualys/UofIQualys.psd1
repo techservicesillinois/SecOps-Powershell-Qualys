@@ -10,7 +10,7 @@
 RootModule = 'UofIQualys.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.3.0'
+ModuleVersion = '1.3.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -125,7 +125,7 @@ PrivateData = @{
         ProjectUri = 'https://github.com/techservicesillinois/SecOps-Powershell-Qualys'
 
         # A URL to an icon representing this module.
-        IconUri = 'https://github.com/techservicesillinois/SecOps-Powershell-Qualys/blob/main/icon.png'
+        IconUri = 'https://github.com/techservicesillinois/SecOps-Powershell-Qualys/blob/main/icon.png?raw=true'
 
         # ReleaseNotes of this module
         # ReleaseNotes = ''
