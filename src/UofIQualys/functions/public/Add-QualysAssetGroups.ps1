@@ -21,7 +21,7 @@
     function Add-QualysAssetGroups{
         [CmdletBinding()]
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns',
-        Justification = 'This is following qualys naming conventions.')]
+            Justification = 'This is consistent with the vendors verbiage')]
         param (
             [Parameter(Mandatory=$true)]
             [String]$Title,

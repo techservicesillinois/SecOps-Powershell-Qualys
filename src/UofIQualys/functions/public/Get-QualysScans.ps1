@@ -31,6 +31,8 @@
 #>
 function Get-QualysScans{
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns',
+            Justification = 'This is consistent with the vendors verbiage')]
     param (
         [Alias('scan_ref')]
         [String]$ScanRef,

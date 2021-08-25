@@ -19,6 +19,8 @@
     #>
 function Get-QualysAssetGroups{
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns',
+            Justification = 'This is consistent with the vendors verbiage')]
     param (
         [String]$Identity,
         [int]$Limit = 0

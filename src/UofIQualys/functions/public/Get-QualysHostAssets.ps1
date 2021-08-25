@@ -8,6 +8,8 @@
     #>
 function Get-QualysHostAssets{
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns',
+            Justification = 'This is consistent with the vendors verbiage')]
     param (
 
     )
