@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
-
+- Added scriptanalyzer exceptions for "PSUseSingularNouns" per [issue #40](https://github.com/techservicesillinois/SecOps-Powershell-Qualys/issues/40)
 ### Removed
 
 ## [1.3.2] - 2021-08-17
