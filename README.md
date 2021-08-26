@@ -7,8 +7,11 @@ This Powershell module acts as a wrapper for the Qualys REST API, allowing you t
 
 # How do I install it?
 
-1. Save the UofIQualys folder to your Powershell modules folder
-2. Import-Module UofIQualys
+The latest stable release is always available via the [PSGallery](https://www.powershellgallery.com/packages/UofIQualys).
+```powershell
+# This will install on the local machine
+Install-Module -Name 'UofIQualys'
+```
 
 # How does it work?
 
