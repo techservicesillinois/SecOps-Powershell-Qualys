@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
-
+- New private function Format-IPAddressGroup created to centralize logic for formatting IP addresses for API calls.
 ### Changed
 - Added scriptanalyzer exceptions for "PSUseSingularNouns" per [issue #40](https://github.com/techservicesillinois/SecOps-Powershell-Qualys/issues/40)
 ### Removed

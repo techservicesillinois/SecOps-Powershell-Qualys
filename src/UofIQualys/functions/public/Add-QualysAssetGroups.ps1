@@ -44,7 +44,7 @@
             }
 
             If($IPs){
-                $RestSplat.Body['ips'] = ($IPs.Trim() -join ", ")
+                $RestSplat.Body['ips'] = Format-IPAddressGroup -IPs $IPs
             }
 
             If($Comments){

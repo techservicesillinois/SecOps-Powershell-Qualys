@@ -7,3 +7,11 @@ Describe 'Module Manifest Tests' {
         Test-ModuleManifest -Path $ManifestPath | Should -Not -BeNullOrEmpty
     }
 }
+
+Describe 'Format-IPAddressGroup' {
+    InModuleScope 'UofIQualys' {
+        It 'Correctly joins IP addresses' {
+            Format-IPAddressGroup -IPs ("192.168.1.1 "," 192.168.1.2") | Should -Be "192.168.1.1, 192.168.1.2"
+        }
+    }
+}
