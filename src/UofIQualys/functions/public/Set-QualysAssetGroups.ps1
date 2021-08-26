@@ -62,15 +62,15 @@
                 }
 
                 If($SetIPs){
-                    $RestSplat.Body['set_ips'] = ($SetIPs.Trim() -join ", ")
+                    $RestSplat.Body['set_ips'] = Format-IPAddressGroup -IPs $SetIPs
                 }
 
                 If($AddIPs){
-                    $RestSplat.Body['add_ips'] = ($AddIPs.Trim() -join ", ")
+                    $RestSplat.Body['add_ips'] = Format-IPAddressGroup -IPs $AddIPs
                 }
 
                 If($RemoveIPs){
-                    $RestSplat.Body['remove_ips'] = ($RemoveIPs.Trim() -join ", ")
+                    $RestSplat.Body['remove_ips'] = Format-IPAddressGroup -IPs $RemoveIPs
                 }
 
                 If($Comments){

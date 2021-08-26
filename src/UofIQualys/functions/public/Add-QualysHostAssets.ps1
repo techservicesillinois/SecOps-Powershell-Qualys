@@ -25,7 +25,7 @@ function Add-QualysHostAssets{
             Body = @{
                 action = 'add'
                 echo_request = '1'
-                ips = ($Networks.Trim() -join ", ")
+                ips = Format-IPAddressGroup -IPs $Networks
                 enable_vm = '1'
             }
         }
