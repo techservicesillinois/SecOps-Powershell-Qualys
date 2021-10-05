@@ -5,39 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-QualysScanSchedule
+# Stop-QualysScan
 
 ## SYNOPSIS
-Removes a scan schedule from Qualys
+Stop a vulnerability scan in the user's account.
 
 ## SYNTAX
 
 ```
-Remove-QualysScanSchedule [-Identity] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Stop-QualysScan [[-ScanRef] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Removes a scan schedule from Qualys
+Stop a vulnerability scan in the user's account.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Remove-QualysScanSchedule -Identity "3848863"
+Stop-QualysScan -ScanRef 'scan/1633304415.63272'
 ```
 
 ## PARAMETERS
 
-### -Identity
-The ID of the Scan Schedule to delete.
-Only one Identity may be provided per API call.
+### -ScanRef
+The target ScanRef for a vulnerability scan.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: scan_ref
 
-Required: True
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False

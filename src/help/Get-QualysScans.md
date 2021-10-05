@@ -1,6 +1,6 @@
 ---
-external help file: Qualys-help.xml
-Module Name: Qualys
+external help file: UofIQualys-help.xml
+Module Name: UofIQualys
 online version:
 schema: 2.0.0
 ---
@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 List vulnerability scans in the user's account.
-By default the output lists scans launched in the past 30 days
+By default the output lists unprocessed scans launched in the past 30 days
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-QualysScans [[-ScanRef] <String>] [[-State] <String>] [-Processed] [[-Type] 
 
 ## DESCRIPTION
 List vulnerability scans in the user's account.
-By default the output lists scans launched in the past 30 days
+By default the output lists unprocessed scans launched in the past 30 days
 
 ## EXAMPLES
 
@@ -66,7 +66,8 @@ Accept wildcard characters: False
 ```
 
 ### -Processed
-Specify to show only scans that have been processed
+Specify to show only scans that have been processed.
+Processed scans are not included by default
 
 ```yaml
 Type: SwitchParameter
