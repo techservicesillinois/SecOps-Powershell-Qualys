@@ -17,8 +17,8 @@ function Close-QualysSession{
             Body = @{
                 action = "logout"
             }
+            WebSession = $Script:Session
         }
-        $IVRSplat.add('WebSession',$Script:Session)
 
         Write-Verbose -Message "Removing Qualys web session."
         $Response = Invoke-RestMethod @IVRSplat
