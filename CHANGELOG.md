@@ -39,7 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - New private function Format-IPAddressGroup created to centralize logic for formatting IP addresses for API calls.
--
 
 ### Changed
 
