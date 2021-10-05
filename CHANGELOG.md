@@ -8,10 +8,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
-- New private function Format-IPAddressGroup created to centralize logic for formatting IP addresses for API calls.
+
 ### Changed
-- Added scriptanalyzer exceptions for "PSUseSingularNouns" per [issue #40](https://github.com/techservicesillinois/SecOps-Powershell-Qualys/issues/40)
+
 ### Removed
+
+## [1.4.0] - 2021-10-05
+
+### Added
+
+- New function Stop-QualysScan
+
+### Changed
+
+- Added blank scriptanalyzer param for 'CheckID' on all scripts using the 'PSUseSingularNouns' attribute as this was causing errors
+- Update all Markdown Help
+
+## [1.3.3] - 2021-08-26
+
+### Added
+
+- New private function Format-IPAddressGroup created to centralize logic for formatting IP addresses for API calls.
+
+### Changed
+
+- Added scriptanalyzer exceptions for "PSUseSingularNouns" per [issue #40](https://github.com/techservicesillinois/SecOps-Powershell-Qualys/issues/40)
+
+## [1.3.3] - 2021-08-26
+
+### Added
+
+- New private function Format-IPAddressGroup created to centralize logic for formatting IP addresses for API calls.
+-
+
+### Changed
+
+- Added scriptanalyzer exceptions for "PSUseSingularNouns" per [issue #40](https://github.com/techservicesillinois/SecOps-Powershell-Qualys/issues/40)
 
 ## [1.3.2] - 2021-08-17
 
