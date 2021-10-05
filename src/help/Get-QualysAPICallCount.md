@@ -5,25 +5,25 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-QualysHostAssets
+# Get-QualysAPICallCount
 
 ## SYNOPSIS
-Returns an array of all host assets (IPs) in Qualys
+Returns the number of times Invoke-QualysRestCall is called
 
 ## SYNTAX
 
 ```
-Get-QualysHostAssets [<CommonParameters>]
+Get-QualysAPICallCount [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns an array of all host assets (IPs) in Qualys
+Returns the number of times Invoke-QualysRestCall is called
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-QualysHostAssets
+Get-QualysAPICallCount
 ```
 
 ## PARAMETERS
@@ -35,6 +35,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### System.Int32
 ## NOTES
 
 ## RELATED LINKS

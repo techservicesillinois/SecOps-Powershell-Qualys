@@ -1,6 +1,6 @@
 ---
-external help file: Qualys-help.xml
-Module Name: Qualys
+external help file: UofIQualys-help.xml
+Module Name: UofIQualys
 online version:
 schema: 2.0.0
 ---

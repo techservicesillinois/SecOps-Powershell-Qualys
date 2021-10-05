@@ -10,7 +10,7 @@
     #>
     function Remove-QualysAssetGroups{
         [CmdletBinding(SupportsShouldProcess)]
-        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns',
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '',
             Justification = 'This is consistent with the vendors verbiage')]
         param (
             [Parameter(Mandatory=$true)]
