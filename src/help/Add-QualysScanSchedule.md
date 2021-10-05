@@ -18,18 +18,18 @@ Support for targeting by IPs to be added later.
 ```
 Add-QualysScanSchedule -Title <String> -Status <Int32> -OptionProfile <String> [-AssetGroups <String[]>]
  [-Scanners <String>] [-DefaultScanners] [-Priority <Int32>] [-FQDN <String[]>] [-Daily <Int32>]
- [-Weekdays <String>] [-StartDate <DateTime>] -StartHour <Int32> -StartMinute <Int32> [-Recurrence <Int32>]
- [-EndAfterHours <Int32>] [-EndAfterMins <Int32>] [-PauseAfterHours <Int32>] [-PauseAfterMins <Int32>]
- [-ResumeInDays <Int32>] [-ResumeInHours <Int32>] [<CommonParameters>]
+ [-StartDate <DateTime>] -StartHour <Int32> -StartMinute <Int32> [-Recurrence <Int32>] [-EndAfterHours <Int32>]
+ [-EndAfterMins <Int32>] [-PauseAfterHours <Int32>] [-PauseAfterMins <Int32>] [-ResumeInDays <Int32>]
+ [-ResumeInHours <Int32>] [<CommonParameters>]
 ```
 
 ### Weekly
 ```
 Add-QualysScanSchedule -Title <String> -Status <Int32> -OptionProfile <String> [-AssetGroups <String[]>]
  [-Scanners <String>] [-DefaultScanners] [-Priority <Int32>] [-FQDN <String[]>] [-Weekly <Int32>]
- [-StartDate <DateTime>] -StartHour <Int32> -StartMinute <Int32> [-Recurrence <Int32>] [-EndAfterHours <Int32>]
- [-EndAfterMins <Int32>] [-PauseAfterHours <Int32>] [-PauseAfterMins <Int32>] [-ResumeInDays <Int32>]
- [-ResumeInHours <Int32>] [<CommonParameters>]
+ [-Weekdays <String>] [-StartDate <DateTime>] -StartHour <Int32> -StartMinute <Int32> [-Recurrence <Int32>]
+ [-EndAfterHours <Int32>] [-EndAfterMins <Int32>] [-PauseAfterHours <Int32>] [-PauseAfterMins <Int32>]
+ [-ResumeInDays <Int32>] [-ResumeInHours <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -212,7 +212,7 @@ By default all weekdays are selected
 
 ```yaml
 Type: String
-Parameter Sets: Daily
+Parameter Sets: Weekly
 Aliases:
 
 Required: False
