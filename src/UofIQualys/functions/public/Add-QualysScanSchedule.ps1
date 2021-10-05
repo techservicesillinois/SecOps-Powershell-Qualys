@@ -74,7 +74,7 @@ function Add-QualysScanSchedule{
         [Int]$Daily,
         [ValidateRange(1,52)]
         [Int]$Weekly,
-        [String]$Weekdays = 'sunday, monday, tuesday, wednesday, thursday, friday, saturday',
+        [String]$Weekdays = 'Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday',
         [Alias('start_date')]
         [DateTime]$StartDate,
         [Parameter(Mandatory=$true)]
