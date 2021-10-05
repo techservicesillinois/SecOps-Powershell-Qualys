@@ -1,13 +1,12 @@
 ﻿<#
 .Synopsis
-    Launch vulnerability scan in the user’s account. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
+    Stop a vulnerability scan in the user’s account.
 .DESCRIPTION
-    Launch vulnerability scan in the user’s account. Only targeting asset groups is supported currently. Support for targeting by IPs to be added later.
+    Stop a vulnerability scan in the user’s account.
 .PARAMETER ScanRef
-    The target FQDN for a vulnerability scan. Multiple values are comma separated.
-    You can specify FQDNs in combination with IPs and asset groups
+    The target ScanRef for a vulnerability scan.
 .EXAMPLE
-    Start-QualysScan -Title 'Test Scan' -AssetGroups 'Test Asset Group'
+    Stop-QualysScan -ScanRef 'scan/1633304415.63272'
 #>
 function Stop-QualysScan{
     [CmdletBinding(SupportsShouldProcess)]
