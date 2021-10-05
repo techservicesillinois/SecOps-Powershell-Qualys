@@ -50,7 +50,7 @@
 .PARAMETER ResumeInHours
     Resume a paused scan in some number of hours. A valid value is an integer from 0 - 23
 .EXAMPLE
-    Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan'
+    Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -Status 1 -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan Options'
 #>
 function Add-QualysScanSchedule{
     [CmdletBinding()]
@@ -70,11 +70,14 @@ function Add-QualysScanSchedule{
         [ValidateRange(0,9)]
         [Int]$Priority = 0,
         [String[]]$FQDN,
+        [Parameter(ParameterSetName = 'Daily')]
         [ValidateRange(1,365)]
         [Int]$Daily,
+        [Parameter(ParameterSetName = 'Weekly')]
         [ValidateRange(1,52)]
         [Int]$Weekly,
-        [String]$Weekdays = 'sunday, monday, tuesday, wednesday, thursday, friday, saturday',
+        [Parameter(ParameterSetName = 'Weekly')]
+        [String]$Weekdays = 'Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday',
         [Alias('start_date')]
         [DateTime]$StartDate,
         [Parameter(Mandatory=$true)]
