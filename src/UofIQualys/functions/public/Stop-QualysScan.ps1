@@ -16,7 +16,7 @@ function Stop-QualysScan{
     )
 
     process{
-        if ($PSCmdlet.ShouldProcess("$($ScanRef)")){
+        if ($PSCmdlet.ShouldProcess("$($ScanRef)","Stop")){
             $RestSplat = @{
                 Method = 'POST'
                 RelativeURI = 'scan/'
