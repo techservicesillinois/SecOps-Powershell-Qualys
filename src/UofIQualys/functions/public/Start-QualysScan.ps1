@@ -44,7 +44,12 @@ function Start-QualysScan{
     )
 
     process{
-        $Target = $AssetGroups ? $AssetGroups : $IPs
+        If($AssetGroups){
+            $Target = $AssetGroups
+        }
+        Else{
+            $Target = $IPs
+        }
         if ($PSCmdlet.ShouldProcess("$($Target)")){
             $RestSplat = @{
                 Method = 'POST'
