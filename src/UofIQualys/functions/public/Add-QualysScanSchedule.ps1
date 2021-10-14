@@ -53,7 +53,7 @@
     Add-QualysScanSchedule -Title 'Test Schedule' -AssetGroups 'My Asset Group' -Status 1 -DefaultScanners -Daily 20 -StartDate "03/01/2021" -StartHour 0 -StartMinute 0 -EndAfterHours 0 -EndAfterMins 20 -OptionProfile 'Recommended Standard Scan Options'
 #>
 function Add-QualysScanSchedule{
-    [CmdletBinding()]
+    [CmdLetBinding(DefaultParameterSetName="None")]
     param (
         [Parameter(Mandatory=$true)]
         [Alias('scan_title')]
