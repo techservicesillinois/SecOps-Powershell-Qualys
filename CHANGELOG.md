@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.4.2] - 2021-10-14
+
+### Added
+
+- Added DefaultParameterSetName to Cmdletbindings for Add and Set-QualysScanSchedule
+
 ## [1.4.1] - 2021-10-05
 
 ### Added
