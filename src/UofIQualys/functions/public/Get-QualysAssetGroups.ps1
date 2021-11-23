@@ -49,13 +49,13 @@ function Get-QualysAssetGroups{
             }
         }
 
-        $IPs = @()
         $Response = Invoke-QualysRestCall @RestSplat
         #This will return IP information for every asset group
         if(!($Identity)){
             $Index = 0
-            $AssetGroup = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP
-            foreach ($ID in $AssetGroup.ID ) {
+            $AssetGroupIDs = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.ID
+            foreach ($ID in $AssetGroupIDs) {
+                $IPs = @()
                 #If there are ranges get the ranges and add them to the IP array
                 If($Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET[$Index].IP_RANGE){
                     $IPs += $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET[$Index].IP_RANGE
@@ -80,6 +80,7 @@ function Get-QualysAssetGroups{
         }
         #Get the IPs for if a single asset group identity is provided with the same logic as above
         else{
+            $IPs = @()
             If($Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET.IP_RANGE){
                 $IPs += $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET.IP_RANGE
                 If($Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET.IP){
