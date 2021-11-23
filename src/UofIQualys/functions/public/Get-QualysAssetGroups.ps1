@@ -54,7 +54,8 @@ function Get-QualysAssetGroups{
         #This will return IP information for every asset group
         if(!($Identity)){
             $Index = 0
-            foreach ($ID in $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.ID ) {
+            $AssetGroup = $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP
+            foreach ($ID in $AssetGroup.ID ) {
                 #If there are ranges get the ranges and add them to the IP array
                 If($Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET[$Index].IP_RANGE){
                     $IPs += $Response.ASSET_GROUP_LIST_OUTPUT.RESPONSE.ASSET_GROUP_LIST.ASSET_GROUP.IP_SET[$Index].IP_RANGE
