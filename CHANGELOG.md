@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.4.4] - 2021-12-22
+
+### Changed
+
+- Minimum Powershell version set to 7
+
 ## [1.4.3] - 2021-11-23
 
 ### Changed
