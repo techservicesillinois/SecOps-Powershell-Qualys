@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.4.5] - 2022-01-07
+
+### Changed
+
+- Minimum Powershell version set to 5.1
+
+### Removed
+
+- Comments removed from json file for Powershell 5.1 compatability
+- Ternary operator from Start-QualysScan for Powershell 5.1 compatability
+- UofI specific language in a comment
+
 ## [1.4.4] - 2021-12-22
 
 ### Changed
