@@ -10,7 +10,7 @@
 .PARAMETER Comments
     Description or comments about the group; max 255 characters
 .PARAMETER Division
-    The Division of the Asset Group, typically the Owner Code from CDB
+    The Division of the Asset Group
 .PARAMETER DefaultScanner
     The ID of the scanner to use as the default scanner for this asset group
 .EXAMPLE
