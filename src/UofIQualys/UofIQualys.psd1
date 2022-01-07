@@ -10,7 +10,7 @@
 RootModule = 'UofIQualys.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.4.4'
+ModuleVersion = '1.4.5'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
