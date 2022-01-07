@@ -31,7 +31,7 @@ Copyright = 'The University of Illinois Board of Trustees'
 Description = 'This Powershell module acts as a wrapper for the Qualys REST API, allowing you to create scripts that run system administration commands against your Qualys account'
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '7.0.0'
+PowerShellVersion = '5.1'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
