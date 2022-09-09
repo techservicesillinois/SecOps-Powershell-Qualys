@@ -62,9 +62,16 @@ function Invoke-QualysRestCall {
             $IVRSplat['Uri'] = "$($Script:Settings.BaseURI)$RelativeURI"
             $IVRSplat.add('WebSession',$Script:Session)
         }
-
-        Invoke-RestMethod @IVRSplat
-        $Script:APICallCount++
+        #Retry parameters only available in Powershell 7.1+, so we use a try/catch to retry calls once to compensate for short periods where the Qualys api is unreachable
+        try{
+            Invoke-RestMethod @IVRSplat
+            $Script:APICallCount++
+        }
+        catch{
+            Start-Sleep -Seconds 4
+            Invoke-RestMethod @IVRSplat
+            $Script:APICallCount++
+        }
     }
 
     end {
