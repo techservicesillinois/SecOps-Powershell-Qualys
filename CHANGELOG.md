@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.5.0] - 2022-09-09
+
+### Changed
+
+- Added retry to Invoke-QualysRestCall to compensate for short periods where the Qualys api is unreachable
+
 ## [1.4.5] - 2022-01-07
 
 ### Changed
