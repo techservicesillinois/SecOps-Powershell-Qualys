@@ -23,7 +23,7 @@ Returns KB information for a specified QID
 
 ### EXAMPLE 1
 ```
-Get-QualysHostAssets
+Get-QualysKBContent -QID '372305'
 ```
 
 ## PARAMETERS

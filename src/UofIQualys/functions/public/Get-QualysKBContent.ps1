@@ -4,7 +4,7 @@
 .DESCRIPTION
     Returns KB information for a specified QID
 .EXAMPLE
-    Get-QualysHostAssets
+    Get-QualysKBContent -QID '372305'
     #>
 function Get-QualysKBContent{
     [CmdletBinding()]
