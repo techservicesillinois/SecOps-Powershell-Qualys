@@ -10,7 +10,7 @@
 RootModule = 'UofIQualys.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.5.0'
+ModuleVersion = '1.5.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -91,7 +91,8 @@ FunctionsToExport = @(
     'Get-QualysScanSummary',
     'Get-QualysAPICallCount',
     'Stop-QualysScan',
-    'Close-QualysSession'
+    'Close-QualysSession',
+    'Get-QualysKBContent'
     )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

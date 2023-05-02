@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.5.1] - 2023-05-02
+
+### Added
+
+- Function to get vulnerability information from Qualys KB. Get-QualysKBContent
+- Generated new markdown help
+
 ## [1.5.0] - 2022-09-09
 
 ### Changed
