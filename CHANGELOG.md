@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Add-QualysTagAssignment: This function takes an asset ID and a tag ID and adds the tag to the asset.
+- Get-QualysAsset: This function takes an asset name or ID and returns the asset object.
+- Get-QualysAssetInventory: Fetches all Qualys host asset objects.
+- Get-QualysTag: This function takes a tag name or ID and returns the tag object.
+- Remove-QualysTagAssignment: This function takes an asset ID and a tag ID and removes the tag from the asset.
+
 ### Added
 
 ### Changed

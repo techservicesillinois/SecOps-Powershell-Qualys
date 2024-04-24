@@ -3,7 +3,7 @@ function Get-QualysAsset {
         .SYNOPSIS
             Gets an asset from Qualys.
         .DESCRIPTION
-            This function takes an asset name and returns the asset ID.
+            This function takes an asset name or ID and returns the asset object.
         .PARAMETER assetName
             The name of the asset to be retrieved.
         .PARAMETER assetId
