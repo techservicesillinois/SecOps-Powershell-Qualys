@@ -35,18 +35,14 @@ function Get-QualysAsset {
         [string]
         $AssetId,
 
-        [string]
-        $InputUsername = $Username,
-        [string]
-        $InputKeyvault = $Keyvault,
-        [string]
-        $InputSecretName = $SecretName,
+        [PScredential]
+        $InputCredential = $Credential,
         [string]
         $InputQualysApiUrl = $QualysApiUrl
     )
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ([string]::IsNullOrEmpty($InputUsername) -or [string]::IsNullOrEmpty($InputKeyvault) -or [string]::IsNullOrEmpty($InputSecretName) -or [string]::IsNullOrEmpty($InputQualysApiUrl)) {
+    if ( [string]::IsNullOrEmpty($InputQualysApiUrl) -or [string]::IsNullOrEmpty($InputCredential.UserName) -or [string]::IsNullOrEmpty($InputCredential.GetNetworkCredential().Password) ) {
         return "One or more of the following parameters are empty: inputUsername, inputKeyvault, inputSecretName, inputQualysApiUrl.
         By default, these parameters are set to the values of the global variables: username, keyvault, secretName, qualysApiUrl.
         Please ensure these global variables are set, or provide the inputs, and try again."
