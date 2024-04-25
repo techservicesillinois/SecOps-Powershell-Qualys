@@ -29,42 +29,42 @@ function Get-QualysAsset {
     param (
         [Parameter(ParameterSetName='name', Mandatory=$true)]
         [string]
-        $assetName,
+        $AssetName,
 
         [Parameter(ParameterSetName='id', Mandatory=$true)]
         [string]
-        $assetId,
+        $AssetId,
 
         [string]
-        $inputUsername = $username,
+        $InputUsername = $Username,
         [string]
-        $inputKeyvault = $keyvault,
+        $InputKeyvault = $Keyvault,
         [string]
-        $inputSecretName = $secretName,
+        $InputSecretName = $SecretName,
         [string]
-        $inputQualysApiUrl = $qualysApiUrl
+        $InputQualysApiUrl = $QualysApiUrl
     )
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ([string]::IsNullOrEmpty($inputUsername) -or [string]::IsNullOrEmpty($inputKeyvault) -or [string]::IsNullOrEmpty($inputSecretName) -or [string]::IsNullOrEmpty($inputQualysApiUrl)) {
+    if ([string]::IsNullOrEmpty($InputUsername) -or [string]::IsNullOrEmpty($InputKeyvault) -or [string]::IsNullOrEmpty($InputSecretName) -or [string]::IsNullOrEmpty($InputQualysApiUrl)) {
         return "One or more of the following parameters are empty: inputUsername, inputKeyvault, inputSecretName, inputQualysApiUrl.
         By default, these parameters are set to the values of the global variables: username, keyvault, secretName, qualysApiUrl.
         Please ensure these global variables are set, or provide the inputs, and try again."
     }
 
 # Create a hashtable that maps parameter set names to parameter values
-$parameterMap = @{
-    'name' = $assetName
-    'id' = $assetId
+$ParameterMap = @{
+    'name' = $AssetName
+    'id' = $AssetId
 }
 
 # Get the value for the current parameter set
-$parameterValue = $parameterMap[$PSCmdlet.ParameterSetName]
+$ParameterValue = $ParameterMap[$PSCmdlet.ParameterSetName]
 
 # Build bodyAsset, filtering on either assetName or assetId, depending on which was provided
 $bodyAsset = "<ServiceRequest>
     <filters>
-        <Criteria field=""$($PSCmdlet.ParameterSetName)"" operator=""EQUALS"">$parameterValue</Criteria>
+        <Criteria field=""$($PSCmdlet.ParameterSetName)"" operator=""EQUALS"">$ParameterValue</Criteria>
     </filters>
 </ServiceRequest>"
 
@@ -76,8 +76,8 @@ $bodyAsset = "<ServiceRequest>
 
     #need to return null if no asset is found
 
-    $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/search/am/hostasset" -ErrorAction Continue -Method Post -Headers @{
-            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$inputUsername`:$(([PSCredential]::new('admin', ((Get-AzKeyVaultSecret -VaultName $inputKeyvault -Name "$inputSecretName").SecretValue)).GetNetworkCredential().Password))")))"
+    $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$InputQualysApiUrl/qps/rest/2.0/search/am/hostasset" -ErrorAction Continue -Method Post -Headers @{
+            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$InputUsername`:$(([PSCredential]::new('admin', ((Get-AzKeyVaultSecret -VaultName $InputKeyvault -Name "$InputSecretName").SecretValue)).GetNetworkCredential().Password))")))"
             "Content-Type"  = "application/xml"
             "Accept"        = "application/xml"
         } -Body $bodyAsset).Content
@@ -93,10 +93,10 @@ $bodyAsset = "<ServiceRequest>
     $ProgressPreference = $origProgressPreference
 
     # Stash non-secret connection info in new object
-    $responseAsset.username = $inputUsername
-    $responseAsset.keyvault = $inputKeyvault
-    $responseAsset.qualysApiUrl = $inputQualysApiUrl
-    $responseAsset.secretName = $inputSecretName
+    $responseAsset.username = $InputUsername
+    $responseAsset.keyvault = $InputKeyvault
+    $responseAsset.qualysApiUrl = $InputQualysApiUrl
+    $responseAsset.secretName = $InputSecretName
 
     # Return the asset object
     return $responseAsset
