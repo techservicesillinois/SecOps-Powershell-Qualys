@@ -8,19 +8,15 @@ function Get-QualysAsset {
             The name of the asset to be retrieved.
         .PARAMETER assetId
             The ID of the asset to be retrieved.
-        .PARAMETER inputUsername
-            The username to log into Qualys. By default, this is set to the global variable $username.
-        .PARAMETER inputKeyvault
-            The name of the keyvault where the Qualys password is stored. By default, this is set to the global variable $keyvault.
-        .PARAMETER inputSecretName
-            The name of the secret in the keyvault where the Qualys password is stored. By default, this is set to the global variable $secretName.
+        .PARAMETER inputCredential
+            The credential object to log into Qualys. By default, this is set to the global variable $Credential.
         .PARAMETER inputQualysApiUrl
             The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
         .EXAMPLE
             Get-QualysAsset -assetName "Server1"
-            $asset = Get-QualysAsset -assetName "Server1" -inputUsername "admin" -inputKeyvault "MyAzKeyVault" -inputSecretName "qualys-password" -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+            $asset = Get-QualysAsset -assetName "Server1" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
             $asset.id # returns the asset ID
-            $asset = Get-QualysAsset -assetId "123456789" -inputUsername "admin" -inputKeyvault "MyAzKeyVault" -inputSecretName "qualys-password" -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
+            $asset = Get-QualysAsset -assetId "123456789" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
         .NOTES
             Authors:
             - Carter Kindley
@@ -37,6 +33,7 @@ function Get-QualysAsset {
 
         [PScredential]
         $InputCredential = $Credential,
+
         [string]
         $InputQualysApiUrl = $QualysApiUrl
     )
@@ -73,7 +70,7 @@ $bodyAsset = "<ServiceRequest>
     #need to return null if no asset is found
 
     $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$InputQualysApiUrl/qps/rest/2.0/search/am/hostasset" -ErrorAction Continue -Method Post -Headers @{
-            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$InputUsername`:$(([PSCredential]::new('admin', ((Get-AzKeyVaultSecret -VaultName $InputKeyvault -Name "$InputSecretName").SecretValue)).GetNetworkCredential().Password))")))"
+            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
             "Content-Type"  = "application/xml"
             "Accept"        = "application/xml"
         } -Body $bodyAsset).Content

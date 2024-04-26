@@ -8,19 +8,15 @@ function Get-QualysTag {
             The name of the tag to be retrieved.
         .PARAMETER tagId
             The ID of the tag to be retrieved.
-        .PARAMETER inputUsername
-            The username to log into Qualys. By default, this is set to the global variable $username.
-        .PARAMETER inputKeyvault
-            The name of the keyvault where the Qualys password is stored. By default, this is set to the global variable $keyvault.
-        .PARAMETER inputSecretName
-            The name of the secret in the keyvault where the Qualys password is stored. By default, this is set to the global variable $secretName.
+        .PARAMETER inputCredential
+            The credential object to log into Qualys. By default, this is set to the global variable $Credential.
         .PARAMETER inputQualysApiUrl
             The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
         .EXAMPLE
             Get-QualysTag -tagName "Department:IT"
-            $tag = Get-QualysTag -tagName "Department:IT" -inputUsername "admin" -inputKeyvault "MyAzKeyVault" -inputSecretName "qualys-password" -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+            $tag = Get-QualysTag -tagName "Department:IT" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
             $tag.id # returns the tag ID
-            $tag = Get-QualysTag -tagId "123456789" -inputUsername "admin" -inputKeyvault "MyAzKeyVault" -inputSecretName "qualys-password" -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
+            $tag = Get-QualysTag -tagId "123456789" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
         .NOTES
             Authors:
             - Carter Kindley
@@ -36,18 +32,15 @@ function Get-QualysTag {
         [string]
         $TagId,
 
-        [string]
-        $InputUsername = $Username,
-        [string]
-        $InputKeyVault = $KeyVault,
-        [string]
-        $InputSecretName = $SecretName,
+        [pscredential]
+        $InputCredential = $Credential,
+
         [string]
         $InputQualysApiUrl = $QualysApiUrl
     )
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ([string]::IsNullOrEmpty($inputUsername) -or [string]::IsNullOrEmpty($inputKeyvault) -or [string]::IsNullOrEmpty($inputSecretName) -or [string]::IsNullOrEmpty($inputQualysApiUrl)) {
+    if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($InputCredential.UserName) -or [string]::IsNullOrEmpty($InputCredential.GetNetworkCredential().Password)){
         return "One or more of the following parameters are empty: inputUsername, inputKeyVault, inputSecretName, inputQualysApiUrl.
         By default, these parameters are set to the values of the global variables: username, keyVault, secretName, qualysApiUrl.
         Please ensure these global variables are set, or provide the inputs, and try again."
@@ -76,7 +69,7 @@ $bodyTag = "<ServiceRequest>
     $ProgressPreference = 'SilentlyContinue'
 
     $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/search/am/tag" -ErrorAction Continue -Method Post -Headers @{
-        "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$inputUsername`:$(([PSCredential]::new('admin', ((Get-AzKeyVaultSecret -VaultName $inputKeyvault -Name "$inputSecretName").SecretValue)).GetNetworkCredential().Password))")))"
+        "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
         "Content-Type"  = "application/xml"
         "Accept"        = "application/xml"
     } -Body $bodyTag).Content

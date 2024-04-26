@@ -81,7 +81,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -InputCredential
 
+The credential to be used for HTTP Basic authorization to the Qualys API.
+
+```yaml
+Type: PSCredential
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: $Credential
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InputQualysApiUrl
+
+The base URL for endpoint API connections, ending with the hostname. Ex. "<https://qualysapi.qg3.apps.qualys.com>"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: $QualysApiUrl
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### CommonParameters
 
