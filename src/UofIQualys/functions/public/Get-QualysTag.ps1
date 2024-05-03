@@ -80,6 +80,11 @@ $bodyTag = "<ServiceRequest>
 
     $responseTag = [QualysTag]::new($responseContent.ServiceResponse.data.Tag)
 
+    #pull parent tag and add to responseTag
+    if ($null -ne $responseTag.parentId) {
+        $responseTag.parentTag = Get-QualysTag -tagId $responseTag.parentId -inputCredential $InputCredential -inputQualysApiUrl $InputQualysApiUrl
+    }
+
     # Restore progress preference
     $ProgressPreference = $origProgressPreference
 

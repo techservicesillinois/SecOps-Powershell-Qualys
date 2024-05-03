@@ -173,199 +173,71 @@ class QualysAsset {
     [PSCustomObject] SyncTags(
 
         [PSCredential]
-        $inputCredential = $credential
+        $inputCredential = $credential,
+
+        [string[]]
+        $tagCategories,
+
+        [hashtable]
+        $tagNames
 
     ) {
-        <#
-        .SYNOPSIS
-            Syncs tags on a Qualys asset.
-        .DESCRIPTION
-            This function syncs tags on a Qualys asset.
-        .EXAMPLE
-            $asset.SyncTags()
-        .NOTES
-            If this is done on an object created by Get-QualysAsset, you must add a $vtags property to the object. See readme for more information.
-            A $prefix property may also be added to the object, if the tags are prefixed with a string.
-            Authors:
-            - Carter Kindley
-        #>
-        $responses = [PSCustomObject]@{
-            Added    = New-Object 'System.Collections.ArrayList'
-            Removed  = New-Object 'System.Collections.ArrayList'
-            Existing = New-Object 'System.Collections.ArrayList'
-            Issues   = New-Object 'System.Collections.ArrayList'
-            Info     = New-Object 'System.Collections.ArrayList'
-        }
-        # Check $this.tags.list.TagSimple for incorrect tags, based on $vtags name
-        foreach ( $tag in $this.vtags) {
-            switch ($tag.Category) {
-                "Data Security" {
-                    # If security level is incorrect, remove and add correct tag
-                    if ($tag.TagName -ne "Medium Security" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Medium Security") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Medium Security").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Medium Security") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    elseif ($tag.TagName -ne "High Security" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)High Security") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)High Security").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)High Security") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    elseif ($tag.TagName -ne "Low Security" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Low Security") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Low Security").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Low Security") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    # Add the correct tag if needed
-                    if ($this.tags.list.TagSimple.Name -notcontains "$($this.Prefix)$($tag.TagName)") {
-                        $response = Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName "$($this.Prefix)$($tag.TagName)" -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Added.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    else {
-                        $responses.Existing.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
-                    }
-                }
-                "Data Classification" {
-                    # Public, Private Restricted, or Private, Highly-Restricted
-                    if ($tag.TagName -ne "Public" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Public") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Public").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Public") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    elseif ($tag.TagName -ne "Private Restricted" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Private Restricted") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Private Restricted").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Private Restricted") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    elseif ($tag.TagName -ne "Private, Highly-Restricted" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Private, Highly-Restricted") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Private, Highly-Restricted").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Private, Highly-Restricted") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    # Add the correct tag if needed
-                    if ($this.tags.list.TagSimple.Name -notcontains "$($this.Prefix)$($tag.TagName)") {
-                        $response = Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName "$($this.Prefix)$($tag.TagName)" -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Added.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    else {
-                        $responses.Existing.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
-                    }
-                }
-                "Department" {
-                    # If a tag that looks like a department is incorrect, remove and add correct tag. The Where-Object pipe should match something like a CESI unit, which will be $this.Prefix + 3-5 capital letters
-                    # We should do better matching here, and ensuring only one object is returned. If we're sure we only match departmental tags, we can loop through and remove all incorrect tags?
-                    $deptTags = $this.tags.list.TagSimple | Where-Object -Property 'name' -CMatch "^$($this.Prefix)[A-Z]{2,5}$"
-                    foreach ($deptTag in $deptTags) {
-                        if ("$($this.Prefix)$($tag.TagName)" -ne $deptTag.Name) {
-                            $response = Remove-QualysTagAssignment -assetId $this.id -tagId $deptTag.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+    $responses = @{
+        Removed = New-Object 'System.Collections.ArrayList'
+        Added = New-Object 'System.Collections.ArrayList'
+        Existing = New-Object 'System.Collections.ArrayList'
+        Issues = New-Object 'System.Collections.ArrayList'
+    }
+
+    # Loop through each tag category the user wants to sync
+    foreach ($tagCategory in $tagNames.Keys) {
+
+        # Loop through each non-Qualys tag in the asset
+        foreach ($tag in $this.vtags) {
+
+            # Check if the non-Qualys tag's category is equal to the current tag category
+            if ($tag.Category -eq $tagCategory) {
+
+                # Check if the non-Qualys tag's name does not exist in the Qualys tags
+                if ($this.tags.list.TagSimple.Name -notcontains "$($this.Prefix)$($tag.TagName)") {
+
+                    # If the correct non-Qualys tag doesn't exist, loop through each tag name in the current tag category from the user-provided synctionary
+                    foreach ($tagName in $tagNames[$tagCategory]) {
+
+                        # Check if the tag name exists in the Qualys tags
+                        if ($this.tags.list.TagSimple.Name -contains "$($this.Prefix)$tagName") {
+
+                            # We have found a tag that exists in Qualys, is from a category to sync, does not exist in non-Qualys tags, so we need to remove it
+                            $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)$($tagName)").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
                             if ($null -eq $response) {
-                                $responses.Removed.Add($deptTag.Name) | Out-Null
+                                $responses.Removed.Add("$($this.Prefix)$tagName") | Out-Null
                             }
                             else {
                                 $responses.Issues.Add($response) | Out-Null
                             }
                         }
                     }
-                    # Add the correct tag if needed
-                    if ($this.tags.list.TagSimple.Name -notcontains "$($this.Prefix)$($tag.TagName)") {
-                        $response = Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName "$($this.Prefix)$($tag.TagName)" -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Added.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
+
+                    # We need to add the correct non-Qualys tag to the Qualys tags
+                    $response = Add-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)$($TagNames[$tagCategory])").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+                    if ($null -eq $response) {
+                        $responses.Removed.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
                     }
                     else {
-                        $responses.Existing.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
+                        $responses.Issues.Add($response) | Out-Null
                     }
                 }
-                "Environment" {
-                    # If environment is incorrect, remove and add correct tag
-                    if ($tag.TagName -ne "Production" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Production Environment") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Production Environment").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Production Environment") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    elseif ($tag.TagName -ne "Development" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Development Environment") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Development Environment").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Development Environment") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    elseif ($tag.TagName -ne "Test" -and $this.tags.list.TagSimple.Name -contains "$($this.Prefix)Test Environment") {
-                        $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)Test Environment").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Removed.Add("$($this.Prefix)Test Environment") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    # Add the correct tag if needed
-                    if ($this.tags.list.TagSimple.Name -notcontains "$($this.Prefix)$($tag.TagName) Environment") {
-                        $response = Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName "$($this.Prefix)$($tag.TagName) Environment" -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                        if ($null -eq $response) {
-                            $responses.Added.Add("$($this.Prefix)$($tag.TagName) Environment") | Out-Null
-                        }
-                        else {
-                            $responses.Issues.Add($response) | Out-Null
-                        }
-                    }
-                    else {
-                        $responses.Existing.Add("$($this.Prefix)$($tag.TagName) Environment") | Out-Null
-                    }
-                }
-                default {
-                    # If the tag category is not recognized, add it to the info list
-                    $responses.Info.Add($tag.Category) | Out-Null
+                else {
+                    # We have found a tag that exists in Qualys, is from a category to sync, and exists in non-Qualys tags
+                    # No action is taken and we record the tag as existing
+                    $responses.Existing.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
                 }
             }
         }
-
-        return $responses
     }
+
+    return $responses
+}
 
     [void] AssignTag (
 
