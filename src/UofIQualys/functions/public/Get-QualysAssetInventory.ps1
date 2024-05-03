@@ -23,17 +23,20 @@ function Get-QualysAssetInventory {
     #>
 
     param (
-        [string]
-        $inputUsername = $username,
-        [string]
-        $inputKeyvault = $keyvault,
-        [string]
-        $inputSecretName = $secretName,
+        [PSCredential]
+        $inputCredential = $Credential,
         [string]
         $inputQualysApiUrl = $qualysApiUrl,
         [int]
         $batchSize = 1000
     )
+
+    # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
+    if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($inputCredential.UserName) -or [string]::IsNullOrEmpty($inputCredential.GetNetworkCredential().Password)) {
+        return "One or more of the following parameters are empty: InputCredential, InputQualysApiUrl.
+        By default, these parameters are set to the values of the global variables: Credential, QualysApiUrl.
+        Please ensure these global variables are set, or provide the inputs, and try again."
+    }
 
     # Region full pull of all hosts
 
@@ -54,7 +57,7 @@ function Get-QualysAssetInventory {
         $ProgressPreference = 'SilentlyContinue'
 
         $responseHostAdd = [xml]((Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/search/am/hostasset" -Method Post -Headers @{
-                    "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$inputUsername`:$(([PSCredential]::new('admin', ((Get-AzKeyVaultSecret -VaultName $inputkeyvault -Name "Qualys-API").SecretValue)).GetNetworkCredential().Password))")))"
+            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
                     "Content-Type"  = "application/xml"
                     "Accept"        = "application/xml"
                 } -Body $bodyHost).Content)

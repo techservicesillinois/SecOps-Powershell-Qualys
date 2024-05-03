@@ -33,24 +33,20 @@ function Add-QualysTagAssignment {
     param (
         [parameter(Mandatory = $true)]
         [string]
-        $assetId,
+        $AssetId,
         [parameter(Mandatory = $true)]
         [string]
-        $tagId,
+        $TagId,
+        [PSCredential]
+        $InputCredential = $Credential,
         [string]
-        $inputUsername = $username,
-        [string]
-        $inputKeyvault = $keyvault,
-        [string]
-        $inputSecretName = $secretName,
-        [string]
-        $inputQualysApiUrl = $qualysApiUrl
+        $InputQualysApiUrl = $qualysApiUrl
     )
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ([string]::IsNullOrEmpty($inputUsername) -or [string]::IsNullOrEmpty($inputKeyvault) -or [string]::IsNullOrEmpty($inputSecretName) -or [string]::IsNullOrEmpty($inputQualysApiUrl)) {
-        return "One or more of the following parameters are empty: inputUsername, inputKeyvault, inputSecretName, inputQualysApiUrl.
-        By default, these parameters are set to the values of the global variables: username, keyvault, secretName, qualysApiUrl.
+    if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($inputCredential.UserName) -or [string]::IsNullOrEmpty($inputCredential.GetNetworkCredential().Password)) {
+        return "One or more of the following parameters are empty: InputCredential, InputQualysApiUrl.
+        By default, these parameters are set to the values of the global variables: Credential, QualysApiUrl.
         Please ensure these global variables are set, or provide the inputs, and try again."
     }
 
@@ -75,7 +71,7 @@ function Add-QualysTagAssignment {
     $ProgressPreference = 'SilentlyContinue'
 
     $responseAddTag = Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/update/am/hostasset/$assetId" -ErrorAction Continue -Method Post -Headers @{
-        "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$inputUsername`:$(([PSCredential]::new('admin', ((Get-AzKeyVaultSecret -VaultName $inputKeyvault -Name "$inputSecretName").SecretValue)).GetNetworkCredential().Password))")))"
+        "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
         "Content-Type"  = "application/xml"
         "Accept"        = "application/xml"
     } -Body $bodyAddTag

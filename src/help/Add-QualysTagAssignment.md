@@ -9,19 +9,13 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Returns an object of class QualysAsset using the Qualys QPS API.
+Adds a tag assignment to a Qualys host via the Qualys QPS API.
 
 ## SYNTAX
 
 ```powershell
-Get-QualysAsset -AssetId <String>
-    [-InputCredential <PSCredential>]
-    [-InputQualysApiUrl <String>]
-    [<CommonParameters>]
-```
-
-```powershell
-Get-QualysAsset -AssetName <String>
+Add-QualysTagAssignment -AssetId <String>
+    -TagId <String>
     [-InputCredential <PSCredential>]
     [-InputQualysApiUrl <String>]
     [<CommonParameters>]
@@ -29,14 +23,14 @@ Get-QualysAsset -AssetName <String>
 
 ## DESCRIPTION
 
-Returns a QualysAsset object by searching the QPS API based on Asset ID number or name.
+Adds a tag assignment to the specified host asset, using each object's ID number.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 
 ```powershell
-$asset = Get-QualysAsset -AssetName "Server1" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+Add-QualysTagAssignment -AssetId "123456" -TagId "654321" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
 ```
 
 ### Example 2
@@ -44,18 +38,18 @@ $asset = Get-QualysAsset -AssetName "Server1" -InputCredential [PSCredential]::n
 ```powershell
 $credential = Get-Credential
 $QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$asset = Get-QualysAsset -AssetId "123456"
+$asset = Add-QualysTagAssignment -AssetId (Get-QualysAsset -AssetName "Server1").id -TagId (Get-QualysTag -TagName "High Security").id
 ```
 
 ## PARAMETERS
 
-### -AssetName
+### -AssetId
 
 The name of the host asset in Qualys.
 
 ```yaml
 Type: String
-Parameter Sets: name
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -65,13 +59,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AssetId
+### -TagId
 
 The ID number of the host asset in Qualys.
 
 ```yaml
 Type: String
-Parameter Sets: id
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -120,8 +114,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ## OUTPUTS
-
-QualysAsset
 
 ## NOTES
 

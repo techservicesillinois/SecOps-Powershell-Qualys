@@ -5,23 +5,23 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-QualysAsset
+# Get-QualysTag
 
 ## SYNOPSIS
 
-Returns an object of class QualysAsset using the Qualys QPS API.
+Returns an object of class QualysTag using the Qualys QPS API.
 
 ## SYNTAX
 
 ```powershell
-Get-QualysAsset -AssetId <String>
+Get-QualysTag -TagId <String>
     [-InputCredential <PSCredential>]
     [-InputQualysApiUrl <String>]
     [<CommonParameters>]
 ```
 
 ```powershell
-Get-QualysAsset -AssetName <String>
+Get-QualysTag -TagName <String>
     [-InputCredential <PSCredential>]
     [-InputQualysApiUrl <String>]
     [<CommonParameters>]
@@ -29,14 +29,14 @@ Get-QualysAsset -AssetName <String>
 
 ## DESCRIPTION
 
-Returns a QualysAsset object by searching the QPS API based on Asset ID number or name.
+Returns a QualysTag object by searching the QPS API based on Asset ID number or name.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 
 ```powershell
-$asset = Get-QualysAsset -AssetName "Server1" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+$asset = Get-QualysTag -TagName "Server1" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
 ```
 
 ### Example 2
@@ -44,7 +44,7 @@ $asset = Get-QualysAsset -AssetName "Server1" -InputCredential [PSCredential]::n
 ```powershell
 $credential = Get-Credential
 $QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$asset = Get-QualysAsset -AssetId "123456"
+$asset = Get-QualyTag -TagId "654321"
 ```
 
 ## PARAMETERS
@@ -65,7 +65,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AssetId
+### -TagId
 
 The ID number of the host asset in Qualys.
 
@@ -121,7 +121,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-QualysAsset
+QualysTag
 
 ## NOTES
 
