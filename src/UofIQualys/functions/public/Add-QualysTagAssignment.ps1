@@ -8,12 +8,8 @@ function Add-QualysTagAssignment {
             The ID of the asset to add the tag to.
         .PARAMETER tagId
             The ID of the tag to add to the asset.
-        .PARAMETER inputUsername
-            The username to log into Qualys. By default, this is set to the global variable $username.
-        .PARAMETER inputKeyvault
-            The name of the keyvault where the Qualys password is stored. By default, this is set to the global variable $keyvault.
-        .PARAMETER inputSecretName
-            The name of the secret in the keyvault where the Qualys password is stored. By default, this is set to the global variable $secretName.
+        .PARAMETER inputCredential
+            The credential object to log into Qualys. By default, this is set to the global variable $Credential.
         .PARAMETER inputQualysApiUrl
             The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
         .EXAMPLE

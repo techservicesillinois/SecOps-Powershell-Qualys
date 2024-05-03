@@ -84,10 +84,7 @@ $bodyTag = "<ServiceRequest>
     $ProgressPreference = $origProgressPreference
 
     # Stash non-secret connection info in new object
-    $responseTag.username = $inputUsername
-    $responseTag.keyvault = $inputKeyvault
     $responseTag.qualysApiUrl = $inputQualysApiUrl
-    $responseTag.secretName = $inputSecretName
 
     return $responseTag
 

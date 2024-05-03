@@ -86,10 +86,7 @@ $bodyAsset = "<ServiceRequest>
     $ProgressPreference = $origProgressPreference
 
     # Stash non-secret connection info in new object
-    $responseAsset.username = $InputUsername
-    $responseAsset.keyvault = $InputKeyvault
     $responseAsset.qualysApiUrl = $InputQualysApiUrl
-    $responseAsset.secretName = $InputSecretName
 
     # Return the asset object
     return $responseAsset

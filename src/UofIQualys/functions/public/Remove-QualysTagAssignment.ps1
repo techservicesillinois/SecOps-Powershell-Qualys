@@ -8,7 +8,12 @@ function Remove-QualysTagAssignment {
             The ID of the asset to remove the tag from.
         .PARAMETER tagId
             The ID of the tag to remove from the asset.
+        .PARAMETER inputCredential
+            The credential object to log into Qualys. By default, this is set to the global variable $Credential.
+        .PARAMETER inputQualysApiUrl
+            The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
         .EXAMPLE
+            $credential = Get-Credential
             Remove-QualysTagAssignment -assetId "12345" -tagId "67890"
             # We don't know the asset ID or tag ID, so we use the Get-QualysAsset and Get-QualysTag functions to get them.
             Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName "Server1").id -tagId (Get-QualysTag -tagName "Managed Linux").id
