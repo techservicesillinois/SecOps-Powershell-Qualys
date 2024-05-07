@@ -36,7 +36,13 @@ function Get-QualysTag {
         $InputCredential = $Credential,
 
         [string]
-        $InputQualysApiUrl = $QualysApiUrl
+        $InputQualysApiUrl = $QualysApiUrl,
+
+        [switch]
+        $RetrieveParentTag,
+
+        [switch]
+        $RetrieveChildTags
     )
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
@@ -81,8 +87,32 @@ $bodyTag = "<ServiceRequest>
     $responseTag = [QualysTag]::new($responseContent.ServiceResponse.data.Tag)
 
     #pull parent tag and add to responseTag
-    if ($null -ne $responseTag.parentId) {
-        $responseTag.parentTag = Get-QualysTag -tagId $responseTag.parentId -inputCredential $InputCredential -inputQualysApiUrl $InputQualysApiUrl
+    if ( [string]::IsNullOrEmpty($responseTag.parentTagId) -eq $false -and $RetrieveParentTag ) {
+        $responseTag.parentTag = Get-QualysTag -tagId "$($responseTag.parentTagId)" -inputCredential $InputCredential -inputQualysApiUrl $InputQualysApiUrl
+    }
+
+    #pull child tags and add to responseTag
+    if ( [string]::IsNullOrEmpty($responseTag.childTagIds) -eq $false -and $RetrieveChildTags ) {
+        $bodyChildTags = "<ServiceRequest>
+            <filters>
+                <Criteria field=""parentTagId"" operator=""EQUALS"">$($responseTag.id)</Criteria>
+            </filters>
+        </ServiceRequest>"
+
+        $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/search/am/tag" -ErrorAction Continue -Method Post -Headers @{
+            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
+            "Content-Type"  = "application/xml"
+            "Accept"        = "application/xml"
+        } -Body $bodyChildTags).Content
+
+        if ($null -eq $responseContent.ServiceResponse.data.Tag) {
+            return $null
+        }
+
+        $responseTag.childTags = @()
+        foreach ($childTag in $responseContent.ServiceResponse.data.Tag) {
+            $responseTag.childTags.Add( [QualysTag]::new($childTag) )
+        }
     }
 
     # Restore progress preference

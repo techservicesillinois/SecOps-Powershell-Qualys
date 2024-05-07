@@ -432,6 +432,7 @@ class QualysTag {
     # User-provided properties
     [string] $qualysApiUrl
     [QualysTag] $parentTag
+    [QualysTag[]] $childTags
 
     # Constructor
     QualysTag ( [System.Xml.XmlElement] $QualysTagApiResponse ) {
@@ -441,6 +442,7 @@ class QualysTag {
         $this.name = $QualysTagApiResponse.name
         $this.parentTagId = $QualysTagApiResponse.parentTagId
         $this.parentTag = $null
+        $this.childTags = @()
     }
 
     # Methods
