@@ -54,7 +54,7 @@ function Get-QualysTag {
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
     if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($InputCredential.UserName) -or [string]::IsNullOrEmpty($InputCredential.GetNetworkCredential().Password)) {
-        return "One or more of the following parameters are empty: inputUsername, inputKeyVault, inputSecretName, inputQualysApiUrl.
+        return "One or more of the following parameters are empty: inputCredential, inputQualysApiUrl.
         By default, these parameters are set to the values of the global variables: username, keyVault, secretName, qualysApiUrl.
         Please ensure these global variables are set, or provide the inputs, and try again."
     }

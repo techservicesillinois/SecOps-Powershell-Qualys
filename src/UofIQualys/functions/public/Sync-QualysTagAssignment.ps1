@@ -51,14 +51,8 @@ function Sync-QualysTagAssignment {
 
     process {
 
-        # Downselect assetTags from $tags to only those that are in the InputAsset's tags.list.TagSimple array
-        # [hashtable](QualysTagID:QualysTag)
-        $assetTags = @{}
-        $InputAsset.tags.list.TagSimple | ForEach-Object {
-            $tagID = $_.id
-            $assetTags.Add($tagID, $($tags.GetEnumerator() | Where-Object { $_.Key -eq $tagID }).Value)
-        }
-        # Loop through each external vtag and compare to Qualys tags
+
+        # Loop through each external vtag and ensure we cached it in $tags
         $InputAsset.vtags | ForEach-Object {
             $vtag = $_
             $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
@@ -70,27 +64,35 @@ function Sync-QualysTagAssignment {
                 }
                 $tags.Add($QualysTag.id, $QualysTag)
             }
+        }
+
+        # Downselect assetTags from $tags to only those that are in the InputAsset's tags.list.TagSimple array
+        # [hashtable](QualysTagID:QualysTag)
+        $assetTags = @{}
+        $InputAsset.tags.list.TagSimple | ForEach-Object {
+            $tagID = $_.id
+            $assetTags.Add($tagID, $($tags.GetEnumerator() | Where-Object { $_.Key -eq $tagID }).Value)
+        }
+
+        $InputAsset.vtags | ForEach-Object {
+            $vtag = $_
             if ($CategoryDefinitions.ContainsKey($vtag.Category)) {
                 $category = $vtag.Category
                 # may need slightly more sophisticated matching
                 [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object { $_.parentTag.name -match "$($InputAsset.prefix)$($category)" }
                 if ($tagsOfCategory.Count -eq 0) {
                     # We need to assign the tag to the asset
-                    $InputAsset.AssignTag($QualysTag,$InputCredential)
+                    $InputAsset.AssignTag($QualysTag, $InputCredential)
                 }
-                elseif ($tagsOfCategory.Count -gt 1) {
+                else {
                     # more than one tag of category $category exists on InputAsset - need to remove incorrect tags
                     $tagsOfCategory | ForEach-Object {
                         if ($_.id -ne $QualysTag.id) {
-                            $InputAsset.RemoveTag($_,$InputCredential)
+                            $InputAsset.UnassignTag($_, $InputCredential)
                         }
                     }
-                }
-                else {
-                    # Ensure the one tag that exists is correct
-                    if ($tagsOfCategory[0].id -ne $QualysTag.id) {
-                        $InputAsset.RemoveTag($tagsOfCategory[0],$InputCredential)
-                        $InputAsset.AssignTag($QualysTag,$InputCredential)
+                    if (-not $tagsOfCategory.Contains($QualysTag)) {
+                        $InputAsset.AssignTag($QualysTag, $InputCredential)
                     }
                 }
             }
