@@ -52,9 +52,11 @@ function Sync-QualysTagAssignment {
     process {
 
         # Downselect assetTags from $tags to only those that are in the InputAsset's tags.list.TagSimple array
+        # [hashtable](QualysTagID:QualysTag)
         $assetTags = @{}
         $InputAsset.tags.list.TagSimple | ForEach-Object {
-            $assetTags.Add($_.id, $($tags | Where-Object { $_.Key -eq $_.id }).Value)
+            $tagID = $_.id
+            $assetTags.Add($tagID, $($tags.GetEnumerator() | Where-Object { $_.Key -eq $tagID }).Value)
         }
         # Loop through each external vtag and compare to Qualys tags
         $InputAsset.vtags | ForEach-Object {
@@ -70,8 +72,23 @@ function Sync-QualysTagAssignment {
             }
         }
 
-
-
+        #loop over unique Category property values of vtags
+        $InputAsset.vtags | Select-Object -ExpandProperty Category -Unique | ForEach-Object {
+            # Check to see if any CategoryDefinitions are missing from the vTags categories
+            if (-not $CategoryDefinitions.ContainsKey($_)) {
+                $responses.Issues.Add("Category $_ is not defined in the CategoryDefinitions.")
+            }
+            $category = $_.name
+            # may need slightly more sophisticated matching
+            [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object {$_.parentTag.name -match $category}
+            if ($tagsOfCategory.Count -eq 0) {
+                # tag of category $category does not exist on InputAsset
+            } elseif ($tagsOfCategory.Count -gt 1) {
+                # more than one tag of category $category exists on InputAsset
+            } else {
+                # there exists exactly one tag of category $category on InputAsset
+            }
+        }
 
     }
 
