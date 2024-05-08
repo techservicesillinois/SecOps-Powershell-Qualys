@@ -70,27 +70,27 @@ function Sync-QualysTagAssignment {
                 }
                 $tags.Add($QualysTag.id, $QualysTag)
             }
-            if ($CategoryDefinitions.ContainsKey($_.Category)) {
-                $category = $_.Category
+            if ($CategoryDefinitions.ContainsKey($vtag.Category)) {
+                $category = $vtag.Category
                 # may need slightly more sophisticated matching
                 [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object { $_.parentTag.name -match "$($InputAsset.prefix)$($category)" }
                 if ($tagsOfCategory.Count -eq 0) {
                     # We need to assign the tag to the asset
-                    $InputAsset.AssignTag($QualysTag)
+                    $InputAsset.AssignTag($QualysTag,$InputCredential)
                 }
                 elseif ($tagsOfCategory.Count -gt 1) {
                     # more than one tag of category $category exists on InputAsset - need to remove incorrect tags
                     $tagsOfCategory | ForEach-Object {
                         if ($_.id -ne $QualysTag.id) {
-                            $InputAsset.RemoveTag($_)
+                            $InputAsset.RemoveTag($_,$InputCredential)
                         }
                     }
                 }
                 else {
                     # Ensure the one tag that exists is correct
                     if ($tagsOfCategory[0].id -ne $QualysTag.id) {
-                        $InputAsset.RemoveTag($tagsOfCategory[0])
-                        $InputAsset.AssignTag($QualysTag)
+                        $InputAsset.RemoveTag($tagsOfCategory[0],$InputCredential)
+                        $InputAsset.AssignTag($QualysTag,$InputCredential)
                     }
                 }
             }
