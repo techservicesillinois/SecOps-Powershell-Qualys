@@ -22,15 +22,19 @@ function Get-QualysTag {
             - Carter Kindley
 
     #>
-    [CmdletBinding(DefaultParameterSetName='name')]
+    [CmdletBinding(DefaultParameterSetName = 'name')]
     param (
-        [Parameter(ParameterSetName='name', Mandatory=$true)]
+        [Parameter(ParameterSetName = 'name', Mandatory = $true)]
         [string]
         $TagName,
 
-        [Parameter(ParameterSetName='id', Mandatory=$true)]
+        [Parameter(ParameterSetName = 'id', Mandatory = $true)]
         [string]
         $TagId,
+
+        [Parameter(ParameterSetName = 'parent', Mandatory = $true)]
+        [string]
+        $ParentTagId,
 
         [pscredential]
         $InputCredential = $Credential,
@@ -42,27 +46,31 @@ function Get-QualysTag {
         $RetrieveParentTag,
 
         [switch]
-        $RetrieveChildTags
+        $RetrieveChildTags,
+
+        [switch]
+        $Recursive
     )
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($InputCredential.UserName) -or [string]::IsNullOrEmpty($InputCredential.GetNetworkCredential().Password)){
+    if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($InputCredential.UserName) -or [string]::IsNullOrEmpty($InputCredential.GetNetworkCredential().Password)) {
         return "One or more of the following parameters are empty: inputUsername, inputKeyVault, inputSecretName, inputQualysApiUrl.
         By default, these parameters are set to the values of the global variables: username, keyVault, secretName, qualysApiUrl.
         Please ensure these global variables are set, or provide the inputs, and try again."
     }
 
-# Create a hashtable that maps parameter set names to parameter values
-$parameterMap = @{
-    'name' = $TagName
-    'id' = $TagId
-}
+    # Create a hashtable that maps parameter set names to parameter values
+    $parameterMap = @{
+        'name'   = $TagName
+        'id'     = $TagId
+        'parent' = $ParentTagId
+    }
 
-# Get the value for the current parameter set
-$parameterValue = $parameterMap[$PSCmdlet.ParameterSetName]
+    # Get the value for the current parameter set
+    $parameterValue = $parameterMap[$PSCmdlet.ParameterSetName]
 
-# Build bodyTag, filtering on either tagName or tagId, depending on which was provided
-$bodyTag = "<ServiceRequest>
+    # Build bodyTag, filtering on either tagName or tagId, depending on which was provided
+    $bodyTag = "<ServiceRequest>
     <filters>
         <Criteria field=""$($PSCmdlet.ParameterSetName)"" operator=""EQUALS"">$parameterValue</Criteria>
     </filters>
@@ -75,43 +83,58 @@ $bodyTag = "<ServiceRequest>
     $ProgressPreference = 'SilentlyContinue'
 
     $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/search/am/tag" -ErrorAction Continue -Method Post -Headers @{
-        "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
-        "Content-Type"  = "application/xml"
-        "Accept"        = "application/xml"
-    } -Body $bodyTag).Content
+            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
+            "Content-Type"  = "application/xml"
+            "Accept"        = "application/xml"
+        } -Body $bodyTag).Content
 
     if ($null -eq $responseContent.ServiceResponse.data.Tag) {
         return $null
     }
 
-    $responseTag = [QualysTag]::new($responseContent.ServiceResponse.data.Tag)
+    $responseTags = New-Object System.Collections.Generic.List[QualysTag]
 
-    #pull parent tag and add to responseTag
-    if ( [string]::IsNullOrEmpty($responseTag.parentTagId) -eq $false -and $RetrieveParentTag ) {
-        $responseTag.parentTag = Get-QualysTag -tagId "$($responseTag.parentTagId)" -inputCredential $InputCredential -inputQualysApiUrl $InputQualysApiUrl
+    foreach ($tag in $responseContent.ServiceResponse.data.Tag) {
+        $responseTags.Add( [QualysTag]::new($tag) )
     }
 
-    #pull child tags and add to responseTag
-    if ( [string]::IsNullOrEmpty($responseTag.childTagIds) -eq $false -and $RetrieveChildTags ) {
-        $bodyChildTags = "<ServiceRequest>
-            <filters>
-                <Criteria field=""parentTagId"" operator=""EQUALS"">$($responseTag.id)</Criteria>
-            </filters>
-        </ServiceRequest>"
+    #pull parent tag and add to responseTag
+    foreach ($responseTag in $responseTags) {
 
-        $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/search/am/tag" -ErrorAction Continue -Method Post -Headers @{
-            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
-            "Content-Type"  = "application/xml"
-            "Accept"        = "application/xml"
-        } -Body $bodyChildTags).Content
-
-        if ($null -eq $responseContent.ServiceResponse.data.Tag) {
-            return $null
+        if ( [string]::IsNullOrEmpty($responseTags[0].parentTagId) -eq $false -and $RetrieveParentTag ) {
+            $params = @{
+                TagId             = $responseTags[0].parentTagId
+                InputCredential   = $InputCredential
+                InputQualysApiUrl = $InputQualysApiUrl
+            }
+            if ($Recursive) {
+                $params.Add("Recursive", $true)
+                $params.Add("RetrieveParentTag", $true)
+            }
+            $ParentTag = Get-QualysTag @params
+            foreach ($responseTag in $responseTags) {
+                $responseTag.parentTag = $ParentTag
+            }
         }
 
-        $responseTag.childTags = @()
-        foreach ($childTag in $responseContent.ServiceResponse.data.Tag) {
-            $responseTag.childTags.Add( [QualysTag]::new($childTag) )
+        #pull child tags and add to responseTag
+        if ( $RetrieveChildTags ) {
+            $params = @{
+                ParentTagId       = $responseTags[0].id
+                InputCredential   = $InputCredential
+                InputQualysApiUrl = $InputQualysApiUrl
+            }
+            if ($Recursive) {
+                $params.Add("Recursive", $true)
+                $params.Add("RetrieveChildTags", $true)
+            }
+            $childTags = Get-QualysTag @params
+            # Don't add if there are no child tags
+            if ($null -ne $childTags) {
+                foreach ($childTag in $childTags) {
+                    $responseTag.childTags.Add($childTag)
+                }
+            }
         }
     }
 
@@ -119,8 +142,14 @@ $bodyTag = "<ServiceRequest>
     $ProgressPreference = $origProgressPreference
 
     # Stash non-secret connection info in new object
-    $responseTag.qualysApiUrl = $inputQualysApiUrl
+    foreach ($responseTag in $responseTags) {
+        $responseTag.qualysApiUrl = $InputQualysApiUrl
+    }
 
-    return $responseTag
+    if ($responseTags.Count -eq 1) {
+        return $responseTags[0]
+    }
+
+    return $responseTags
 
 }

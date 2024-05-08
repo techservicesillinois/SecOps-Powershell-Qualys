@@ -229,8 +229,10 @@ class QualysAsset {
                 }
                 else {
                     # We have found a tag that exists in Qualys, is from a category to sync, and exists in non-Qualys tags
-                    # No action is taken and we record the tag as existing
+                    # We record the tag as existing
                     $responses.Existing.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
+
+                    # We need to check for any Qualys asset tags that have the same parentTag
                 }
             }
         }
@@ -432,7 +434,7 @@ class QualysTag {
     # User-provided properties
     [string] $qualysApiUrl
     [QualysTag] $parentTag
-    [QualysTag[]] $childTags
+    [System.Collections.Generic.List[QualysTag]] $childTags
 
     # Constructor
     QualysTag ( [System.Xml.XmlElement] $QualysTagApiResponse ) {
@@ -442,7 +444,7 @@ class QualysTag {
         $this.name = $QualysTagApiResponse.name
         $this.parentTagId = $QualysTagApiResponse.parentTagId
         $this.parentTag = $null
-        $this.childTags = @()
+        $this.childTags = New-Object System.Collections.Generic.List[QualysTag]
     }
 
     # Methods
@@ -536,6 +538,32 @@ class QualysTag {
     ) {
         # Unassign this tag from a Qualys asset by name
         Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName $assetName -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -tagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+    }
+
+    # Method to pull parent tag
+    [void] GetParentTag (
+
+        [PSCredential]
+        $inputCredential = $credential,
+
+        [switch]
+        $Recursive = $false
+
+    ) {
+        $this.parentTag = Get-QualysTag -tagId $this.parentTagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if{$Recursive} (-Recursive)
+    }
+
+    # Method to pull child tags
+    [void] GetChildTags (
+
+        [PSCredential]
+        $inputCredential = $credential,
+
+        [switch]
+        $Recursive = $false
+
+    ) {
+        $this.childTags = Get-QualysTag -parentTagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if{$Recursive} (-Recursive)
     }
 
 }
