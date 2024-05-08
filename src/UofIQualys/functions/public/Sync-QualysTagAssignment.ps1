@@ -23,31 +23,21 @@ function Sync-QualysTagAssignment {
         $InputCredential = $Credential,
 
         [string]
-        $InputQualysApiUrl = $QualysApiUrl
+        $InputQualysApiUrl = $QualysApiUrl,
+
+        [hashtable]
+        $CategoryDefinitions
 
     )
 
     begin {
         # Pull all unique qualys tags from pipelined InputAssets into a hashtable of id and QualysTag object
         $tags = @{}
-        $CategoryDefinitions = @{}
 
         $InputAsset | ForEach-Object {
             $_.tags.list.TagSimple | ForEach-Object {
                 if (-not $tags.ContainsKey($_.id)) {
                     $tags.Add($_.id, $(Get-QualysTag -TagId $_.id -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag))
-                }
-            }
-            $InputAsset | ForEach-Object {
-                $_.vtags | ForEach-Object {
-                    if (-not $CategoryDefinitions.ContainsKey($_.Category)) {
-                        $CategoryDefinitions.Add($_.Category, $_.Value)
-                    }
-                    else {
-                        if ($CategoryDefinitions[$_.Category] -notcontains $_.Value) {
-                            $CategoryDefinitions[$_.Category].Add($_.Value)
-                        }
-                    }
                 }
             }
         }
@@ -82,7 +72,12 @@ function Sync-QualysTagAssignment {
 
         #loop over unique Category property values of vtags
         $InputAsset.vtags | Select-Object -ExpandProperty Category -Unique | ForEach-Object {
-            # aje4gno8eg58oe54h
+            # Check to see if any CategoryDefinitions are missing from the vTags categories
+            if (-not $CategoryDefinitions.ContainsKey($_)) {
+                $responses.Issues.Add("Category $_ is not defined in the CategoryDefinitions.")
+            }
+
+
         }
 
 
