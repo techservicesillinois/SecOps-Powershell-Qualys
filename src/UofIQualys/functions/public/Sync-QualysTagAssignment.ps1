@@ -61,11 +61,11 @@ function Sync-QualysTagAssignment {
         # Loop through each external vtag and compare to Qualys tags
         $InputAsset.vtags | ForEach-Object {
             $vtag = $_
-            $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.name)" }).Value
+            $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
             if ($null -eq $QualysTag) {
-                $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.name)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl
+                $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl
                 if ($null -eq $QualysTag) {
-                    $responses.Issues.Add("$vtag could not be found in Qualys.")
+                    $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys.")
                     continue
                 }
                 $tags.Add($QualysTag.id, $QualysTag)
@@ -94,12 +94,6 @@ function Sync-QualysTagAssignment {
                     }
                 }
             }
-
-        }
-
-        #loop over unique Category property values of vtags
-        $InputAsset.vtags | Select-Object -ExpandProperty Category -Unique | ForEach-Object {
-            # Check to see if any CategoryDefinitions are missing from the vTags categories
 
         }
 
