@@ -70,24 +70,37 @@ function Sync-QualysTagAssignment {
                 }
                 $tags.Add($QualysTag.id, $QualysTag)
             }
+            if ($CategoryDefinitions.ContainsKey($_.Category)) {
+                $category = $_.Category
+                # may need slightly more sophisticated matching
+                [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object { $_.parentTag.name -match "$($InputAsset.prefix)$($category)" }
+                if ($tagsOfCategory.Count -eq 0) {
+                    # We need to assign the tag to the asset
+                    $InputAsset.AssignTag($QualysTag)
+                }
+                elseif ($tagsOfCategory.Count -gt 1) {
+                    # more than one tag of category $category exists on InputAsset - need to remove incorrect tags
+                    $tagsOfCategory | ForEach-Object {
+                        if ($_.id -ne $QualysTag.id) {
+                            $InputAsset.RemoveTag($_)
+                        }
+                    }
+                }
+                else {
+                    # Ensure the one tag that exists is correct
+                    if ($tagsOfCategory[0].id -ne $QualysTag.id) {
+                        $InputAsset.RemoveTag($tagsOfCategory[0])
+                        $InputAsset.AssignTag($QualysTag)
+                    }
+                }
+            }
+
         }
 
         #loop over unique Category property values of vtags
         $InputAsset.vtags | Select-Object -ExpandProperty Category -Unique | ForEach-Object {
             # Check to see if any CategoryDefinitions are missing from the vTags categories
-            if (-not $CategoryDefinitions.ContainsKey($_)) {
-                $responses.Issues.Add("Category $_ is not defined in the CategoryDefinitions.")
-            }
-            $category = $_.name
-            # may need slightly more sophisticated matching
-            [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object {$_.parentTag.name -match $category}
-            if ($tagsOfCategory.Count -eq 0) {
-                # tag of category $category does not exist on InputAsset
-            } elseif ($tagsOfCategory.Count -gt 1) {
-                # more than one tag of category $category exists on InputAsset
-            } else {
-                # there exists exactly one tag of category $category on InputAsset
-            }
+
         }
 
     }
