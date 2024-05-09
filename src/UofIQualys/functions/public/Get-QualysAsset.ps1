@@ -31,9 +31,9 @@ function Get-QualysAsset {
         [string]
         $AssetId,
 
-        [Parameter(ParameterSetName='parent', Mandatory=$true)]
+        [Parameter(ParameterSetName='tagName', Mandatory=$true)]
         [string]
-        $ParentTagId,
+        $tagName,
 
         [PScredential]
         $InputCredential = $Credential,
