@@ -84,16 +84,18 @@ $bodyAsset = "<ServiceRequest>
         return $null
     }
 
-    $responseAsset = [QualysAsset]::new($responseContent.ServiceResponse.data.HostAsset)
+    $responseAssets = New-Object System.Collections.Generic.List[QualysAsset]
 
+    foreach ($asset in $responseContent.ServiceResponse.data.HostAsset) {
+        $responseAssets.Add( # Create new QualysAsset and add connection info before adding to $assets list
+            ([QualysAsset]::new($asset) | Add-Member -MemberType NoteProperty -Name "qualysApiUrl" -Value $InputQualysApiUrl -Force -PassThru )
+        )
+    }
 
     # Restore progress preference
     $ProgressPreference = $origProgressPreference
 
-    # Stash non-secret connection info in new object
-    $responseAsset.qualysApiUrl = $InputQualysApiUrl
-
     # Return the asset object
-    return $responseAsset
+    return $responseAssets
 
 }
