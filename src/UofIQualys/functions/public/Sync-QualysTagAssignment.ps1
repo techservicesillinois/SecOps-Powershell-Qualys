@@ -60,10 +60,10 @@ function Sync-QualysTagAssignment {
             if ($null -eq $QualysTag) {
                 $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl
                 if ($null -eq $QualysTag) {
-                    $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys.")
+                    $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys.") | Out-Null
                 }
                 else {
-                    $tags.Add($QualysTag.id, $QualysTag)
+                    $tags.Add($QualysTag.id, $QualysTag) | Out-Null
                 }
             }
         }
