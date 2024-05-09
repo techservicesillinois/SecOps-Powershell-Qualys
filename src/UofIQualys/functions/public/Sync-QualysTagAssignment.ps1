@@ -4,7 +4,16 @@ function Sync-QualysTagAssignment {
             Synchronize tags from an external source of truth to Qualys.
         .DESCRIPTION
             This function synchronizes tags from an external source of truth to Qualys.
+        .PARAMETER InputAsset
+            The QualysAsset object to synchronize tags for.
+        .PARAMETER InputCredential
+            The PSCredential object to use for authentication.
+        .PARAMETER InputQualysApiUrl
+            The URL of the Qualys API.
+        .PARAMETER CategoryDefinitions
+            A hashtable of category definitions of external tags. The key is the category name and the value is the list of possible tag names in the category.
         .EXAMPLE
+            Sync-QualysTagAssignment -InputAsset $InputAsset -InputCredential $credential -InputQualysApiUrl $QualysApiUrl -CategoryDefinitions $CategoryDefinitions
         .NOTES
             Authors:
             - Carter Kindley
@@ -58,9 +67,9 @@ function Sync-QualysTagAssignment {
             $QualysTag = $null
             $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
             if ($null -eq $QualysTag) {
-                $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl
+                $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
                 if ($null -eq $QualysTag) {
-                    $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys.") | Out-Null
+                    $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys") | Out-Null
                 }
                 else {
                     $tags.Add($QualysTag.id, $QualysTag) | Out-Null
@@ -88,16 +97,20 @@ function Sync-QualysTagAssignment {
                 if ($tagsOfCategory.Count -eq 0) {
                     # We need to assign the tag to the asset
                     $InputAsset.AssignTag($QualysTag, $InputCredential)
-                }
-                else {
+                    $responses.Added.Add("$($QualysTag.name) assigned to $($InputAsset.name)") | Out-Null
+                } else {
                     # more than one tag of category $category exists on InputAsset - need to remove incorrect tags
                     $tagsOfCategory | ForEach-Object {
                         if ($_.id -ne $QualysTag.id) {
                             $InputAsset.UnassignTag($_, $InputCredential)
+                            $responses.Removed.Add("$($_.name) removed from $($InputAsset.name)") | Out-Null
                         }
                     }
                     if (-not $tagsOfCategory.Contains($QualysTag)) {
                         $InputAsset.AssignTag($QualysTag, $InputCredential)
+                        $responses.Added.Add("$($QualysTag.name) assigned to $($InputAsset.name)") | Out-Null
+                    } else {
+                        $responses.Existing.Add("$($QualysTag.name) already assigned to $($InputAsset.name)") | Out-Null
                     }
                 }
             }
