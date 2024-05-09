@@ -95,6 +95,10 @@ $bodyAsset = "<ServiceRequest>
     # Restore progress preference
     $ProgressPreference = $origProgressPreference
 
+    if ($responseAssets.Count -eq 1) {
+        return $responseAssets[0]
+    }
+
     # Return the asset object
     return $responseAssets
 
