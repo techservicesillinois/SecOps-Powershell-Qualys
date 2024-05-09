@@ -53,24 +53,6 @@ function Sync-QualysTagAssignment {
     }
 
     process {
-
-
-        # Loop through each external vtag and ensure we cached it in $tags
-        $InputAsset.vtags | ForEach-Object {
-            $vtag = $_
-            $QualysTag = $null
-            $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
-            if ($null -eq $QualysTag) {
-                $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
-                if ($null -eq $QualysTag) {
-                    $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys") | Out-Null
-                }
-                else {
-                    $tags.Add($QualysTag.id, $QualysTag) | Out-Null
-                }
-            }
-        }
-
         # Downselect assetTags from $tags to only those that are in the InputAsset's tags.list.TagSimple array
         # [hashtable](QualysTagID:QualysTag)
         $assetTags = @{}
@@ -86,6 +68,18 @@ function Sync-QualysTagAssignment {
                 # Set QualysTag to the Qualys tag corresponding to the external vtag
                 $QualysTag = $null
                 $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
+                if ($null -eq $QualysTag) {
+                    $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
+                    if ($null -eq $QualysTag) {
+                        $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys") | Out-Null
+                        continue
+                    } else {
+                        $tags.Add($QualysTag.id, $QualysTag) | Out-Null
+                    }
+                }
+                if (-Not ($assetTags | Where-Object { $_.id -eq $QualysTag.id })) {
+                    $assetTags.Add($QualysTag.id, $QualysTag)
+                }
                 # may need slightly more sophisticated matching
                 [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object { $_.parentTag.name -match "$($InputAsset.prefix)$($category)" }
                 if ($tagsOfCategory.Count -eq 0) {
@@ -108,9 +102,10 @@ function Sync-QualysTagAssignment {
                     }
                 }
             }
-
         }
 
+        $missingCategories  = $CategoryDefinitions.Keys | Where-Object -NotIn $InputAsset.vtags.Category
+        $responses.Issues.Add("$($InputAsset.Name) is missing tag with $(@('categories','category')[[byte]($missingCategories.Count % 2)]) $($missingCategories.Replace("`r`n",", "))") | Out-Null
     }
 
     end {
