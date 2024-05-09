@@ -35,6 +35,9 @@ function Get-QualysAsset {
         [string]
         $TagName,
 
+        [string]
+        $TagPrefix,
+
         [PScredential]
         $InputCredential = $Credential,
 
@@ -88,7 +91,7 @@ $bodyAsset = "<ServiceRequest>
 
     foreach ($asset in $responseContent.ServiceResponse.data.HostAsset) {
         $responseAssets.Add( # Create new QualysAsset and add connection info before adding to $assets list
-            ([QualysAsset]::new($asset) | Add-Member -MemberType NoteProperty -Name "qualysApiUrl" -Value $InputQualysApiUrl -Force -PassThru )
+            ([QualysAsset]::new($asset) | Add-Member -MemberType NoteProperty -Name "qualysApiUrl" -Value $InputQualysApiUrl -Force -PassThru | Add-Member -MemberType NoteProperty -Name "prefix" -Value $TagPrefix -Force -PassThru)
         )
     }
 
