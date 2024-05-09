@@ -80,6 +80,9 @@ function Sync-QualysTagAssignment {
             $vtag = $_
             if ($CategoryDefinitions.ContainsKey($vtag.Category)) {
                 $category = $vtag.Category
+                # Set QualysTag to the Qualys tag corresponding to the external vtag
+                $QualysTag = $null
+                $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
                 # may need slightly more sophisticated matching
                 [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object { $_.parentTag.name -match "$($InputAsset.prefix)$($category)" }
                 if ($tagsOfCategory.Count -eq 0) {
