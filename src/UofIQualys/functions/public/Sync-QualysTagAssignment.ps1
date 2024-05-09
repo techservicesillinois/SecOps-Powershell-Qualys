@@ -40,16 +40,10 @@ function Sync-QualysTagAssignment {
     )
 
     begin {
-        # Pull all unique qualys tags from pipelined InputAssets into a hashtable of id and QualysTag object
+        # Initialize variables
         $tags = @{}
 
-        $InputAsset | ForEach-Object {
-            $_.tags.list.TagSimple | ForEach-Object {
-                if (-not $tags.ContainsKey($_.id)) {
-                    $tags.Add($_.id, $(Get-QualysTag -TagId $_.id -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag))
-                }
-            }
-        }
+        # Initialize response object
         $responses = @{
             Removed  = New-Object 'System.Collections.ArrayList'
             Added    = New-Object 'System.Collections.ArrayList'
