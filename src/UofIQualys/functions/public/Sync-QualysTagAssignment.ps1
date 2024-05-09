@@ -55,14 +55,16 @@ function Sync-QualysTagAssignment {
         # Loop through each external vtag and ensure we cached it in $tags
         $InputAsset.vtags | ForEach-Object {
             $vtag = $_
+            $QualysTag = $null
             $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
             if ($null -eq $QualysTag) {
                 $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl
                 if ($null -eq $QualysTag) {
                     $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys.")
-                    continue
                 }
-                $tags.Add($QualysTag.id, $QualysTag)
+                else {
+                    $tags.Add($QualysTag.id, $QualysTag)
+                }
             }
         }
 
