@@ -33,7 +33,7 @@ function Get-QualysAsset {
 
         [Parameter(ParameterSetName='tagName', Mandatory=$true)]
         [string]
-        $tagName,
+        $TagName,
 
         [PScredential]
         $InputCredential = $Credential,
@@ -53,7 +53,7 @@ function Get-QualysAsset {
 $ParameterMap = @{
     'name' = $AssetName
     'id' = $AssetId
-    'parent' = $ParentTagId
+    'tagName' = $TagName
 }
 
 # Get the value for the current parameter set
