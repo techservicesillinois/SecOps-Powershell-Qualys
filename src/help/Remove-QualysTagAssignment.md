@@ -64,7 +64,7 @@ Accept wildcard characters: False
 The ID number of the host asset in Qualys.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
