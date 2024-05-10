@@ -49,6 +49,7 @@ function Sync-QualysTagAssignment {
             Added    = New-Object 'System.Collections.ArrayList'
             Existing = New-Object 'System.Collections.ArrayList'
             Issues   = New-Object 'System.Collections.ArrayList'
+            Caching  = New-Object 'System.Collections.ArrayList'
         }
     }
 
@@ -71,10 +72,19 @@ function Sync-QualysTagAssignment {
                 if ($null -eq $QualysTag) {
                     $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
                     if ($null -eq $QualysTag) {
-                        $responses.Issues.Add("$($vtag.TagName) could not be found in Qualys") | Out-Null
+                        $responses.Issues.Add($(New-Object PSObject -Property @{
+                            TagName   = "$($InputAsset.prefix)$($vtag.TagName)"
+                            AssetName = $inputAsset.name
+                            Message   = 'NotFound'
+                        })) | Out-Null
                         continue
                     } else {
                         $tags.Add($QualysTag.id, $QualysTag) | Out-Null
+                        $responses.Caching.Add($(New-Object PSObject -Property @{
+                            TagName   = "$($QualysTag.name)"
+                            AssetName = $inputAsset.name
+                            Message   = 'Cached'
+                        })) | Out-Null
                     }
                 }
                 if ($assetTags.Keys -notcontains $QualysTag.id) {
@@ -85,27 +95,47 @@ function Sync-QualysTagAssignment {
                 if ($tagsOfCategory.Count -eq 0) {
                     # We need to assign the tag to the asset
                     $InputAsset.AssignTag($QualysTag, $InputCredential)
-                    $responses.Added.Add("$($QualysTag.name) assigned to $($InputAsset.name)") | Out-Null
+                    $responses.Added.Add($(New-Object PSObject -Property @{
+                        TagName   = "$($QualysTag.name)"
+                        AssetName = $inputAsset.name
+                        Message   = 'Added'
+                    })) | Out-Null
                 } else {
                     # more than one tag of category $category exists on InputAsset - need to remove incorrect tags
                     $tagsOfCategory | ForEach-Object {
                         if ($_.id -ne $QualysTag.id) {
                             $InputAsset.UnassignTag($_, $InputCredential)
-                            $responses.Removed.Add("$($_.name) removed from $($InputAsset.name)") | Out-Null
+                            $responses.Removed.Add($(New-Object PSObject -Property @{
+                                TagName   = "$($_.name)"
+                                AssetName = $inputAsset.name
+                                Message   = 'Removed'
+                            })) | Out-Null
                         }
                     }
                     if (-not $tagsOfCategory.Contains($QualysTag)) {
                         $InputAsset.AssignTag($QualysTag, $InputCredential)
-                        $responses.Added.Add("$($QualysTag.name) assigned to $($InputAsset.name)") | Out-Null
+                        $responses.Added.Add($(New-Object PSObject -Property @{
+                            TagName   = "$($QualysTag.name)"
+                            AssetName = $inputAsset.name
+                            Message   = 'Added'
+                        })) | Out-Null
                     } else {
-                        $responses.Existing.Add("$($QualysTag.name) already assigned to $($InputAsset.name)") | Out-Null
-                    }
+                        $responses.Existing.Add($(New-Object PSObject -Property @{
+                            TagName   = "$($QualysTag.name)"
+                            AssetName = $inputAsset.name
+                            Message   = 'Exists'
+                        })) | Out-Null                    }
                 }
             }
         }
 
         $missingCategories = $CategoryDefinitions.Keys | Where-Object { $_ -notin $InputAsset.vtags.Category }
-        $responses.Issues.Add("$($InputAsset.Name) is missing tag with $(@('categories','category')[[byte]($missingCategories.Count % 2)]) $($missingCategories.Replace("`r`n",", "))") | Out-Null
+        $missingCategories | ForEach-Object {
+            $responses.Issues.Add($(New-Object PSObject -Property @{
+                TagName   = "$_"
+                AssetName = $inputAsset.name
+                Message   = 'MissingCategoryTag'
+            })) | Out-Null        }
     }
 
     end {
