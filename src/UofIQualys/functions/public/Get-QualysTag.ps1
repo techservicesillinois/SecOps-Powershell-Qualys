@@ -132,6 +132,7 @@ function Get-QualysTag {
             # Don't add if there are no child tags
             if ($null -ne $childTags) {
                 foreach ($childTag in $childTags) {
+                    $childTag.parentTag = $responseTag
                     $responseTag.childTags.Add($childTag)
                 }
             }
