@@ -23,7 +23,7 @@ function Get-QualysAssetInventory {
         $inputCredential = $Credential,
         [string]
         $inputQualysApiUrl = $qualysApiUrl,
-        [int]
+        [int32]
         $batchSize = 1000
     )
 

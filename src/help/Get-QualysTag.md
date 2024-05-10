@@ -14,7 +14,7 @@ Returns an object of class QualysTag using the Qualys QPS API.
 ## SYNTAX
 
 ```powershell
-Get-QualysTag -TagId <String>
+Get-QualysTag -TagId <Int32>
     [-InputCredential <PSCredential>]
     [-InputQualysApiUrl <String>]
     [<CommonParameters>]
@@ -27,16 +27,23 @@ Get-QualysTag -TagName <String>
     [<CommonParameters>]
 ```
 
+```powershell
+Get-QualysTag -ParentTagId <Int32>
+    [-InputCredential <PSCredential>]
+    [-InputQualysApiUrl <String>]
+    [<CommonParameters>]
+```
+
 ## DESCRIPTION
 
-Returns a QualysTag object by searching the QPS API based on Asset ID number or name.
+Returns a QualysTag object or list by searching the QPS API based on Asset ID number or name.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 
 ```powershell
-$asset = Get-QualysTag -TagName "Server1" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+$tag = Get-QualysTag -TagName "Server1" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
 ```
 
 ### Example 2
@@ -44,14 +51,22 @@ $asset = Get-QualysTag -TagName "Server1" -InputCredential [PSCredential]::new("
 ```powershell
 $credential = Get-Credential
 $QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$asset = Get-QualyTag -TagId "654321"
+$tag = Get-QualyTag -TagId "654321"
+```
+
+### Example 3
+
+```powershell
+$credential = Get-Credential
+$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
+$tags = Get-QualyTag -ParentTagId "987654"
 ```
 
 ## PARAMETERS
 
 ### -AssetName
 
-The name of the host asset in Qualys.
+The name of the tag in Qualys.
 
 ```yaml
 Type: String
@@ -67,10 +82,26 @@ Accept wildcard characters: False
 
 ### -TagId
 
-The ID number of the host asset in Qualys.
+The ID number of the tag in Qualys.
 
 ```yaml
-Type: String
+Type: Int32
+Parameter Sets: id
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ParentTagId
+
+The ID number of the parent tag in Qualys.
+
+```yaml
+Type: Int32
 Parameter Sets: id
 Aliases:
 

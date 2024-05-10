@@ -28,10 +28,10 @@ function Add-QualysTagAssignment {
     #>
     param (
         [parameter(Mandatory = $true)]
-        [string]
+        [Int32]
         $AssetId,
         [parameter(Mandatory = $true)]
-        [string]
+        [Int32]
         $TagId,
         [PSCredential]
         $InputCredential = $Credential,

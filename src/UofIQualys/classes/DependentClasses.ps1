@@ -50,7 +50,7 @@ class QualysAsset {
     [string] $criticalityScore
     [string] $dnsHostName
     [string] $fqdn
-    [string] $id
+    [Int32] $id
     [string] $informationGatheredUpdated
     [string] $isDockerHost
     [string] $lastComplianceScan
@@ -170,77 +170,6 @@ class QualysAsset {
 "@
     }
 
-    [PSCustomObject] SyncTags(
-
-        [PSCredential]
-        $inputCredential = $credential,
-
-        [string[]]
-        $tagCategories,
-
-        [hashtable]
-        $tagNames
-
-    ) {
-    $responses = @{
-        Removed = New-Object 'System.Collections.ArrayList'
-        Added = New-Object 'System.Collections.ArrayList'
-        Existing = New-Object 'System.Collections.ArrayList'
-        Issues = New-Object 'System.Collections.ArrayList'
-    }
-
-    # Loop through each tag category the user wants to sync
-    foreach ($tagCategory in $tagNames.Keys) {
-
-        # Loop through each non-Qualys tag in the asset
-        foreach ($tag in $this.vtags) {
-
-            # Check if the non-Qualys tag's category is equal to the current tag category
-            if ($tag.Category -eq $tagCategory) {
-
-                # Check if the non-Qualys tag's name does not exist in the Qualys tags
-                if ($this.tags.list.TagSimple.Name -notcontains "$($this.Prefix)$($tag.TagName)") {
-
-                    # If the correct non-Qualys tag doesn't exist, loop through each tag name in the current tag category from the user-provided synctionary
-                    foreach ($tagName in $tagNames[$tagCategory]) {
-
-                        # Check if the tag name exists in the Qualys tags
-                        if ($this.tags.list.TagSimple.Name -contains "$($this.Prefix)$tagName") {
-
-                            # We have found a tag that exists in Qualys, is from a category to sync, does not exist in non-Qualys tags, so we need to remove it
-                            $response = Remove-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)$($tagName)").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                            if ($null -eq $response) {
-                                $responses.Removed.Add("$($this.Prefix)$tagName") | Out-Null
-                            }
-                            else {
-                                $responses.Issues.Add($response) | Out-Null
-                            }
-                        }
-                    }
-
-                    # We need to add the correct non-Qualys tag to the Qualys tags
-                    $response = Add-QualysTagAssignment -assetId $this.id -tagId ($this.tags.list.TagSimple | Where-Object -Property 'name' -EQ "$($this.Prefix)$($TagNames[$tagCategory])").id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
-                    if ($null -eq $response) {
-                        $responses.Removed.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
-                    }
-                    else {
-                        $responses.Issues.Add($response) | Out-Null
-                    }
-                }
-                else {
-                    # We have found a tag that exists in Qualys, is from a category to sync, and exists in non-Qualys tags
-                    # We record the tag as existing
-                    $responses.Existing.Add("$($this.Prefix)$($tag.TagName)") | Out-Null
-
-                    # We need to check for any Qualys asset tags that have the same parentTag
-                }
-            }
-        }
-    }
-
-    return $responses
-}
-
     [void] AssignTag (
 
         [QualysTag]
@@ -355,7 +284,7 @@ class QualysAsset {
 
     [void] AssignTagById (
 
-        [string]
+        [Int32]
         $tagId,
 
         [PSCredential]
@@ -368,7 +297,7 @@ class QualysAsset {
 
     [void] UnassignTagById (
 
-        [string]
+        [Int32]
         $tagId,
 
         [PSCredential]
@@ -381,7 +310,7 @@ class QualysAsset {
 
     [void] AssignTagsById (
 
-        [string[]]
+        [Int32[]]
         $tagIds,
 
         [PSCredential]
@@ -396,7 +325,7 @@ class QualysAsset {
 
     [void] UnassignTagsById (
 
-        [string[]]
+        [Int32[]]
         $tagIds,
 
         [PSCredential]
@@ -426,7 +355,7 @@ class QualysTag {
 
     # Properties from Qualys QPS API
     [string] $created
-    [string] $id
+    [Int32] $id
     [string] $modified
     [string] $name
     [string] $parentTagId
@@ -490,7 +419,7 @@ class QualysTag {
 
     [void] AssignById (
 
-        [string]
+        [Int32]
         $assetId,
 
         [PSCredential]
@@ -503,7 +432,7 @@ class QualysTag {
 
     [void] UnassignById (
 
-        [string]
+        [Int32]
         $assetId,
 
         [PSCredential]

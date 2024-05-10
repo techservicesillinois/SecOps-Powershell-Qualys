@@ -31,11 +31,11 @@ function Get-QualysTag {
         $TagName,
 
         [Parameter(ParameterSetName = 'id', Mandatory = $true)]
-        [string]
+        [Int32]
         $TagId,
 
         [Parameter(ParameterSetName = 'parent', Mandatory = $true)]
-        [string]
+        [Int32]
         $ParentTagId,
 
         [pscredential]

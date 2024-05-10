@@ -14,7 +14,7 @@ Returns an object of class QualysAsset using the Qualys QPS API.
 ## SYNTAX
 
 ```powershell
-Get-QualysAsset -AssetId <String>
+Get-QualysAsset -AssetId <Int32>
     [-InputCredential <PSCredential>]
     [-InputQualysApiUrl <String>]
     [<CommonParameters>]
@@ -27,9 +27,16 @@ Get-QualysAsset -AssetName <String>
     [<CommonParameters>]
 ```
 
+```powershell
+Get-QualysAsset -TagName <String>
+    [-InputCredential <PSCredential>]
+    [-InputQualysApiUrl <String>]
+    [<CommonParameters>]
+```
+
 ## DESCRIPTION
 
-Returns a QualysAsset object by searching the QPS API based on Asset ID number or name.
+Returns a QualysAsset object by searching the QPS API based on Asset ID number, tag name, or name.
 
 ## EXAMPLES
 
@@ -45,6 +52,14 @@ $asset = Get-QualysAsset -AssetName "Server1" -InputCredential [PSCredential]::n
 $credential = Get-Credential
 $QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
 $asset = Get-QualysAsset -AssetId "123456"
+```
+
+### Example 3
+
+```powershell
+$credential = Get-Credential
+$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
+$assets = Get-QualysAsset -TagName "Important"
 ```
 
 ## PARAMETERS
@@ -68,6 +83,22 @@ Accept wildcard characters: False
 ### -AssetId
 
 The ID number of the host asset in Qualys.
+
+```yaml
+Type: Int32
+Parameter Sets: id
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TagName
+
+The tag name in Qualys with which the returned hosts are assigned.
 
 ```yaml
 Type: String

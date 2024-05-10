@@ -26,7 +26,7 @@ function Remove-QualysTagAssignment {
         [string]
         $AssetId,
         [parameter(Mandatory = $true)]
-        [string]
+        [Int32]
         $TagId,
         [PSCredential]
         $InputCredential = $Credential,
