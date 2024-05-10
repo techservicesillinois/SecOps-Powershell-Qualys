@@ -43,32 +43,32 @@ class QualysAsset {
     #>
 
     # Properties from Qualys QPS API
-    [string] $account
+    [System.Xml.XmlElement] $account
     [string] $address
     [string] $biosDescription
-    [string] $created
+    [datetime] $created
     [string] $criticalityScore
     [string] $dnsHostName
     [string] $fqdn
     [Int32] $id
-    [string] $informationGatheredUpdated
-    [string] $isDockerHost
-    [string] $lastComplianceScan
+    [datetime] $informationGatheredUpdated
+    [System.Boolean] $isDockerHost
+    [datetime] $lastComplianceScan
     [string] $lastLoggedOnUser
-    [string] $lastSystemBoot
-    [string] $lastVulnScan
+    [datetime] $lastSystemBoot
+    [datetime] $lastVulnScan
     [string] $manufacturer
     [string] $model
-    [string] $modified
+    [datetime] $modified
     [string] $name
-    [string] $networkGuid
+    [guid] $networkGuid
     [string] $os
-    [string] $qwebHostId
+    [int32] $qwebHostId
     [string] $timezone
-    [string] $totalMemory
+    [int32] $totalMemory
     [string] $trackingMethod
     [string] $type
-    [string] $vulnsUpdated
+    [datetime] $vulnsUpdated
     [System.Xml.XmlElement] $agentInfo
     [System.Xml.XmlElement] $networkInterface
     [System.Xml.XmlElement] $openPort
@@ -358,7 +358,7 @@ class QualysTag {
     [Int32] $id
     [string] $modified
     [string] $name
-    [string] $parentTagId
+    [Int32] $parentTagId
 
     # User-provided properties
     [string] $qualysApiUrl
