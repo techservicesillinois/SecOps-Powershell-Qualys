@@ -77,7 +77,7 @@ function Sync-QualysTagAssignment {
                         $tags.Add($QualysTag.id, $QualysTag) | Out-Null
                     }
                 }
-                if (-Not ($assetTags | Where-Object { $_.id -eq $QualysTag.id })) {
+                if ($assetTags.Keys -notcontains $QualysTag.id) {
                     $assetTags.Add($QualysTag.id, $QualysTag)
                 }
                 # may need slightly more sophisticated matching
