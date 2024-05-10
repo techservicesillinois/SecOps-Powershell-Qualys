@@ -8,6 +8,8 @@ function Get-QualysAsset {
             The name of the asset to be retrieved.
         .PARAMETER assetId
             The ID of the asset to be retrieved.
+        .PARAMETER tagName
+            The name of the tag by which to retrieve all associated hosts.
         .PARAMETER inputCredential
             The credential object to log into Qualys. By default, this is set to the global variable $Credential.
         .PARAMETER inputQualysApiUrl
@@ -17,6 +19,7 @@ function Get-QualysAsset {
             $asset = Get-QualysAsset -assetName "Server1" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
             $asset.id # returns the asset ID
             $asset = Get-QualysAsset -assetId "123456789" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
+            $assets = Get-QualysAsset -TagName "Important" -InputCredential $inputcredential -InputQualysApiUrl $inputQualysApiUrl
         .NOTES
             Authors:
             - Carter Kindley

@@ -8,6 +8,8 @@ function Get-QualysTag {
             The name of the tag to be retrieved.
         .PARAMETER tagId
             The ID of the tag to be retrieved.
+        .PARAMETER parentTagId
+            The ID of the parent tag to be retrieved.
         .PARAMETER inputCredential
             The credential object to log into Qualys. By default, this is set to the global variable $Credential.
         .PARAMETER inputQualysApiUrl

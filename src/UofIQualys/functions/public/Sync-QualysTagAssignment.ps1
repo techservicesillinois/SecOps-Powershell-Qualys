@@ -59,7 +59,26 @@ function Sync-QualysTagAssignment {
         $assetTags = @{}
         $InputAsset.tags.list.TagSimple | ForEach-Object {
             $tagID = $_.id
-            $assetTags.Add($tagID, $($tags.GetEnumerator() | Where-Object { $_.Key -eq $tagID }).Value)
+            if ($tags.ContainsKey($tagID)) {
+                $assetTags.Add($tagID, $tags[$tagID])
+            } else {
+                $tag = Get-QualysTag -TagId $tagID -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
+                if ($null -eq $tag) {
+                    $responses.Issues.Add($(New-Object PSObject -Property @{
+                        TagName   = "$($_.name)"
+                        AssetName = $inputAsset.name
+                        Message   = 'NotFound'
+                    })) | Out-Null
+                    continue
+                } else {
+                    $tags.Add($tag.id, $tag) | Out-Null
+                    $responses.Caching.Add($(New-Object PSObject -Property @{
+                        TagName   = "$($tag.name)"
+                        AssetName = $inputAsset.name
+                        Message   = 'Cached'
+                    })) | Out-Null
+                }
+            }
         }
 
         $InputAsset.vtags | ForEach-Object {
