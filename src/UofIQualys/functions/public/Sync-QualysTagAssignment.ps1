@@ -104,7 +104,7 @@ function Sync-QualysTagAssignment {
             }
         }
 
-        $missingCategories  = $CategoryDefinitions.Keys | Where-Object -NotIn $InputAsset.vtags.Category
+        $missingCategories = $CategoryDefinitions.Keys | Where-Object { $_ -notin $InputAsset.vtags.Category }
         $responses.Issues.Add("$($InputAsset.Name) is missing tag with $(@('categories','category')[[byte]($missingCategories.Count % 2)]) $($missingCategories.Replace("`r`n",", "))") | Out-Null
     }
 
