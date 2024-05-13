@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Returns an object of class QualysAsset using the Qualys QPS API.
+Returns an object or array of class QualysAsset using the Qualys QPS API.
 
 ## SYNTAX
 
@@ -51,7 +51,7 @@ $asset = Get-QualysAsset -AssetName "Server1" -InputCredential [PSCredential]::n
 ```powershell
 $credential = Get-Credential
 $QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$asset = Get-QualysAsset -AssetId "123456"
+$asset = Get-QualysAsset -AssetId 123456
 ```
 
 ### Example 3
@@ -102,7 +102,7 @@ The tag name in Qualys with which the returned hosts are assigned.
 
 ```yaml
 Type: String
-Parameter Sets: id
+Parameter Sets: tagName
 Aliases:
 
 Required: True

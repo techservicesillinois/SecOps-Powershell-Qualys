@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Returns an object of class QualysTag using the Qualys QPS API.
+Returns an object or array of class QualysTag using the Qualys QPS API.
 
 ## SYNTAX
 
@@ -51,7 +51,7 @@ $tag = Get-QualysTag -TagName "Server1" -InputCredential [PSCredential]::new("qa
 ```powershell
 $credential = Get-Credential
 $QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$tag = Get-QualyTag -TagId "654321"
+$tag = Get-QualyTag -TagId 654321
 ```
 
 ### Example 3
@@ -59,7 +59,7 @@ $tag = Get-QualyTag -TagId "654321"
 ```powershell
 $credential = Get-Credential
 $QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$tags = Get-QualyTag -ParentTagId "987654"
+$tags = Get-QualyTag -ParentTagId 987654
 ```
 
 ## PARAMETERS
@@ -102,7 +102,7 @@ The ID number of the parent tag in Qualys.
 
 ```yaml
 Type: Int32
-Parameter Sets: id
+Parameter Sets: parent
 Aliases:
 
 Required: True

@@ -17,7 +17,7 @@ In addition to these, user-assigned properties are also available:
 
 - qualysApiUrl: The URL of the Qualys API endpoint to use, ending at the hostname. Assigned automatically with Get-QualysAsset.
 
-- prefix: A prefix, if any, to be prepended during the SyncTags() method.
+- prefix: A tag name prefix which may be used for the Sync-QualysTagAssignment function.
 
 - vtags: A PSCustomObject with pairs of TagName and Category values. These may be obtained from tag assignments in VMWare, Azure, AWS, etc.
 
