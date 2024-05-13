@@ -43,7 +43,7 @@ class QualysAsset {
     #>
 
     # Properties from Qualys QPS API
-    [System.Xml.XmlElement] $account
+    [PSCustomObject[]] $account
     [string] $address
     [string] $biosDescription
     [datetime] $created
@@ -69,14 +69,14 @@ class QualysAsset {
     [string] $trackingMethod
     [string] $type
     [datetime] $vulnsUpdated
-    [System.Xml.XmlElement] $agentInfo
-    [System.Xml.XmlElement] $networkInterface
-    [System.Xml.XmlElement] $openPort
-    [System.Xml.XmlElement] $processor
-    [System.Xml.XmlElement] $software
-    [PSCustomObject[]]$tags
-    [System.Xml.XmlElement] $volume
-    [System.Xml.XmlElement] $vuln
+    [PSCustomObject] $agentInfo
+    [PSCustomObject[]] $networkInterface
+    [PSCustomObject[]] $openPort
+    [PSCustomObject[]] $processor
+    [PSCustomObject[]] $software
+    [PSCustomObject[]] $tags
+    [PSCustomObject[]] $volume
+    [PSCustomObject[]] $vuln
 
     # User-provided properties
     [string] $qualysApiUrl
@@ -86,7 +86,11 @@ class QualysAsset {
 
     # Constructor
     QualysAsset ( [System.Xml.XmlElement] $QualysAssetApiResponse ) {
-        $this.account = $QualysAssetApiResponse.account
+        $this.account = $QualysAssetApiResponse.account.list.HostAssetAccount | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                username = [string]$_.username
+            }
+        }
         $this.address = $QualysAssetApiResponse.address
         $this.biosDescription = $QualysAssetApiResponse.biosDescription
         $this.created = $QualysAssetApiResponse.created
@@ -112,19 +116,79 @@ class QualysAsset {
         $this.trackingMethod = $QualysAssetApiResponse.trackingMethod
         $this.type = $QualysAssetApiResponse.type
         $this.vulnsUpdated = $QualysAssetApiResponse.vulnsUpdated
-        $this.agentInfo = $QualysAssetApiResponse.agentInfo
-        $this.networkInterface = $QualysAssetApiResponse.networkInterface
-        $this.openPort = $QualysAssetApiResponse.openPort
-        $this.processor = $QualysAssetApiResponse.processor
-        $this.software = $QualysAssetApiResponse.software
+        $this.agentInfo = New-Object PSCustomObject -Property @{
+            agentId = [Guid]$QualysAssetApiResponse.agentInfo.agentId
+            agentVersion = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
+            lastCheckedIn = [datetime]$QualysAssetApiResponse.agentInfo.lastCheckedIn
+            status = [string]$QualysAssetApiResponse.agentInfo.status
+            connectedFrom = [ipaddress]$QualysAssetApiResponse.agentInfo.connectedFrom
+            location = [string]$QualysAssetApiResponse.agentInfo.location
+            locationGeoLatitude = [double]$QualysAssetApiResponse.agentInfo.locationGeoLatitude
+            locationGeoLongitude = [double]$QualysAssetApiResponse.agentInfo.locationGeoLongitude
+            chirpStatus = [string]$QualysAssetApiResponse.agentInfo.chirpStatus
+            platform = [string]$QualysAssetApiResponse.agentInfo.platform
+            activatedModule = [string[]]$QualysAssetApiResponse.agentInfo.activatedModule.Split(",")
+            manifestVersion = New-Object PSCustomObject -Property @{
+                vm = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.vm
+                sca = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.sca
+            }
+            agentConfiguration = New-Object PSCustomObject -Property @{
+                id = [int32]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
+                name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
+            }
+            activationKey = New-Object PSCustomObject -Property @{
+                activationId = [Guid]$QualysAssetApiResponse.agentInfo.activationKey.id
+                title = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
+            }
+        }
+        $this.networkInterface = $QualysAssetApiResponse.networkInterface.list.HostAssetInterface | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                interfaceName = [string]$_.name
+                macAddress = [string]$_.mac
+                address = [IPAddress]$_.ip
+                gatewayAddress = [string]$_.gateway
+                hostname = [string]$_.hostname
+            }
+        }
+        $this.openPort = $QualysAssetApiResponse.openPort.list.HostAssetOpenPort | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                port = [int32]$_.port
+                protocol = [string]$_.protocol
+            }
+        }
+        $this.processor = $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                name = [string]$_.name
+                speed = [int32]$_.speed
+            }
+        }
+        $this.software = $QualysAssetApiResponse.software.list.HostAssetSoftware | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                name = [string]$_.name
+                version = [Version]$_.version
+            }
+        }
         $this.tags = $QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 id   = [int32]$_.id
                 name = [string]$_.name
             }
         }
-        $this.volume = $QualysAssetApiResponse.volume
-        $this.vuln = $QualysAssetApiResponse.vuln
+        $this.volume = $QualysAssetApiResponse.volume.list.HostAssetVolume | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                name = [string]$_.name
+                size = [int32]$_.size
+                free = [int32]$_.free
+            }
+        }
+        $this.vuln = $QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                qid   = [int32]$_.qid
+                hostInstanceVulnId = [int32]$_.hostInstanceVulnId
+                firstFound = [datetime]$_.firstFound
+                lastFound = [datetime]$_.lastFound
+            }
+        }
     }
 
     # Methods
