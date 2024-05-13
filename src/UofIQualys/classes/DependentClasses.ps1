@@ -137,7 +137,7 @@ class QualysAsset {
                 name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
             }
             activationKey = New-Object PSCustomObject -Property @{
-                activationId = [Guid]$QualysAssetApiResponse.agentInfo.activationKey.id
+                activationId = [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId
                 title = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
             }
         }
@@ -165,7 +165,7 @@ class QualysAsset {
         $this.software = $QualysAssetApiResponse.software.list.HostAssetSoftware | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name = [string]$_.name
-                version = [Version]$_.version
+                version = [string]$_.version
             }
         }
         $this.tags = $QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
@@ -177,8 +177,8 @@ class QualysAsset {
         $this.volume = $QualysAssetApiResponse.volume.list.HostAssetVolume | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name = [string]$_.name
-                size = [int32]$_.size
-                free = [int32]$_.free
+                size = [int64]$_.size
+                free = [int64]$_.free
             }
         }
         $this.vuln = $QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
