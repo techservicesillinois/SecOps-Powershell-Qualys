@@ -2,35 +2,36 @@ class QualysAsset {
     <#
     .SYNOPSIS
         A class representing a Qualys asset.
-    .DESCRIPTION
+  .DESCRIPTION
         This class represents a Qualys asset.
-    .EXAMPLE
+  .EXAMPLE
         $asset = Get-QualysAsset -assetName "Server1"
 
         # Get tags from vSphere
-            $vmwareTags = ($vm | Get-TagAssignment).Tag
+                $vmwareTags = ($vm | Get-TagAssignment).Tag
 
-            # Create PSCustomObject with tag name and category
-            $vtags = foreach ($tag in $vmwareTags) {
-                [PSCustomObject]@{
-                    TagName  = $tag.Name.ToString()
-                    Category = $tag.Category.ToString()
+                # Create PSCustomObject with tag name and catego    ry
+            $vtags = foreach ($tag in $vmwareT    ags) {
+                [PSCusto    mObject]@{
+                    TagName  = $tag.N    ame.ToString()
+                    Category = $tag.C    ategory.ToStrin    g()
                 }
             }
 
-        # Get tags from Azure
-            $azureTags = (Get-AzVm -Name "Server1").Tags
+            # Get tags from Azure
+            $azureTags = (Ge    t-AzVm -Name "Server1").Tags
 
-            # Create PSCustomObject with tag name and category
-            $vtags = foreach ($tag in $azureTags.GetEnumerator()) {
-                [PSCustomObject]@{
-                    TagName  = $tag.Value
-                    Category = $tag.Key
-                }
+            # Create PSCusto    mObject with tag name and category
+            $vtags = foreach     ($tag in $azureTags.GetEnumerato    r()) {
+                [PSCustomObject    ]@{
+                    TagName  = $    tag.Value
+                            Category = $tag.Key
+                    }
             }
 
             # Add tags to the asset
-            $asset.vtags += $vtags
+            $asset.vtags += $vtag
+s
 
         # Sync tags on the asset
         $asset.SyncTags()
@@ -197,46 +198,7 @@ class QualysAsset {
     }
 
     [string] ToJson() {
-        return @"
-        "account": "$($this.account)",
-        "address": "$($this.address)",
-        "biosDescription": "$($this.biosDescription)",
-        "created": "$($this.created)",
-        "criticalityScore": "$($this.criticalityScore)",
-        "dnsHostName": "$($this.dnsHostName)",
-        "fqdn": "$($this.fqdn)",
-        "id": "$($this.id)",
-        "informationGatheredUpdated": "$($this.informationGatheredUpdated)",
-        "isDockerHost": "$($this.isDockerHost)",
-        "lastComplianceScan": "$($this.lastComplianceScan)",
-        "lastLoggedOnUser": "$($this.lastLoggedOnUser)",
-        "lastSystemBoot": "$($this.lastSystemBoot)",
-        "lastVulnScan": "$($this.lastVulnScan)",
-        "manufacturer": "$($this.manufacturer)",
-        "model": "$($this.model)",
-        "modified": "$($this.modified)",
-        "name": "$($this.name)",
-        "networkGuid": "$($this.networkGuid)",
-        "os": "$($this.os)",
-        "qwebHostId": "$($this.qwebHostId)",
-        "timezone": "$($this.timezone)",
-        "totalMemory": "$($this.totalMemory)",
-        "trackingMethod": "$($this.trackingMethod)",
-        "type": "$($this.type)",
-        "vulnsUpdated": "$($this.vulnsUpdated)",
-        "agentInfo": "$($this.agentInfo)",
-        "networkInterface": "$($this.networkInterface)",
-        "openPort": "$($this.openPort)",
-        "processor": "$($this.processor)",
-        "software": "$($this.software)",
-        "tags": "$($this.tags | ConvertTo-Json)",
-        "volume": "$($this.volume)",
-        "vuln": "$($this.vuln)"
-        "username": "$($this.username)",
-        "keyvault": "$($this.keyvault)",
-        "secretName": "$($this.secretName)",
-        "qualysApiUrl": "$($this.qualysApiUrl)"
-"@
+        return $($this  | ConvertTo-Json)
     }
 
     [void] AssignTag (
