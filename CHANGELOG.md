@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Get-QualysAssetInventory: Fetches all Qualys host asset objects.
 - Get-QualysTag: This function takes a tag name or ID and returns the tag object.
 - Remove-QualysTagAssignment: This function takes an asset ID and a tag ID and removes the tag from the asset.
+- Sync-QualysTagAssignment: This function syncs Qualys tags on an asset or list of assets with tags assigned to the asset(s) from an external source of truth.
 - QualysAsset class: This class defines objects with properties that include all details returned by the QPS API about a host asset, plus optional metadata for function and method use.
 - QualysTag class: This class defines objects with properties that include all details returned by the QPS API about a tag, plus optional metadata and parent tag.
 
