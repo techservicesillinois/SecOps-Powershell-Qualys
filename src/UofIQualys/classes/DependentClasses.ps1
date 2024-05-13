@@ -423,9 +423,9 @@ class QualysTag {
 #>
 
     # Properties from Qualys QPS API
-    [string] $created
+    [datetime] $created
     [Int32] $id
-    [string] $modified
+    [datetime] $modified
     [string] $name
     [Int32] $parentTagId
 
