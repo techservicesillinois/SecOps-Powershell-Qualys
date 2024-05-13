@@ -57,8 +57,8 @@ function Sync-QualysTagAssignment {
         # Downselect assetTags from $tags to only those that are in the InputAsset's tags.list.TagSimple array
         # [hashtable](QualysTagID:QualysTag)
         $assetTags = @{}
-        $InputAsset.tags.list.TagSimple | ForEach-Object {
-            $tagID = [int32]$_.id
+        $InputAsset.tags | ForEach-Object {
+            $tagID = $_.id
             if ($tags.ContainsKey($tagID)) {
                 $assetTags.Add($tagID, $tags[$tagID])
             } else {

@@ -81,7 +81,7 @@ class QualysAsset {
     # User-provided properties
     [string] $qualysApiUrl
     [string] $prefix
-    [PSCustomObject] $vtags
+    [PSCustomObject[]] $vtags
 
 
     # Constructor
@@ -119,8 +119,8 @@ class QualysAsset {
         $this.software = $QualysAssetApiResponse.software
         $this.tags = $QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                id   = $_.id
-                name = $_.name
+                id   = [int32]$_.id
+                name = [string]$_.name
             }
         }
         $this.volume = $QualysAssetApiResponse.volume
@@ -165,7 +165,7 @@ class QualysAsset {
         "openPort": "$($this.openPort)",
         "processor": "$($this.processor)",
         "software": "$($this.software)",
-        "tags": "$($this.tags)",
+        "tags": "$($this.tags | ConvertTo-Json)",
         "volume": "$($this.volume)",
         "vuln": "$($this.vuln)"
         "username": "$($this.username)",
