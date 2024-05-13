@@ -74,7 +74,7 @@ class QualysAsset {
     [System.Xml.XmlElement] $openPort
     [System.Xml.XmlElement] $processor
     [System.Xml.XmlElement] $software
-    [System.Xml.XmlElement] $tags
+    [PSCustomObject[]]$tags
     [System.Xml.XmlElement] $volume
     [System.Xml.XmlElement] $vuln
 
@@ -117,7 +117,12 @@ class QualysAsset {
         $this.openPort = $QualysAssetApiResponse.openPort
         $this.processor = $QualysAssetApiResponse.processor
         $this.software = $QualysAssetApiResponse.software
-        $this.tags = $QualysAssetApiResponse.tags
+        $this.tags = $QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
+            New-Object PSCustomObject -Property @{
+                id   = $_.id
+                name = $_.name
+            }
+        }
         $this.volume = $QualysAssetApiResponse.volume
         $this.vuln = $QualysAssetApiResponse.vuln
     }
