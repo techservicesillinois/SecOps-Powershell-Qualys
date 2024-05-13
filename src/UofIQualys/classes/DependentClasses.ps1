@@ -118,54 +118,54 @@ s
         $this.type = $QualysAssetApiResponse.type
         $this.vulnsUpdated = $QualysAssetApiResponse.vulnsUpdated
         $this.agentInfo = New-Object PSCustomObject -Property @{
-            agentId = [Guid]$QualysAssetApiResponse.agentInfo.agentId
-            agentVersion = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
-            lastCheckedIn = [datetime]$QualysAssetApiResponse.agentInfo.lastCheckedIn
-            status = [string]$QualysAssetApiResponse.agentInfo.status
-            connectedFrom = [ipaddress]$QualysAssetApiResponse.agentInfo.connectedFrom
-            location = [string]$QualysAssetApiResponse.agentInfo.location
-            locationGeoLatitude = [double]$QualysAssetApiResponse.agentInfo.locationGeoLatitude
+            agentId              = [Guid]$QualysAssetApiResponse.agentInfo.agentId
+            agentVersion         = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
+            lastCheckedIn        = [datetime]$QualysAssetApiResponse.agentInfo.lastCheckedIn
+            status               = [string]$QualysAssetApiResponse.agentInfo.status
+            connectedFrom        = [ipaddress]$QualysAssetApiResponse.agentInfo.connectedFrom
+            location             = [string]$QualysAssetApiResponse.agentInfo.location
+            locationGeoLatitude  = [double]$QualysAssetApiResponse.agentInfo.locationGeoLatitude
             locationGeoLongitude = [double]$QualysAssetApiResponse.agentInfo.locationGeoLongitude
-            chirpStatus = [string]$QualysAssetApiResponse.agentInfo.chirpStatus
-            platform = [string]$QualysAssetApiResponse.agentInfo.platform
-            activatedModule = [string[]]$QualysAssetApiResponse.agentInfo.activatedModule.Split(",")
-            manifestVersion = New-Object PSCustomObject -Property @{
-                vm = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.vm
+            chirpStatus          = [string]$QualysAssetApiResponse.agentInfo.chirpStatus
+            platform             = [string]$QualysAssetApiResponse.agentInfo.platform
+            activatedModule      = [string[]]$QualysAssetApiResponse.agentInfo.activatedModule.Split(",")
+            manifestVersion      = New-Object PSCustomObject -Property @{
+                vm  = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.vm
                 sca = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.sca
             }
-            agentConfiguration = New-Object PSCustomObject -Property @{
-                id = [int32]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
+            agentConfiguration   = New-Object PSCustomObject -Property @{
+                id   = [int32]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
                 name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
             }
-            activationKey = New-Object PSCustomObject -Property @{
+            activationKey        = New-Object PSCustomObject -Property @{
                 activationId = [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId
-                title = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
+                title        = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
             }
         }
         $this.networkInterface = $QualysAssetApiResponse.networkInterface.list.HostAssetInterface | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                interfaceName = [string]$_.name
-                macAddress = [string]$_.mac
-                address = [IPAddress]$_.ip
+                interfaceName  = [string]$_.name
+                macAddress     = [string]$_.mac
+                address        = [IPAddress]$_.ip
                 gatewayAddress = [string]$_.gateway
-                hostname = [string]$_.hostname
+                hostname       = [string]$_.hostname
             }
         }
         $this.openPort = $QualysAssetApiResponse.openPort.list.HostAssetOpenPort | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                port = [int32]$_.port
+                port     = [int32]$_.port
                 protocol = [string]$_.protocol
             }
         }
         $this.processor = $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                name = [string]$_.name
+                name  = [string]$_.name
                 speed = [int32]$_.speed
             }
         }
         $this.software = $QualysAssetApiResponse.software.list.HostAssetSoftware | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                name = [string]$_.name
+                name    = [string]$_.name
                 version = [string]$_.version
             }
         }
@@ -184,10 +184,10 @@ s
         }
         $this.vuln = $QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                qid   = [int32]$_.qid
+                qid                = [int32]$_.qid
                 hostInstanceVulnId = [int32]$_.hostInstanceVulnId
-                firstFound = [datetime]$_.firstFound
-                lastFound = [datetime]$_.lastFound
+                firstFound         = [datetime]$_.firstFound
+                lastFound          = [datetime]$_.lastFound
             }
         }
     }
@@ -409,17 +409,11 @@ class QualysTag {
 
     # Methods
     [string] ToString() {
-        return "QualysTag: $($this.name)"
+        return "$($this.name)"
     }
 
     [string] ToJson() {
-        return @"
-        "created": "$($this.created)",
-        "id": "$($this.id)",
-        "modified": "$($this.modified)",
-        "name": "$($this.name)",
-        "parentTagId": "$($this.parentTagId)"
-"@
+        return $($this | ConvertTo-Json)
     }
 
     [void] Assign (
@@ -503,27 +497,28 @@ class QualysTag {
     # Method to pull parent tag
     [void] GetParentTag (
 
-        [PSCredential]
-        $inputCredential = $credential,
-
         [switch]
-        $Recursive = $false
+        $Recursive = $false,
+
+        [PSCredential]
+        $inputCredential = $credential
+
 
     ) {
-        $this.parentTag = Get-QualysTag -tagId $this.parentTagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if{$Recursive} (-Recursive)
+        $this.parentTag = Get-QualysTag -tagId $this.parentTagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if { $Recursive } (-Recursive)
     }
 
     # Method to pull child tags
     [void] GetChildTags (
 
-        [PSCredential]
-        $inputCredential = $credential,
-
         [switch]
-        $Recursive = $false
+        $Recursive = $false,
+
+        [PSCredential]
+        $inputCredential = $credential
 
     ) {
-        $this.childTags = Get-QualysTag -parentTagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if{$Recursive} (-Recursive)
+        $this.childTags = Get-QualysTag -parentTagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if { $Recursive } (-Recursive)
     }
 
 }
