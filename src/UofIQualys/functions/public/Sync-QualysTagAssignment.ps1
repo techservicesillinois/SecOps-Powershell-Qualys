@@ -34,6 +34,7 @@ function Sync-QualysTagAssignment {
         [string]
         $InputQualysApiUrl = $QualysApiUrl,
 
+        [Parameter(Mandatory = $true)]
         [hashtable]
         $CategoryDefinitions
 

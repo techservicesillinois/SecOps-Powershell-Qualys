@@ -31,51 +31,51 @@ Returns the Qualys asset's name.
 
 Returns the Qualys asset and properties in JSON format.
 
-### AssignTag($QualysTag, $inputCredential)
+### AssignTag([QualysTag]$QualysTag, [PSCredential]$inputCredential)
 
 Assigns a Qualys tag object to the asset using the given credentials.
 
-### UnassignTag($QualysTag, $inputCredential)
+### UnassignTag([QualysTag]$QualysTag, [PSCredential]$inputCredential)
 
 Unassigns a Qualys tag object from the asset using the given credentials.
 
-### AssignTags($QualysTags, $inputCredential)
+### AssignTags([QualysTag[]]$QualysTag, [PSCredential]$inputCredential)
 
 Assigns a list of Qualys tag objects to the asset using the given credentials.
 
-### UnassignTags($QualysTags, $inputCredential)
+### UnassignTags([QualysTag[]]$QualysTag, [PSCredential]$inputCredential)
 
 Unassigns a list of Qualys tag objects from the asset using the given credentials.
 
-### AssignTagByName($tagName, $inputCredential)
+### AssignTagByName([String]$tagName, [PSCredential]$inputCredential)
 
 Assigns a Qualys tag object to the asset using the tag's name and the given credentials.
 
-### UnassignTagByName($tagName, $inputCredential)
+### UnassignTagByName([String]$tagName, [PSCredential]$inputCredential)
 
 Unassigns a Qualys tag object to the asset using the tag's name and the given credentials.
 
-### AssignTagsByName($tagNames, $inputCredential)
+### AssignTagsByName([String[]]$tagName, [PSCredential]$inputCredential)
 
 Assigns a list of Qualys tag objects to the asset using the tag names and the given credentials.
 
-### UnassignTagsByName($tagNames, $inputCredential)
+### UnassignTagsByName([String[]]$tagName, [PSCredential]$inputCredential)
 
 Unassigns a list of Qualys tag objects to the asset using the tag names and the given credentials.
 
-### AssignTagById ($tagId, $inputCredential)
+### AssignTagById([int32]$tagId, [PSCredential]$inputCredential)
 
 Assigns a Qualys tag object to the asset using the tag's ID and the given credentials.
 
-### UnassignTagById($tagName, $inputCredential)
+### UnassignTagById([int32]$tagId, [PSCredential]$inputCredential)
 
 Unassigns a Qualys tag object to the asset using the tag's ID and the given credentials.
 
-### AssignTagsById($tagNames, $inputCredential)
+### AssignTagsById([int32[]]$tagId, [PSCredential]$inputCredential)
 
 Assigns a list of Qualys tag objects to the asset using the tag IDs and the given credentials.
 
-### UnassignTagsById($tagNames, $inputCredential)
+### UnassignTagsById([int32[]]$tagId, [PSCredential]$inputCredential)
 
 Unassigns a list of Qualys tag objects to the asset using the tag IDs and the given credentials.
 

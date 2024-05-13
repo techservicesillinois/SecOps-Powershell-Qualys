@@ -56,7 +56,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: None
 Default value: $Credential
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -72,7 +72,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: None
 Default value: $QualysApiUrl
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -88,7 +88,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: None
 Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False

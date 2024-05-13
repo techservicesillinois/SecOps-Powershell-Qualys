@@ -31,34 +31,34 @@ Returns the name of the Qualys tag.
 
 Returns the Qualys tag object in JSON format.
 
-### Assign($QualysAsset, $inputCredential)
+### Assign([QualysAsset]$QualysAsset, [PSCredential]$inputCredential)
 
 Assigns the tag to the Qualys asset.
 
-### Unassign($QualysAsset, $inputCredential)
+### Unassign([QualysAsset]$QualysAsset, [PSCredential]$inputCredential)
 
 Unassigns the tag to the Qualys asset.
 
-### AssignById($assetId, $inputCredential)
+### AssignById([Int32]$assetId, [PSCredential]$inputCredential)
 
 Assigns the tag to the Qualys asset based on the asset's ID.
 
-### UnassignById($assetId, $inputCredential)
+### UnassignById([Int32]$assetId, [PSCredential]$inputCredential)
 
 Unassigns the tag to the Qualys asset based on the asset's ID.
 
-### AssignByName($assetName, $inputCredential)
+### AssignByName([String]$assetId, [PSCredential]$inputCredential)
 
 Assigns the tag to the Qualys asset based on the asset's name.
 
-### UnassignByName($assetName, $inputCredential)
+### UnassignByName([String]$assetId, [PSCredential]$inputCredential)
 
 Unassigns the tag to the Qualys asset based on the asset's name.
 
-### GetParentTag($Recursive, $inputCredential)
+### GetParentTag([Switch]$Recursive, [PSCredential]$inputCredential)
 
 Add the parent QualysTag object to the tag's parentTag property. Will add grandparent tag object to the parent tag's parentTag property if recursive.
 
-### GetChildTags($Recursive, $inputCredential)
+### GetChildTags([Switch]$Recursive, [PSCredential]$inputCredential)
 
 Add the child QualysTag object list to the tag's childTags property. Will add grandchild tag objects to the child tag's childTags property if recursive.
