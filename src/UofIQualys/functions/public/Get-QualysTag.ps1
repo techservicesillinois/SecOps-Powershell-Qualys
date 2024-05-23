@@ -103,9 +103,9 @@ function Get-QualysTag {
     #pull parent tag and add to responseTag
     foreach ($responseTag in $responseTags) {
 
-        if ( [string]::IsNullOrEmpty($responseTags[0].parentTagId) -eq $false -and $RetrieveParentTag ) {
+        if ( [string]::IsNullOrEmpty($responseTag.parentTagId) -eq $false -and $RetrieveParentTag ) {
             $params = @{
-                TagId             = $responseTags[0].parentTagId
+                TagId             = $responseTag.parentTagId
                 InputCredential   = $InputCredential
                 InputQualysApiUrl = $InputQualysApiUrl
             }
@@ -113,16 +113,13 @@ function Get-QualysTag {
                 $params.Add("Recursive", $true)
                 $params.Add("RetrieveParentTag", $true)
             }
-            $ParentTag = Get-QualysTag @params
-            foreach ($responseTag in $responseTags) {
-                $responseTag.parentTag = $ParentTag
-            }
+            $responseTag.parentTag = Get-QualysTag @params
         }
 
         #pull child tags and add to responseTag
         if ( $RetrieveChildTags ) {
             $params = @{
-                ParentTagId       = $responseTags[0].id
+                ParentTagId       = $responseTag.id
                 InputCredential   = $InputCredential
                 InputQualysApiUrl = $InputQualysApiUrl
             }
@@ -130,14 +127,8 @@ function Get-QualysTag {
                 $params.Add("Recursive", $true)
                 $params.Add("RetrieveChildTags", $true)
             }
-            $childTags = Get-QualysTag @params
+            $resonseTag.childTags = Get-QualysTag @params
             # Don't add if there are no child tags
-            if ($null -ne $childTags) {
-                foreach ($childTag in $childTags) {
-                    $childTag.parentTag = $responseTag
-                    $responseTag.childTags.Add($childTag)
-                }
-            }
         }
     }
 
