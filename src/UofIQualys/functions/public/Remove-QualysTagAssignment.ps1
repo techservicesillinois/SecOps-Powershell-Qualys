@@ -36,7 +36,7 @@ function Remove-QualysTagAssignment {
 
     # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
     if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($inputCredential.UserName) -or [string]::IsNullOrEmpty($inputCredential.GetNetworkCredential().Password)) {
-        return "One or more of the following parameters are empty: InputCredential, InputQualysApiUrl.
+        throw "One or more of the following parameters are empty: InputCredential, InputQualysApiUrl.
         By default, these parameters are set to the values of the global variables: Credential, QualysApiUrl.
         Please ensure these global variables are set, or provide the inputs, and try again."
     }
