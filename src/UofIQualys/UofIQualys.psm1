@@ -413,7 +413,8 @@ class QualysTag {
     QualysTag ( [System.Xml.XmlElement] $QualysTagApiResponse ) {
         $this.created = $QualysTagApiResponse.created
         $this.id = $QualysTagApiResponse.id
-        $this.modified = $QualysTagApiResponse.modified
+        # Set modified to Jan 1, 1970 if it is null
+        $this.modified = if ($QualysTagApiResponse.modified) { $QualysTagApiResponse.modified } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.name = $QualysTagApiResponse.name
         $this.parentTagId = $QualysTagApiResponse.parentTagId
         $this.parentTag = $null
