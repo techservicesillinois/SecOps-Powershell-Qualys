@@ -55,16 +55,19 @@ function Sync-QualysTagAssignment {
     }
 
     process {
-        # Downselect assetTags from $tags to only those that are in the InputAsset's tags.list.TagSimple array
+        # Downselect assetTags from $tags to only those that are in the InputAsset's tags (from Qualys) array
         # [hashtable](QualysTagID:QualysTag)
         $assetTags = @{}
         $InputAsset.tags | ForEach-Object {
             $tagID = $_.id
             if ($tags.ContainsKey($tagID)) {
+                # If the tag is already in the cache, add it to the assetTags hashtable
                 $assetTags.Add($tagID, $tags[$tagID])
             } else {
+                # If the tag is not in the cache, retrieve it from Qualys and add it to the cache
                 $tag = Get-QualysTag -TagId $tagID -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
                 if ($null -eq $tag) {
+                    # If the tag is not found in Qualys, add it to the Issues array
                     $responses.Issues.Add($(New-Object PSObject -Property @{
                         TagName   = "$($_.name)"
                         AssetName = $inputAsset.name
@@ -72,7 +75,9 @@ function Sync-QualysTagAssignment {
                     })) | Out-Null
                     continue
                 } else {
+                    # If the tag is found in Qualys, add it to the cache and the assetTags hashtable
                     $tags.Add($tag.id, $tag) | Out-Null
+                    $assetTags.Add($tag.ID, $tag)
                     $responses.Caching.Add($(New-Object PSObject -Property @{
                         TagName   = "$($tag.name)"
                         AssetName = $inputAsset.name
@@ -107,9 +112,9 @@ function Sync-QualysTagAssignment {
                         })) | Out-Null
                     }
                 }
-                if ($assetTags.Keys -notcontains $QualysTag.id) {
-                    $assetTags.Add($QualysTag.id, $QualysTag)
-                }
+                # if ($assetTags.Keys -notcontains $QualysTag.id) {
+                #     $assetTags.Add($QualysTag.id, $QualysTag)
+                # }
                 # may need slightly more sophisticated matching
                 [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object { $_.parentTag.name -match "$($InputAsset.prefix)$($category)" }
                 if ($tagsOfCategory.Count -eq 0) {
@@ -144,7 +149,8 @@ function Sync-QualysTagAssignment {
                             TagName   = "$($QualysTag.name)"
                             AssetName = $inputAsset.name
                             Message   = 'Exists'
-                        })) | Out-Null                    }
+                        })) | Out-Null
+                    }
                 }
             }
         }
