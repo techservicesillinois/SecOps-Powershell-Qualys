@@ -107,20 +107,20 @@ s
         }
         $this.address = $QualysAssetApiResponse.address
         $this.biosDescription = $QualysAssetApiResponse.biosDescription
-        $this.created = $QualysAssetApiResponse.created
+        $this.created = if ($QualysAssetApiResponse.created) { $QualysAssetApiResponse.created } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.criticalityScore = $QualysAssetApiResponse.criticalityScore
         $this.dnsHostName = $QualysAssetApiResponse.dnsHostName
         $this.fqdn = $QualysAssetApiResponse.fqdn
         $this.id = $QualysAssetApiResponse.id
-        $this.informationGatheredUpdated = $QualysAssetApiResponse.informationGatheredUpdated
+        $this.informationGatheredUpdated = if ($QualysAssetApiResponse.informationGatheredUpdated) { $QualysAssetApiResponse.informationGatheredUpdated } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.isDockerHost = $QualysAssetApiResponse.isDockerHost
-        $this.lastComplianceScan = $QualysAssetApiResponse.lastComplianceScan
+        $this.lastComplianceScan = if ($QualysAssetApiResponse.lastComplianceScan) { $QualysAssetApiResponse.lastComplianceScan } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.lastLoggedOnUser = $QualysAssetApiResponse.lastLoggedOnUser
-        $this.lastSystemBoot = $QualysAssetApiResponse.lastSystemBoot
-        $this.lastVulnScan = $QualysAssetApiResponse.lastVulnScan
+        $this.lastSystemBoot = if ($QualysAssetApiResponse.lastSystemBoot) { $QualysAssetApiResponse.lastSystemBoot } else { [datetime]'1970-01-01T00:00:00Z' }
+        $this.lastVulnScan = if ($QualysAssetApiResponse.lastVulnScan) { $QualysAssetApiResponse.lastVulnScan } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.manufacturer = $QualysAssetApiResponse.manufacturer
         $this.model = $QualysAssetApiResponse.model
-        $this.modified = $QualysAssetApiResponse.modified
+        $this.modified = if ($QualysAssetApiResponse.modified) { $QualysAssetApiResponse.modified } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.name = $QualysAssetApiResponse.name
         $this.networkGuid = $QualysAssetApiResponse.networkGuid
         $this.os = $QualysAssetApiResponse.os
@@ -129,11 +129,11 @@ s
         $this.totalMemory = $QualysAssetApiResponse.totalMemory
         $this.trackingMethod = $QualysAssetApiResponse.trackingMethod
         $this.type = $QualysAssetApiResponse.type
-        $this.vulnsUpdated = $QualysAssetApiResponse.vulnsUpdated
+        $this.vulnsUpdated = if ($QualysAssetApiResponse.vulnsUpdated) { $QualysAssetApiResponse.vulnsUpdated } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.agentInfo = New-Object PSCustomObject -Property @{
             agentId              = [Guid]$QualysAssetApiResponse.agentInfo.agentId
             agentVersion         = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
-            lastCheckedIn        = [datetime]$QualysAssetApiResponse.agentInfo.lastCheckedIn
+            lastCheckedIn        = if ($QualysAssetApiResponse.agentInfo.lastCheckedIn) { $QualysAssetApiResponse.agentInfo.lastCheckedIn } else { [datetime]'1970-01-01T00:00:00Z' }
             status               = [string]$QualysAssetApiResponse.agentInfo.status
             connectedFrom        = [ipaddress]$QualysAssetApiResponse.agentInfo.connectedFrom
             location             = [string]$QualysAssetApiResponse.agentInfo.location
@@ -199,8 +199,8 @@ s
             New-Object PSCustomObject -Property @{
                 qid                = [int32]$_.qid
                 hostInstanceVulnId = [int32]$_.hostInstanceVulnId
-                firstFound         = [datetime]$_.firstFound
-                lastFound          = [datetime]$_.lastFound
+                firstFound         = if ($_.firstFound) { [datetime]$_.firstFound } else { [datetime]'1970-01-01T00:00:00Z' }
+                lastFound          = if ($_.lastFound) { [datetime]$_.lastFound } else { [datetime]'1970-01-01T00:00:00Z' }
             }
         }
     }
