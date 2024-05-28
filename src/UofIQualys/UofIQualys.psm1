@@ -133,7 +133,7 @@ s
         $this.agentInfo = New-Object PSCustomObject -Property @{
             agentId              = if ($QualysAssetApiResponse.agentInfo.agentId) {[Guid]$QualysAssetApiResponse.agentInfo.agentId} else { [Guid]'00000000-0000-0000-0000-000000000000' }
             agentVersion         = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
-            lastCheckedIn        = if ($QualysAssetApiResponse.agentInfo.lastCheckedIn) { $QualysAssetApiResponse.agentInfo.lastCheckedIn } else { [datetime]'1970-01-01T00:00:00Z' }
+            lastCheckedIn        = if ($QualysAssetApiResponse.agentInfo.lastCheckedIn) { [datetime]$QualysAssetApiResponse.agentInfo.lastCheckedIn } else { [datetime]'1970-01-01T00:00:00Z' }
             status               = [string]$QualysAssetApiResponse.agentInfo.status
             connectedFrom        = [ipaddress]$QualysAssetApiResponse.agentInfo.connectedFrom
             location             = [string]$QualysAssetApiResponse.agentInfo.location
