@@ -131,7 +131,7 @@ s
         $this.type = $QualysAssetApiResponse.type
         $this.vulnsUpdated = if ($QualysAssetApiResponse.vulnsUpdated) { $QualysAssetApiResponse.vulnsUpdated } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.agentInfo = New-Object PSCustomObject -Property @{
-            agentId              = [Guid]$QualysAssetApiResponse.agentInfo.agentId
+            agentId              = if ($QualysAssetApiResponse.agentInfo.agentId) {[Guid]$QualysAssetApiResponse.agentInfo.agentId} else { [Guid]'00000000-0000-0000-0000-000000000000' }
             agentVersion         = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
             lastCheckedIn        = if ($QualysAssetApiResponse.agentInfo.lastCheckedIn) { $QualysAssetApiResponse.agentInfo.lastCheckedIn } else { [datetime]'1970-01-01T00:00:00Z' }
             status               = [string]$QualysAssetApiResponse.agentInfo.status
@@ -151,7 +151,7 @@ s
                 name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
             }
             activationKey        = New-Object PSCustomObject -Property @{
-                activationId = [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId
+                activationId = if ($QualysAssetApiResponse.agentInfo.activationKey.activationId) { [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId } else { [Guid]'00000000-0000-0000-0000-000000000000'
                 title        = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
             }
         }
