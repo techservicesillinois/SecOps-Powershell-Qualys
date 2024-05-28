@@ -122,7 +122,7 @@ s
         $this.model = $QualysAssetApiResponse.model
         $this.modified = if ($QualysAssetApiResponse.modified) { [datetime]$QualysAssetApiResponse.modified } else { [datetime]'1970-01-01T00:00:00Z' }
         $this.name = $QualysAssetApiResponse.name
-        $this.networkGuid = $QualysAssetApiResponse.networkGuid
+        $this.networkGuid = if ($QualysAssetApiResponse.networkGuid) { [guid]$QualysAssetApiResponse.networkGuid } else { [guid]'00000000-0000-0000-0000-000000000000' }
         $this.os = $QualysAssetApiResponse.os
         $this.qwebHostId = $QualysAssetApiResponse.qwebHostId
         $this.timezone = $QualysAssetApiResponse.timezone
