@@ -158,7 +158,7 @@ s
             }
         }
         else { $null }
-        $this.networkInterface = if ($QualysAssetApiResponse.networkInterface.list.HostAssetInterface[0]) {$QualysAssetApiResponse.networkInterface.list.HostAssetInterface | ForEach-Object {
+        $this.networkInterface = if ($QualysAssetApiResponse.networkInterface.list.HostAssetInterface) {$QualysAssetApiResponse.networkInterface.list.HostAssetInterface | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 interfaceName  = [string]$_.name
                 macAddress     = [string]$_.mac
@@ -176,7 +176,7 @@ s
                 protocol = [string]$_.protocol
             }
         }
-        $this.processor = if($QualysAssetApiResponse.processor.list.HostAssetProcessor[0]) { $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
+        $this.processor = if($QualysAssetApiResponse.processor.list.HostAssetProcessor) { $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name  = [string]$_.name
                 speed = [int32]$_.speed
@@ -184,7 +184,7 @@ s
         }
     }
         else { $null }
-        $this.software = if ($QualysAssetApiResponse.software.list.HostAssetSoftware[0]) {$QualysAssetApiResponse.software.list.HostAssetSoftware | ForEach-Object {
+        $this.software = if ($QualysAssetApiResponse.software.list.HostAssetSoftware) {$QualysAssetApiResponse.software.list.HostAssetSoftware | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name    = [string]$_.name
                 version = [string]$_.version
@@ -192,7 +192,7 @@ s
         }
     }
         else { $null }
-        $this.tags = if ($QualysAssetApiResponse.tags.list.TagSimple[0]) {$QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
+        $this.tags = if ($QualysAssetApiResponse.tags.list.TagSimple) {$QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 id   = [int32]$_.id
                 name = [string]$_.name
@@ -200,7 +200,7 @@ s
         }
     }
         else { $null }
-        $this.volume = if ($QualysAssetApiResponse.volume.list.HostAssetVolume[0]) {$QualysAssetApiResponse.volume.list.HostAssetVolume | ForEach-Object {
+        $this.volume = if ($QualysAssetApiResponse.volume.list.HostAssetVolume) {$QualysAssetApiResponse.volume.list.HostAssetVolume | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name = [string]$_.name
                 size = [int64]$_.size
@@ -209,7 +209,7 @@ s
         }
     }
         else { $null }
-        $this.vuln = if ($QualysAssetApiResponse.vuln.list.HostAssetVuln[0]) {$QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
+        $this.vuln = if ($QualysAssetApiResponse.vuln.list.HostAssetVuln) {$QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 qid                = [int32]$_.qid
                 hostInstanceVulnId = [int32]$_.hostInstanceVulnId
