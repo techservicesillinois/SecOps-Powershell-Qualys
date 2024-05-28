@@ -130,32 +130,35 @@ s
         $this.trackingMethod = $QualysAssetApiResponse.trackingMethod
         $this.type = $QualysAssetApiResponse.type
         $this.vulnsUpdated = if ($QualysAssetApiResponse.vulnsUpdated) { [datetime]$QualysAssetApiResponse.vulnsUpdated } else { [datetime]'1970-01-01T00:00:00Z' }
-        $this.agentInfo = New-Object PSCustomObject -Property @{
-            agentId              = if ($QualysAssetApiResponse.agentInfo.agentId) {[Guid]$QualysAssetApiResponse.agentInfo.agentId} else { [Guid]'00000000-0000-0000-0000-000000000000' }
-            agentVersion         = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
-            lastCheckedIn        = if ($QualysAssetApiResponse.agentInfo.lastCheckedIn) { [datetime]$QualysAssetApiResponse.agentInfo.lastCheckedIn } else { [datetime]'1970-01-01T00:00:00Z' }
-            status               = [string]$QualysAssetApiResponse.agentInfo.status
-            connectedFrom        = [ipaddress]$QualysAssetApiResponse.agentInfo.connectedFrom
-            location             = [string]$QualysAssetApiResponse.agentInfo.location
-            locationGeoLatitude  = [double]$QualysAssetApiResponse.agentInfo.locationGeoLatitude
-            locationGeoLongitude = [double]$QualysAssetApiResponse.agentInfo.locationGeoLongitude
-            chirpStatus          = [string]$QualysAssetApiResponse.agentInfo.chirpStatus
-            platform             = [string]$QualysAssetApiResponse.agentInfo.platform
-            activatedModule      = [string[]]$QualysAssetApiResponse.agentInfo.activatedModule.Split(",")
-            manifestVersion      = New-Object PSCustomObject -Property @{
-                vm  = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.vm
-                sca = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.sca
-            }
-            agentConfiguration   = New-Object PSCustomObject -Property @{
-                id   = [int32]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
-                name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
-            }
-            activationKey        = New-Object PSCustomObject -Property @{
-                activationId = if ($QualysAssetApiResponse.agentInfo.activationKey.activationId) { [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId } else { [Guid]'00000000-0000-0000-0000-000000000000' }
-                title        = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
+        $this.agentInfo = if ($QualysAssetApiResponse.agentInfo) {
+            New-Object PSCustomObject -Property @{
+                agentId              = if ($QualysAssetApiResponse.agentInfo.agentId) { [Guid]$QualysAssetApiResponse.agentInfo.agentId } else { [Guid]'00000000-0000-0000-0000-000000000000' }
+                agentVersion         = [Version]$QualysAssetApiResponse.agentInfo.agentVersion
+                lastCheckedIn        = if ($QualysAssetApiResponse.agentInfo.lastCheckedIn) { [datetime]$QualysAssetApiResponse.agentInfo.lastCheckedIn } else { [datetime]'1970-01-01T00:00:00Z' }
+                status               = [string]$QualysAssetApiResponse.agentInfo.status
+                connectedFrom        = [ipaddress]$QualysAssetApiResponse.agentInfo.connectedFrom
+                location             = [string]$QualysAssetApiResponse.agentInfo.location
+                locationGeoLatitude  = [double]$QualysAssetApiResponse.agentInfo.locationGeoLatitude
+                locationGeoLongitude = [double]$QualysAssetApiResponse.agentInfo.locationGeoLongitude
+                chirpStatus          = [string]$QualysAssetApiResponse.agentInfo.chirpStatus
+                platform             = [string]$QualysAssetApiResponse.agentInfo.platform
+                activatedModule      = [string[]]$QualysAssetApiResponse.agentInfo.activatedModule.Split(",")
+                manifestVersion      = New-Object PSCustomObject -Property @{
+                    vm  = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.vm
+                    sca = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.sca
+                }
+                agentConfiguration   = New-Object PSCustomObject -Property @{
+                    id   = [int32]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
+                    name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
+                }
+                activationKey        = New-Object PSCustomObject -Property @{
+                    activationId = if ($QualysAssetApiResponse.agentInfo.activationKey.activationId) { [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId } else { [Guid]'00000000-0000-0000-0000-000000000000' }
+                    title        = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
+                }
             }
         }
-        $this.networkInterface = $QualysAssetApiResponse.networkInterface.list.HostAssetInterface | ForEach-Object {
+        else { $null }
+        $this.networkInterface = if ($QualysAssetApiResponse.networkInterface.list.HostAssetInterface[0]) {$QualysAssetApiResponse.networkInterface.list.HostAssetInterface | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 interfaceName  = [string]$_.name
                 macAddress     = [string]$_.mac
@@ -164,38 +167,49 @@ s
                 hostname       = [string]$_.hostname
             }
         }
+    }
+        else { $null }
+
         $this.openPort = $QualysAssetApiResponse.openPort.list.HostAssetOpenPort | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 port     = [int32]$_.port
                 protocol = [string]$_.protocol
             }
         }
-        $this.processor = $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
+        $this.processor = if($QualysAssetApiResponse.processor.list.HostAssetProcessor[0]) { $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name  = [string]$_.name
                 speed = [int32]$_.speed
             }
         }
-        $this.software = $QualysAssetApiResponse.software.list.HostAssetSoftware | ForEach-Object {
+    }
+        else { $null }
+        $this.software = if ($QualysAssetApiResponse.software.list.HostAssetSoftware[0]) {$QualysAssetApiResponse.software.list.HostAssetSoftware | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name    = [string]$_.name
                 version = [string]$_.version
             }
         }
-        $this.tags = $QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
+    }
+        else { $null }
+        $this.tags = if ($QualysAssetApiResponse.tags.list.TagSimple[0]) {$QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 id   = [int32]$_.id
                 name = [string]$_.name
             }
         }
-        $this.volume = $QualysAssetApiResponse.volume.list.HostAssetVolume | ForEach-Object {
+    }
+        else { $null }
+        $this.volume = if ($QualysAssetApiResponse.volume.list.HostAssetVolume[0]) {$QualysAssetApiResponse.volume.list.HostAssetVolume | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name = [string]$_.name
                 size = [int64]$_.size
                 free = [int64]$_.free
             }
         }
-        $this.vuln = $QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
+    }
+        else { $null }
+        $this.vuln = if ($QualysAssetApiResponse.vuln.list.HostAssetVuln[0]) {$QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 qid                = [int32]$_.qid
                 hostInstanceVulnId = [int32]$_.hostInstanceVulnId
@@ -203,6 +217,8 @@ s
                 lastFound          = if ($_.lastFound) { [datetime]$_.lastFound } else { [datetime]'1970-01-01T00:00:00Z' }
             }
         }
+    }
+        else { $null }
     }
 
     # Methods
