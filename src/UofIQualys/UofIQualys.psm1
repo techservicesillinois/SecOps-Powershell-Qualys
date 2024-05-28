@@ -151,7 +151,7 @@ s
                 name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
             }
             activationKey        = New-Object PSCustomObject -Property @{
-                activationId = if ($QualysAssetApiResponse.agentInfo.activationKey.activationId) { [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId } else { [Guid]'00000000-0000-0000-0000-000000000000'
+                activationId = if ($QualysAssetApiResponse.agentInfo.activationKey.activationId) { [Guid]$QualysAssetApiResponse.agentInfo.activationKey.activationId } else { [Guid]'00000000-0000-0000-0000-000000000000' }
                 title        = [string]$QualysAssetApiResponse.agentInfo.activationKey.title
             }
         }
