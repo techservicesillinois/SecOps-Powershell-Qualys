@@ -170,11 +170,13 @@ function Sync-QualysTagAssignment {
                         })) | Out-Null }
         }
         catch {
+            try{
             $responses.Issues.Add($(New-Object PSObject -Property @{
                         TagName   = "$($InputAsset.prefix)$($vtag.TagName)"
                         AssetName = $inputAsset.name
                         Message   = "Error: $_"
                     })) | Out-Null
+                } catch { Write-Output "Something really broke. Continuing."}
         }
     }
 
