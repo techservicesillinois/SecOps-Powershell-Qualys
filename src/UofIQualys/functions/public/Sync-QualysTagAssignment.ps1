@@ -105,7 +105,7 @@ function Sync-QualysTagAssignment {
                                         AssetName = $inputAsset.name
                                         Message   = 'NotFound'
                                     })) | Out-Null
-                            continue
+                                    return
                         }
                         else {
                             $tags.Add($QualysTag.id, $QualysTag) | Out-Null
