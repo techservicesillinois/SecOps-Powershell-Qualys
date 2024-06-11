@@ -22,24 +22,20 @@ function Remove-QualysTagAssignment {
             - Carter Kindley
     #>
     param (
+
         [parameter(Mandatory = $true)]
         [string]
         $AssetId,
+
         [parameter(Mandatory = $true)]
         [Int32]
         $TagId,
-        [PSCredential]
-        $InputCredential = $Credential,
-        [string]
-        $InputQualysApiUrl = $qualysApiUrl
-    )
 
-    # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($inputCredential.UserName) -or [string]::IsNullOrEmpty($inputCredential.GetNetworkCredential().Password)) {
-        throw "One or more of the following parameters are empty: InputCredential, InputQualysApiUrl.
-        By default, these parameters are set to the values of the global variables: Credential, QualysApiUrl.
-        Please ensure these global variables are set, or provide the inputs, and try again."
-    }
+        [parameter(Mandatory = $true)]
+        [PSCredential]
+        $Credential
+
+    )
 
     $bodyRemoveTag = "<ServiceRequest>
                         <data>
@@ -61,12 +57,22 @@ function Remove-QualysTagAssignment {
     $origProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
-    $responseRemoveTag = Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/update/am/hostasset/$assetId" -ErrorAction Continue -Method Post -Headers @{
-        "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
-        "Content-Type"  = "application/xml"
-        "Accept"        = "application/xml"
-    } -Body $bodyRemoveTag
+    $RestSplat = @{
+        RelativeUri = "qps/rest/2.0/update/am/hostasset/$assetId"
+        Method      = 'POST'
+        XmlBody     = $bodyAddTag
+        Credential  = $Credential
+    }
 
+    try {
+        $responseRemoveTag = Invoke-QualysRestCall @RestSplat
+    }
+    catch {
+        # Dig into the exception to get the Response details.
+        # Note that value__ is not a typo.
+        Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
+        Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+    }
     # Restore progress preference
     $ProgressPreference = $origProgressPreference
 

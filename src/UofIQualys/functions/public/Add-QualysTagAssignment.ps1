@@ -62,7 +62,15 @@ function Add-QualysTagAssignment {
         Credential  = $Credential
     }
 
-    $responseAddTag = Invoke-QualysRestCall @RestSplat
+    try {
+        $responseAddTag = Invoke-QualysRestCall @RestSplat
+    }
+    catch {
+        # Dig into the exception to get the Response details.
+        # Note that value__ is not a typo.
+        Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
+        Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+    }
 
     # Restore progress preference
     $ProgressPreference = $origProgressPreference
