@@ -41,9 +41,6 @@ function Get-QualysTag {
         [pscredential]
         $InputCredential = $Credential,
 
-        [string]
-        $InputQualysApiUrl = $QualysApiUrl,
-
         [switch]
         $RetrieveParentTag,
 
@@ -84,11 +81,15 @@ function Get-QualysTag {
     $origProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
-    $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$inputQualysApiUrl/qps/rest/2.0/search/am/tag" -ErrorAction Continue -Method Post -Headers @{
-            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
-            "Content-Type"  = "application/xml"
-            "Accept"        = "application/xml"
-        } -Body $bodyTag).Content
+    # Use Invoke-QualysRestCall to make the API request
+    $RestSplat = @{
+        Method = 'POST'
+        RelativeURI = 'qps/rest/2.0/search/am/tag'
+        Credential = $Credential
+        Body = $bodyTag
+    }
+
+    $ResponseContent = [xml](Invoke-QualysRestCall @RestSplat)
 
     if ($null -eq $responseContent.ServiceResponse.data.Tag) {
         return $null
