@@ -6,19 +6,12 @@ function Sync-QualysTagAssignment {
             This function synchronizes tags from an external source of truth to Qualys.
         .PARAMETER InputAsset
             The QualysAsset object to synchronize tags for.
-        .PARAMETER InputCredential
+        .PARAMETER Credential
             The PSCredential object to use for authentication.
-        .PARAMETER InputQualysApiUrl
-            The URL of the Qualys API.
         .PARAMETER CategoryDefinitions
             A hashtable of category definitions of external tags. The key is the category name and the value is the list of possible tag names in the category.
         .EXAMPLE
-            Sync-QualysTagAssignment -InputAsset $InputAsset -InputCredential $credential -InputQualysApiUrl $QualysApiUrl -CategoryDefinitions $CategoryDefinitions
-        .NOTES
-            Authors:
-            - Carter Kindley
-            - Jack Nemitz
-
+            Sync-QualysTagAssignment -InputAsset $InputAsset -Credential $credential$QualysApiUrl -CategoryDefinitions $CategoryDefinitions
     #>
 
     [CmdletBinding(SupportsShouldProcess = $true)]
@@ -28,11 +21,9 @@ function Sync-QualysTagAssignment {
         [QualysAsset]
         $InputAsset,
 
+        [Parameter(Mandatory = $true)]
         [pscredential]
-        $InputCredential = $Credential,
-
-        [string]
-        $InputQualysApiUrl = $QualysApiUrl,
+        $Credential,
 
         [Parameter(Mandatory = $true)]
         [hashtable]
@@ -67,7 +58,7 @@ function Sync-QualysTagAssignment {
                 }
                 else {
                     # If the tag is not in the cache, retrieve it from Qualys and add it to the cache
-                    $tag = Get-QualysTag -TagId $tagID -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
+                    $tag = Get-QualysTag -TagId $tagID -Credential $Credential -RetrieveParentTag
                     if ($null -eq $tag) {
                         # If the tag is not found in Qualys, add it to the Issues array
                         $responses.Issues.Add($(New-Object PSObject -Property @{
@@ -98,7 +89,7 @@ function Sync-QualysTagAssignment {
                     $QualysTag = $null
                     $QualysTag = $($tags.GetEnumerator() | Where-Object { $_.Value.name -eq "$($InputAsset.prefix)$($vtag.TagName)" }).Value
                     if ($null -eq $QualysTag) {
-                        $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -InputCredential $InputCredential -InputQualysApiUrl $InputQualysApiUrl -RetrieveParentTag
+                        $QualysTag = Get-QualysTag -TagName "$($InputAsset.prefix)$($vtag.TagName)" -Credential $credential -RetrieveParentTag
                         if ($null -eq $QualysTag) {
                             $responses.Issues.Add($(New-Object PSObject -Property @{
                                         TagName   = "$($InputAsset.prefix)$($vtag.TagName)"
@@ -123,7 +114,7 @@ function Sync-QualysTagAssignment {
                     [QualysTag[]]$tagsOfCategory = $assetTags.Values | Where-Object { $_.parentTag.name -match "$($InputAsset.prefix)$($category)" }
                     if ($tagsOfCategory.Count -eq 0) {
                         # We need to assign the tag to the asset
-                        $InputAsset.AssignTag($QualysTag, $InputCredential)
+                        $InputAsset.AssignTag($QualysTag, $credential)
                         $responses.Added.Add($(New-Object PSObject -Property @{
                                     TagName   = "$($QualysTag.name)"
                                     AssetName = $inputAsset.name
@@ -134,7 +125,7 @@ function Sync-QualysTagAssignment {
                         # more than one tag of category $category exists on InputAsset - need to remove incorrect tags
                         $tagsOfCategory | ForEach-Object {
                             if ($_.id -ne $QualysTag.id) {
-                                $InputAsset.UnassignTag($_, $InputCredential)
+                                $InputAsset.UnassignTag($_, $credential)
                                 $responses.Removed.Add($(New-Object PSObject -Property @{
                                             TagName   = "$($_.name)"
                                             AssetName = $inputAsset.name
@@ -143,7 +134,7 @@ function Sync-QualysTagAssignment {
                             }
                         }
                         if (-not $tagsOfCategory.Contains($QualysTag)) {
-                            $InputAsset.AssignTag($QualysTag, $InputCredential)
+                            $InputAsset.AssignTag($QualysTag, $credential)
                             $responses.Added.Add($(New-Object PSObject -Property @{
                                         TagName   = "$($QualysTag.name)"
                                         AssetName = $inputAsset.name
