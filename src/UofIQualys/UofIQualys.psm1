@@ -235,11 +235,11 @@ s
         $QualysTag,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign a tag to this asset
-        Add-QualysTagAssignment -assetId $this.id -tagId $QualysTag.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Add-QualysTagAssignment -assetId $this.id -tagId $QualysTag.id -Credential $Credential
     }
 
     [void] UnassignTag (
@@ -248,11 +248,11 @@ s
         $QualysTag,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign a tag from this asset
-        Remove-QualysTagAssignment -assetId $this.id -tagId $QualysTag.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Remove-QualysTagAssignment -assetId $this.id -tagId $QualysTag.id -Credential $Credential
     }
 
     [void] AssignTags (
@@ -261,12 +261,12 @@ s
         $QualysTags,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign multiple tags to this asset
         foreach ($tag in $QualysTags) {
-            Add-QualysTagAssignment -assetId $this.id -tagId $tag.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+            Add-QualysTagAssignment -assetId $this.id -tagId $tag.id -Credential $Credential
         }
     }
 
@@ -276,12 +276,12 @@ s
         $QualysTags,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign multiple tags from this asset
         foreach ($tag in $QualysTags) {
-            Remove-QualysTagAssignment -assetId $this.id -tagId $tag.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+            Remove-QualysTagAssignment -assetId $this.id -tagId $tag.id -Credential $Credential
         }
     }
 
@@ -291,11 +291,11 @@ s
         $tagName,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign a tag to this asset by name
-        Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
     }
 
     [void] UnassignTagByName (
@@ -304,11 +304,11 @@ s
         $tagName,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign a tag from this asset by name
-        Remove-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Remove-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
     }
 
     [void] AssignTagsByName (
@@ -317,12 +317,12 @@ s
         $tagNames,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign multiple tags to this asset by name
         foreach ($tagName in $tagNames) {
-            Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+            Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
         }
     }
 
@@ -332,12 +332,12 @@ s
         $tagNames,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign multiple tags from this asset by name
         foreach ($tagName in $tagNames) {
-            Remove-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+            Remove-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
         }
     }
 
@@ -347,11 +347,11 @@ s
         $tagId,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign a tag to this asset by ID
-        Add-QualysTagAssignment -assetId $this.id -tagId $tagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Add-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
     }
 
     [void] UnassignTagById (
@@ -360,11 +360,11 @@ s
         $tagId,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign a tag from this asset by ID
-        Remove-QualysTagAssignment -assetId $this.id -tagId $tagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Remove-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
     }
 
     [void] AssignTagsById (
@@ -373,12 +373,12 @@ s
         $tagIds,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign multiple tags to this asset by ID
         foreach ($tagId in $tagIds) {
-            Add-QualysTagAssignment -assetId $this.id -tagId $tagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+            Add-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
         }
     }
 
@@ -388,12 +388,12 @@ s
         $tagIds,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign multiple tags from this asset by ID
         foreach ($tagId in $tagIds) {
-            Remove-QualysTagAssignment -assetId $this.id -tagId $tagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+            Remove-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
         }
     }
 }
@@ -450,11 +450,11 @@ class QualysTag {
         $QualysAsset,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign this tag to a Qualys asset
-        Add-QualysTagAssignment -assetId $QualysAsset.id -tagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Add-QualysTagAssignment -assetId $QualysAsset.id -tagId $this.id -Credential $Credential
     }
 
     [void] Unassign (
@@ -463,11 +463,11 @@ class QualysTag {
         $QualysAsset,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign this tag from a Qualys asset
-        Remove-QualysTagAssignment -assetId $QualysAsset.id -tagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Remove-QualysTagAssignment -assetId $QualysAsset.id -tagId $this.id -Credential $Credential
     }
 
     [void] AssignById (
@@ -476,11 +476,11 @@ class QualysTag {
         $assetId,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign this tag to a Qualys asset by ID
-        Add-QualysTagAssignment -assetId $assetId -tagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Add-QualysTagAssignment -assetId $assetId -tagId $this.id -Credential $Credential
     }
 
     [void] UnassignById (
@@ -489,11 +489,11 @@ class QualysTag {
         $assetId,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign this tag from a Qualys asset by ID
-        Remove-QualysTagAssignment -assetId $assetId -tagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Remove-QualysTagAssignment -assetId $assetId -tagId $this.id -Credential $Credential
     }
 
     [void] AssignByName (
@@ -502,11 +502,11 @@ class QualysTag {
         $assetName,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Assign this tag to a Qualys asset by name
-        Add-QualysTagAssignment -assetId (Get-QualysAsset -assetName $assetName -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -tagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Add-QualysTagAssignment -assetId (Get-QualysAsset -assetName $assetName -Credential $Credential ).id -tagId $this.id -Credential $Credential
     }
 
     [void] UnassignByName (
@@ -515,11 +515,11 @@ class QualysTag {
         $assetName,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
         # Unassign this tag from a Qualys asset by name
-        Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName $assetName -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl).id -tagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl
+        Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName $assetName -Credential $Credential ).id -tagId $this.id -Credential $Credential
     }
 
     # Method to pull parent tag
@@ -529,11 +529,11 @@ class QualysTag {
         $Recursive = $false,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
 
     ) {
-        $this.parentTag = Get-QualysTag -tagId $this.parentTagId -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if { $Recursive } (-Recursive)
+        $this.parentTag = Get-QualysTag -tagId $this.parentTagId -Credential $Credential  if { $Recursive } (-Recursive)
     }
 
     # Method to pull child tags
@@ -543,10 +543,10 @@ class QualysTag {
         $Recursive = $false,
 
         [PSCredential]
-        $inputCredential = $credential
+        $Credential
 
     ) {
-        $this.childTags = Get-QualysTag -parentTagId $this.id -InputCredential $inputCredential -inputQualysApiUrl $this.QualysApiUrl if { $Recursive } (-Recursive)
+        $this.childTags = Get-QualysTag -parentTagId $this.id -Credential $Credential  if { $Recursive } (-Recursive)
     }
 
 }
