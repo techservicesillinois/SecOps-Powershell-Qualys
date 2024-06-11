@@ -1,4 +1,4 @@
 {
   "BaseURI": ["https://qualysguard.qualys.com/api/2.0/fo/"],
-  "BasicAuthURI": ["https://qualysapi.qg4.apps.qualys.com"]
+  "BasicAuthURI": ["https://qualysapi.qg4.apps.qualys.com/"]
 }

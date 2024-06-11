@@ -80,7 +80,7 @@ function Get-QualysTag {
         Method = 'POST'
         RelativeURI = 'qps/rest/2.0/search/am/tag'
         Credential = $Credential
-        Body = $bodyTag
+        XmlBody = $bodyTag
     }
 
     $ResponseContent = [xml](Invoke-QualysRestCall @RestSplat)

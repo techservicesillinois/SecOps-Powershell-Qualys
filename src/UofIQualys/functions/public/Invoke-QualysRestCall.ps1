@@ -9,6 +9,8 @@
     Method of the REST call Ex: GET
 .PARAMETER Body
     Body of the REST call as a hashtable
+.PARAMETER XmlBody
+    Body of the REST call as an XML string
 .PARAMETER Credential
     Optionally used for making REST calls that require Basic Authentication
 .EXAMPLE
@@ -20,14 +22,16 @@
     This will return an array of all host assets (IPs) in Qualys
 #>
 function Invoke-QualysRestCall {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='Body')]
     param (
         [Parameter(Mandatory=$true)]
         [String]$RelativeURI,
         [Parameter(Mandatory=$true)]
         [String]$Method,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true, ParameterSetName='Body')]
         [hashtable]$Body,
+        [Parameter(Mandatory=$true, ParameterSetName='XmlBody')]
+        [String]$XmlBody,
         [System.Management.Automation.PSCredential]$Credential
     )
 
@@ -50,7 +54,15 @@ function Invoke-QualysRestCall {
             }
             Method = $Method
             URI = [string]::Empty
-            Body = $Body
+        }
+
+        if($PSCmdlet.ParameterSetName -eq 'XmlBody'){
+            $IVRSplat['Body'] = $XmlBody
+            $IVRSplat['Headers'].Add('Content-Type','application/xml')
+            $IVRSplat['Headers'].Add('Accept','application/xml')
+        }
+        else{
+            $IVRSplat['Body'] = $Body
         }
 
         if($Credential){
