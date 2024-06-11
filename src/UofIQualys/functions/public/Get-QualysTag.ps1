@@ -38,8 +38,9 @@ function Get-QualysTag {
         [Int32]
         $ParentTagId,
 
+        [Parameter(Mandatory = $true)]
         [pscredential]
-        $InputCredential = $Credential,
+        $Credential,
 
         [switch]
         $RetrieveParentTag,
