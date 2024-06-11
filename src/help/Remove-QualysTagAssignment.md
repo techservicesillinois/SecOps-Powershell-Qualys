@@ -16,8 +16,7 @@ Removes a tag assignment to a Qualys host via the Qualys QPS API.
 ```powershell
 Remove-QualysTagAssignment -AssetId <String>
     -TagId <String>
-    [-InputCredential <PSCredential>]
-    [-InputQualysApiUrl <String>]
+    -Credential <PSCredential>
     [<CommonParameters>]
 ```
 
@@ -30,15 +29,14 @@ Remove a tag assignment to the specified host asset, using each object's ID numb
 ### EXAMPLE 1
 
 ```powershell
-Remove-QualysTagAssignment -AssetId "123456" -TagId "654321" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+Remove-QualysTagAssignment -AssetId "123456" -TagId "654321" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
 ```
 
 ### Example 2
 
 ```powershell
 $credential = Get-Credential
-$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$asset = Remove-QualysTagAssignment -AssetId (Get-QualysAsset -AssetName "Server1").id -TagId (Get-QualysTag -TagName "High Security").id
+$asset = Remove-QualysTagAssignment -AssetId (Get-QualysAsset -AssetName "Server1").id -TagId (Get-QualysTag -TagName "High Security").id -Credential $Credential
 ```
 
 ## PARAMETERS
@@ -75,7 +73,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -InputCredential
+### -Credential
 
 The credential to be used for HTTP Basic authorization to the Qualys API.
 
@@ -84,25 +82,9 @@ Type: PSCredential
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: None
 Default value: $Credential
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -InputQualysApiUrl
-
-The base URL for endpoint API connections, ending with the hostname. Ex. "<https://qualysapi.qg3.apps.qualys.com>"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: None
-Default value: $QualysApiUrl
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

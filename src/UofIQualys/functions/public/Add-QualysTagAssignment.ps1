@@ -4,9 +4,9 @@ function Add-QualysTagAssignment {
             Adds a tag to an asset in Qualys.
         .DESCRIPTION
             This function takes an asset ID and a tag ID and adds the tag to the asset.
-        .PARAMETER assetId
+        .PARAMETER AssetId
             The ID of the asset to add the tag to.
-        .PARAMETER tagId
+        .PARAMETER TagId
             The ID of the tag to add to the asset.
         .PARAMETER Credential
             The credential object to log into Qualys.
@@ -37,13 +37,13 @@ function Add-QualysTagAssignment {
 
     )
 
-    $bodyAddTag = "<ServiceRequest>
+    $BodyAddTag = "<ServiceRequest>
                         <data>
                             <HostAsset>
                                 <tags>
                                     <add>
                                         <TagSimple>
-                                            <id>$tagId</id>
+                                            <id>$TagId</id>
                                         </TagSimple>
                                     </add>
                                 </tags>
@@ -52,30 +52,30 @@ function Add-QualysTagAssignment {
                     </ServiceRequest>"
 
     # Store progress preference and set to SilentlyContinue
-    $origProgressPreference = $ProgressPreference
+    $OrigProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
     $RestSplat = @{
-        RelativeUri = "qps/rest/2.0/update/am/hostasset/$assetId"
+        RelativeUri = "qps/rest/2.0/update/am/hostasset/$AssetId"
         Method      = 'POST'
-        XmlBody     = $bodyAddTag
+        XmlBody     = $BodyAddTag
         Credential  = $Credential
     }
 
     try {
-        $responseAddTag = Invoke-QualysRestCall @RestSplat
+        Invoke-QualysRestCall @RestSplat
     }
     catch {
         # Dig into the exception to get the Response details.
         # Note that value__ is not a typo.
         Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
         Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
-        $ProgressPreference = $origProgressPreference
-        return "Error adding tag $tagId from asset $assetId."
+        $ProgressPreference = $OrigProgressPreference
+        return "Error adding tag $TagId from asset $AssetId."
     }
 
     # Restore progress preference
-    $ProgressPreference = $origProgressPreference
+    $ProgressPreference = $OrigProgressPreference
 
         return $null
 

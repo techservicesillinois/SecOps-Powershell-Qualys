@@ -4,21 +4,19 @@ function Get-QualysAsset {
             Gets an asset from Qualys.
         .DESCRIPTION
             This function takes an asset name or ID and returns the asset object.
-        .PARAMETER assetName
+        .PARAMETER AssetName
             The name of the asset to be retrieved.
-        .PARAMETER assetId
+        .PARAMETER AssetId
             The ID of the asset to be retrieved.
-        .PARAMETER tagName
+        .PARAMETER TagName
             The name of the tag by which to retrieve all associated hosts.
         .PARAMETER Credential
             The credential object to log into Qualys.
-        .PARAMETER inputQualysApiUrl
-            The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
         .EXAMPLE
             Get-QualysAsset -assetName "Server1"
-            $asset = Get-QualysAsset -assetName "Server1" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+            $asset = Get-QualysAsset -assetName "Server1" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
             $asset.id # returns the asset ID
-            $asset = Get-QualysAsset -assetId "123456789" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
+            $asset = Get-QualysAsset -assetId "123456789" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
             $assets = Get-QualysAsset -TagName "Important" -Credential $credential
     #>
     [CmdletBinding(DefaultParameterSetName='name')]
@@ -55,7 +53,7 @@ $ParameterMap = @{
 $ParameterValue = $ParameterMap[$PSCmdlet.ParameterSetName]
 
 # Build bodyAsset, filtering on either assetName or assetId, depending on which was provided
-$bodyAsset = "<ServiceRequest>
+$BodyAsset = "<ServiceRequest>
     <filters>
         <Criteria field=""$($PSCmdlet.ParameterSetName)"" operator=""EQUALS"">$ParameterValue</Criteria>
     </filters>
@@ -64,39 +62,39 @@ $bodyAsset = "<ServiceRequest>
     Write-Verbose "Making API request for asset $assetName."
 
     # Store progress preference and set to SilentlyContinue
-    $origProgressPreference = $ProgressPreference
+    $OrigProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
     # Use Invoke-QualysRestCall to make the API request
     $RestSplat = @{
         Method = 'POST'
         RelativeURI = 'qps/rest/2.0/search/am/hostasset'
-        XmlBody = $bodyAsset
+        XmlBody = $BodyAsset
         Credential = $Credential
     }
 
-    $responseContent = [Xml](Invoke-QualysRestCall @RestSplat)
+    $ResponseContent = [Xml](Invoke-QualysRestCall @RestSplat)
 
-    if ($null -eq $responseContent.ServiceResponse.data.HostAsset) {
+    if ($null -eq $ResponseContent.ServiceResponse.data.HostAsset) {
         return $null
     }
 
-    $responseAssets = New-Object System.Collections.Generic.List[QualysAsset]
+    $ResponseAssets = New-Object System.Collections.Generic.List[QualysAsset]
 
-    foreach ($asset in $responseContent.ServiceResponse.data.HostAsset) {
-        $responseAssets.Add( # Create new QualysAsset and add connection info before adding to $assets list
-            ([QualysAsset]::new($asset) | Add-Member -MemberType NoteProperty -Name "prefix" -Value $TagPrefix -Force -PassThru)
+    foreach ($Asset in $ResponseContent.ServiceResponse.data.HostAsset) {
+        $ResponseAssets.Add( # Create new QualysAsset and add connection info before adding to $assets list
+            ([QualysAsset]::new($Asset) | Add-Member -MemberType NoteProperty -Name "prefix" -Value $TagPrefix -Force -PassThru)
         )
     }
 
     # Restore progress preference
-    $ProgressPreference = $origProgressPreference
+    $ProgressPreference = $OrigProgressPreference
 
-    if ($responseAssets.Count -eq 1) {
-        return $responseAssets[0]
+    if ($ResponseAssets.Count -eq 1) {
+        return $ResponseAssets[0]
     }
 
     # Return the asset object
-    return $responseAssets
+    return $ResponseAssets
 
 }

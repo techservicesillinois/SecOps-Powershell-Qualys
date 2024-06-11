@@ -15,22 +15,19 @@ Returns an object or array of class QualysTag using the Qualys QPS API.
 
 ```powershell
 Get-QualysTag -TagId <Int32>
-    [-InputCredential <PSCredential>]
-    [-InputQualysApiUrl <String>]
+    -Credential <PSCredential>
     [<CommonParameters>]
 ```
 
 ```powershell
 Get-QualysTag -TagName <String>
-    [-InputCredential <PSCredential>]
-    [-InputQualysApiUrl <String>]
+    -Credential <PSCredential>
     [<CommonParameters>]
 ```
 
 ```powershell
 Get-QualysTag -ParentTagId <Int32>
-    [-InputCredential <PSCredential>]
-    [-InputQualysApiUrl <String>]
+    -Credential <PSCredential>
     [<CommonParameters>]
 ```
 
@@ -43,23 +40,21 @@ Returns a QualysTag object or list by searching the QPS API based on Asset ID nu
 ### EXAMPLE 1
 
 ```powershell
-$tag = Get-QualysTag -TagName "Server1" -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+$tag = Get-QualysTag -TagName "Server1" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
 ```
 
 ### Example 2
 
 ```powershell
 $credential = Get-Credential
-$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$tag = Get-QualyTag -TagId 654321
+$tag = Get-QualyTag -TagId 654321 -Credential $Credential
 ```
 
 ### Example 3
 
 ```powershell
 $credential = Get-Credential
-$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$tags = Get-QualyTag -ParentTagId 987654
+$tags = Get-QualyTag -ParentTagId 987654 -Credential $Credential
 ```
 
 ## PARAMETERS
@@ -112,7 +107,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -InputCredential
+### -Credential
 
 The credential to be used for HTTP Basic authorization to the Qualys API.
 
@@ -121,25 +116,9 @@ Type: PSCredential
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: None
 Default value: $Credential
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -InputQualysApiUrl
-
-The base URL for endpoint API connections, ending with the hostname. Ex. "<https://qualysapi.qg3.apps.qualys.com>"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: None
-Default value: $QualysApiUrl
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

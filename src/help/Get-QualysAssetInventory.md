@@ -14,8 +14,7 @@ Returns an array of objects of class QualysAsset using the Qualys QPS API.
 ## SYNTAX
 
 ```powershell
-Get-QualysAssetInventory [-InputCredential <PSCredential>]
-    [-InputQualysApiUrl <String>]
+Get-QualysAssetInventory -Credential <PSCredential>
     [-BatchSize <int>]
     [<CommonParameters>]
 ```
@@ -33,20 +32,19 @@ All assets visible to the credential will be returned.
 ### EXAMPLE 1
 
 ```powershell
-$assets = Get-QualysAssetInventory -InputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -InputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+$assets = Get-QualysAssetInventory -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
 ```
 
 ### Example 2
 
 ```powershell
 $credential = Get-Credential
-$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
-$assets = Get-QualysAssetInventory -BatchSize 500
+$assets = Get-QualysAssetInventory -BatchSize 500 -Credential $credential
 ```
 
 ## PARAMETERS
 
-### -InputCredential
+### -Credential
 
 The credential to be used for HTTP Basic authorization to the Qualys API.
 
@@ -55,25 +53,9 @@ Type: PSCredential
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: None
 Default value: $Credential
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -InputQualysApiUrl
-
-The base URL for endpoint API connections, ending with the hostname. Ex. "<https://qualysapi.qg3.apps.qualys.com>"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: None
-Default value: $QualysApiUrl
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

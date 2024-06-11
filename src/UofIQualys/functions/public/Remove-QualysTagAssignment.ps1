@@ -4,22 +4,17 @@ function Remove-QualysTagAssignment {
             Removes a tag from an asset in Qualys.
         .DESCRIPTION
             This function takes an asset ID and a tag ID and removes the tag from the asset.
-        .PARAMETER assetId
+        .PARAMETER AssetId
             The ID of the asset to remove the tag from.
-        .PARAMETER tagId
+        .PARAMETER TagId
             The ID of the tag to remove from the asset.
-        .PARAMETER inputCredential
-            The credential object to log into Qualys. By default, this is set to the global variable $Credential.
-        .PARAMETER inputQualysApiUrl
-            The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
+        .PARAMETER Credential
+            The credential object to log into Qualys.
         .EXAMPLE
             $credential = Get-Credential
-            Remove-QualysTagAssignment -assetId "12345" -tagId "67890"
+            Remove-QualysTagAssignment -assetId "12345" -tagId "67890" -Credential $credential
             # We don't know the asset ID or tag ID, so we use the Get-QualysAsset and Get-QualysTag functions to get them.
-            Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName "Server1").id -tagId (Get-QualysTag -tagName "Managed Linux").id
-        .NOTES
-            Authors:
-            - Carter Kindley
+            Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName "Server1").id -tagId (Get-QualysTag -tagName "Managed Linux").id -Credential $credential
     #>
     param (
 
@@ -37,7 +32,7 @@ function Remove-QualysTagAssignment {
 
     )
 
-    $bodyRemoveTag = "<ServiceRequest>
+    $BodyRemoveTag = "<ServiceRequest>
                         <data>
                             <HostAsset>
                                 <tags>
@@ -51,30 +46,28 @@ function Remove-QualysTagAssignment {
                         </data>
                     </ServiceRequest>"
 
-    Write-Verbose "Making API request to remove tag $tagId from asset $assetId."
-
     # Store progress preference and set to SilentlyContinue
     $origProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
     $RestSplat = @{
-        RelativeUri = "qps/rest/2.0/update/am/hostasset/$assetId"
+        RelativeUri = "qps/rest/2.0/update/am/hostasset/$AssetId"
         Method      = 'POST'
-        XmlBody     = $bodyAddTag
+        XmlBody     = $BodyRemoveTag
         Credential  = $Credential
     }
 
     try {
-        $responseRemoveTag = Invoke-QualysRestCall @RestSplat
+        Invoke-QualysRestCall @RestSplat
     }
     catch {
         # Dig into the exception to get the Response details.
         # Note that value__ is not a typo.
         Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
         Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
-        $ProgressPreference = $origProgressPreference
+        $ProgressPreference = $OrigProgressPreference
         return "Error removing tag $tagId from asset $assetId."
     }
-    $ProgressPreference = $origProgressPreference
+    $ProgressPreference = $OrigProgressPreference
     return $null
 }

@@ -16,8 +16,7 @@ Synchronizes tags in Qualys from an external source of truth.
 ```powershell
 Sync-QualysTagAssignment -InputAsset <QualysAsset>
     -CategoryDefinitions <Hashtable>
-    [-InputCredential <PSCredential>]
-    [-InputQualysApiUrl <String>]
+    -Credential <PSCredential>
     [<CommonParameters>]
 ```
 
@@ -44,9 +43,8 @@ $CategoryDefinitions = '{
 }' | ConvertFrom-Json -AsHashtable
 
 $credential = Get-Credential
-$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
 
-$Asset = Get-QualysAsset -AssetName "Server1"
+$Asset = Get-QualysAsset -AssetName "Server1" -Credential $credential
 
 $vm = Get-VM -Name $Asset.name
 
@@ -60,16 +58,15 @@ $Asset.vtags = foreach ($tag in $vmwareTags) {
     }
 }
 
-Sync-QualysTagAssignment -InputAsset $Asset -CategoryDefinitions $CategoryDefinitions
+Sync-QualysTagAssignment -InputAsset $Asset -CategoryDefinitions $CategoryDefinitions -Credential $Credential
 ```
 
 ### Example 2
 
 ```powershell
 $credential = Get-Credential
-$QualysApiUrl = "https://qualysapi.qg2.apps.qualys.com"
 
-$assets = Get-QualysAssetInventory
+$assets = Get-QualysAssetInventory -Credential $Credential
 
 foreach ($asset in $assets) {
     $vm = Get-VM -Name $Asset.name
@@ -85,7 +82,7 @@ foreach ($asset in $assets) {
     }
 }
 
-$syncReport = ($assets | Sync-QualysTagAssignment -CategoryDefinitions $CategoryDefinitions)
+$syncReport = ($assets | Sync-QualysTagAssignment -CategoryDefinitions $CategoryDefinitions -Credential $Credential)
 ```
 
 ## PARAMETERS
@@ -106,7 +103,7 @@ Accept pipeline input: True
 Accept wildcard characters: False
 ```
 
-### -InputCredential
+### -Credential
 
 The credential to be used for HTTP Basic authorization to the Qualys API.
 
@@ -115,25 +112,9 @@ Type: PSCredential
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: None
 Default value: $Credential
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -InputQualysApiUrl
-
-The base URL for endpoint API connections, ending with the hostname. Ex. "<https://qualysapi.qg3.apps.qualys.com>"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: None
-Default value: $QualysApiUrl
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

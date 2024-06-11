@@ -4,11 +4,11 @@ function Get-QualysTag {
             Gets a tag from Qualys.
         .DESCRIPTION
             This function takes a tag name or ID and returns the tag object.
-        .PARAMETER tagName
+        .PARAMETER TagName
             The name of the tag to be retrieved.
-        .PARAMETER tagId
+        .PARAMETER TagId
             The ID of the tag to be retrieved.
-        .PARAMETER parentTagId
+        .PARAMETER ParentTagId
             The ID of the parent tag to be retrieved.
         .PARAMETER Credential
             The credential object to log into Qualys.
@@ -47,26 +47,26 @@ function Get-QualysTag {
     )
 
     # Create a hashtable that maps parameter set names to parameter values
-    $parameterMap = @{
+    $ParameterMap = @{
         'name'   = $TagName
         'id'     = $TagId
         'parent' = $ParentTagId
     }
 
     # Get the value for the current parameter set
-    $parameterValue = $parameterMap[$PSCmdlet.ParameterSetName]
+    $ParameterValue = $ParameterMap[$PSCmdlet.ParameterSetName]
 
     # Build bodyTag, filtering on either tagName or tagId, depending on which was provided
-    $bodyTag = "<ServiceRequest>
+    $BodyTag = "<ServiceRequest>
     <filters>
-        <Criteria field=""$($PSCmdlet.ParameterSetName)"" operator=""EQUALS"">$parameterValue</Criteria>
+        <Criteria field=""$($PSCmdlet.ParameterSetName)"" operator=""EQUALS"">$ParameterValue</Criteria>
     </filters>
 </ServiceRequest>"
 
     Write-Verbose "Making API request for tag."
 
     # Store progress preference and set to SilentlyContinue
-    $origProgressPreference = $ProgressPreference
+    $OrigProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
     # Use Invoke-QualysRestCall to make the API request
@@ -74,40 +74,40 @@ function Get-QualysTag {
         Method      = 'POST'
         RelativeURI = 'qps/rest/2.0/search/am/tag'
         Credential  = $Credential
-        XmlBody     = $bodyTag
+        XmlBody     = $BodyTag
     }
 
     $ResponseContent = [xml](Invoke-QualysRestCall @RestSplat)
 
-    if ($null -eq $responseContent.ServiceResponse.data.Tag) {
+    if ($null -eq $ResponseContent.ServiceResponse.data.Tag) {
         return $null
     }
 
-    $responseTags = New-Object System.Collections.Generic.List[QualysTag]
+    $ResponseTags = New-Object System.Collections.Generic.List[QualysTag]
 
-    foreach ($tag in $responseContent.ServiceResponse.data.Tag) {
-        $responseTags.Add( [QualysTag]::new($tag) )
+    foreach ($tag in $ResponseContent.ServiceResponse.data.Tag) {
+        $ResponseTags.Add( [QualysTag]::new($tag) )
     }
 
     #pull parent tag and add to responseTag
-    foreach ($responseTag in $responseTags) {
+    foreach ($ResponseTag in $ResponseTags) {
 
-        if ( [string]::IsNullOrEmpty($responseTag.parentTagId) -eq $false -and $RetrieveParentTag ) {
+        if ( [string]::IsNullOrEmpty($ResponseTag.parentTagId) -eq $false -and $RetrieveParentTag ) {
             $params = @{
-                TagId      = $responseTag.parentTagId
+                TagId      = $ResponseTag.parentTagId
                 Credential = $credential
             }
             if ($Recursive) {
                 $params.Add("Recursive", $true)
                 $params.Add("RetrieveParentTag", $true)
             }
-            $responseTag.parentTag = Get-QualysTag @params
+            $ResponseTag.parentTag = Get-QualysTag @params
         }
 
         #pull child tags and add to responseTag
         if ( $RetrieveChildTags ) {
             $params = @{
-                ParentTagId = $responseTag.id
+                ParentTagId = $ResponseTag.id
                 Credential  = $credential
             }
             if ($Recursive) {
@@ -120,12 +120,12 @@ function Get-QualysTag {
     }
 
     # Restore progress preference
-    $ProgressPreference = $origProgressPreference
+    $ProgressPreference = $OrigProgressPreference
 
-    if ($responseTags.Count -eq 1) {
-        return $responseTags[0]
+    if ($ResponseTags.Count -eq 1) {
+        return $ResponseTags[0]
     }
 
-    return $responseTags
+    return $ResponseTags
 
 }
