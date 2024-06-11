@@ -41,8 +41,8 @@ function Get-QualysAssetInventory {
         $ProgressPreference = 'SilentlyContinue'
 
         $RestSplat = @{
-            Uri         = "$inputQualysApiUrl/qps/rest/2.0/search/am/hostasset"
-            Method      = 'Post'
+            RelativeURI = 'qps/rest/2.0/search/am/hostasset'
+            Method      = 'POST'
             XmlBody     = $bodyHost
             Credential  = $Credential
         }
