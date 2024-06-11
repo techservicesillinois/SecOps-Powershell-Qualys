@@ -17,10 +17,6 @@ function Get-QualysTag {
             $tag = Get-QualysTag -tagName "Department:IT" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
             $tag.id # returns the tag ID
             $tag = Get-QualysTag -tagId "123456789" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
-        .NOTES
-            Authors:
-            - Carter Kindley
-
     #>
     [CmdletBinding(DefaultParameterSetName = 'name')]
     param (
@@ -75,10 +71,10 @@ function Get-QualysTag {
 
     # Use Invoke-QualysRestCall to make the API request
     $RestSplat = @{
-        Method = 'POST'
+        Method      = 'POST'
         RelativeURI = 'qps/rest/2.0/search/am/tag'
-        Credential = $Credential
-        XmlBody = $bodyTag
+        Credential  = $Credential
+        XmlBody     = $bodyTag
     }
 
     $ResponseContent = [xml](Invoke-QualysRestCall @RestSplat)
@@ -98,8 +94,8 @@ function Get-QualysTag {
 
         if ( [string]::IsNullOrEmpty($responseTag.parentTagId) -eq $false -and $RetrieveParentTag ) {
             $params = @{
-                TagId             = $responseTag.parentTagId
-                Credential   = $credential
+                TagId      = $responseTag.parentTagId
+                Credential = $credential
             }
             if ($Recursive) {
                 $params.Add("Recursive", $true)
@@ -111,8 +107,8 @@ function Get-QualysTag {
         #pull child tags and add to responseTag
         if ( $RetrieveChildTags ) {
             $params = @{
-                ParentTagId       = $responseTag.id
-                Credential   = $credential
+                ParentTagId = $responseTag.id
+                Credential  = $credential
             }
             if ($Recursive) {
                 $params.Add("Recursive", $true)

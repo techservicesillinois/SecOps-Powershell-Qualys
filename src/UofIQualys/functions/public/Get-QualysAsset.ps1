@@ -20,9 +20,6 @@ function Get-QualysAsset {
             $asset.id # returns the asset ID
             $asset = Get-QualysAsset -assetId "123456789" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
             $assets = Get-QualysAsset -TagName "Important" -Credential $credential
-        .NOTES
-            Authors:
-            - Carter Kindley
     #>
     [CmdletBinding(DefaultParameterSetName='name')]
     param (
