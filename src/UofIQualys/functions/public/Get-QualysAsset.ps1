@@ -10,16 +10,16 @@ function Get-QualysAsset {
             The ID of the asset to be retrieved.
         .PARAMETER tagName
             The name of the tag by which to retrieve all associated hosts.
-        .PARAMETER inputCredential
-            The credential object to log into Qualys. By default, this is set to the global variable $Credential.
+        .PARAMETER Credential
+            The credential object to log into Qualys.
         .PARAMETER inputQualysApiUrl
             The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
         .EXAMPLE
             Get-QualysAsset -assetName "Server1"
-            $asset = Get-QualysAsset -assetName "Server1" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+            $asset = Get-QualysAsset -assetName "Server1" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
             $asset.id # returns the asset ID
-            $asset = Get-QualysAsset -assetId "123456789" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
-            $assets = Get-QualysAsset -TagName "Important" -InputCredential $inputcredential -InputQualysApiUrl $inputQualysApiUrl
+            $asset = Get-QualysAsset -assetId "123456789" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
+            $assets = Get-QualysAsset -TagName "Important" -Credential $credential
         .NOTES
             Authors:
             - Carter Kindley
@@ -41,19 +41,11 @@ function Get-QualysAsset {
         [string]
         $TagPrefix,
 
+        [Parameter(Mandatory=$true)]
         [PScredential]
-        $InputCredential = $Credential,
+        $Credential
 
-        [string]
-        $InputQualysApiUrl = $QualysApiUrl
     )
-
-    # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ( [string]::IsNullOrEmpty($InputQualysApiUrl) -or [string]::IsNullOrEmpty($InputCredential.UserName) -or [string]::IsNullOrEmpty($InputCredential.GetNetworkCredential().Password) ) {
-        throw "One or more of the following parameters are empty: inputCredential, inputQualysApiUrl.
-        By default, these parameters are set to the values of the global variables: username, keyvault, secretName, qualysApiUrl.
-        Please ensure these global variables are set, or provide the inputs, and try again."
-    }
 
 # Create a hashtable that maps parameter set names to parameter values
 $ParameterMap = @{
@@ -78,13 +70,15 @@ $bodyAsset = "<ServiceRequest>
     $origProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
-    #need to return null if no asset is found
+    # Use Invoke-QualysRestCall to make the API request
+    $RestSplat = @{
+        Method = 'POST'
+        RelativeURI = 'qps/rest/2.0/search/am/hostasset'
+        XmlBody = $bodyAsset
+        Credential = $Credential
+    }
 
-    $responseContent = [xml](Invoke-WebRequest -UseBasicParsing -Uri "$InputQualysApiUrl/qps/rest/2.0/search/am/hostasset" -ErrorAction Continue -Method Post -Headers @{
-            "Authorization" = "Basic $([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("$($InputCredential.UserName)`:$($InputCredential.GetNetworkCredential().Password)")))"
-            "Content-Type"  = "application/xml"
-            "Accept"        = "application/xml"
-        } -Body $bodyAsset).Content
+    $responseContent = [Xml](Invoke-QualysRestCall @RestSplat)
 
     if ($null -eq $responseContent.ServiceResponse.data.HostAsset) {
         return $null
@@ -94,7 +88,7 @@ $bodyAsset = "<ServiceRequest>
 
     foreach ($asset in $responseContent.ServiceResponse.data.HostAsset) {
         $responseAssets.Add( # Create new QualysAsset and add connection info before adding to $assets list
-            ([QualysAsset]::new($asset) | Add-Member -MemberType NoteProperty -Name "qualysApiUrl" -Value $InputQualysApiUrl -Force -PassThru | Add-Member -MemberType NoteProperty -Name "prefix" -Value $TagPrefix -Force -PassThru)
+            ([QualysAsset]::new($asset) | Add-Member -MemberType NoteProperty -Name "prefix" -Value $TagPrefix -Force -PassThru)
         )
     }
 

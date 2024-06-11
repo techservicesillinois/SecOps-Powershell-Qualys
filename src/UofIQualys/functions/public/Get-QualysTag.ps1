@@ -10,15 +10,13 @@ function Get-QualysTag {
             The ID of the tag to be retrieved.
         .PARAMETER parentTagId
             The ID of the parent tag to be retrieved.
-        .PARAMETER inputCredential
-            The credential object to log into Qualys. By default, this is set to the global variable $Credential.
-        .PARAMETER inputQualysApiUrl
-            The URL of the Qualys API. By default, this is set to the global variable $qualysApiUrl.
+        .PARAMETER Credential
+            The credential object to log into Qualys.
         .EXAMPLE
             Get-QualysTag -tagName "Department:IT"
-            $tag = Get-QualysTag -tagName "Department:IT" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg2.apps.qualys.com"
+            $tag = Get-QualysTag -tagName "Department:IT" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
             $tag.id # returns the tag ID
-            $tag = Get-QualysTag -tagId "123456789" -inputCredential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue) -inputQualysApiUrl "https://qualysapi.qg3.apps.qualys.com"
+            $tag = Get-QualysTag -tagId "123456789" -Credential [PSCredential]::new("qapiuser", (Get-AzKeyVaultSecret -VaultName "MyAzKeyVault" -Name "qualys-password").SecretValue)
         .NOTES
             Authors:
             - Carter Kindley
