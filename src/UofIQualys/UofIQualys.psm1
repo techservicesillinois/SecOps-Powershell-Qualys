@@ -93,7 +93,6 @@ s
     [PSCustomObject[]] $vuln
 
     # User-provided properties
-    [string] $qualysApiUrl
     [string] $prefix
     [PSCustomObject[]] $vtags
 
@@ -421,7 +420,6 @@ class QualysTag {
     [Int32] $parentTagId
 
     # User-provided properties
-    [string] $qualysApiUrl
     [QualysTag] $parentTag
     [System.Collections.Generic.List[QualysTag]] $childTags
 

@@ -52,13 +52,6 @@ function Get-QualysTag {
         $Recursive
     )
 
-    # If any of the non-mandatory parameters are not provided, return error and state which ones are empty
-    if ([string]::IsNullOrEmpty($inputQualysApiUrl) -or [string]::IsNullOrEmpty($InputCredential.UserName) -or [string]::IsNullOrEmpty($InputCredential.GetNetworkCredential().Password)) {
-        throw "One or more of the following parameters are empty: inputCredential, inputQualysApiUrl.
-        By default, these parameters are set to the values of the global variables: username, keyVault, secretName, qualysApiUrl.
-        Please ensure these global variables are set, or provide the inputs, and try again."
-    }
-
     # Create a hashtable that maps parameter set names to parameter values
     $parameterMap = @{
         'name'   = $TagName
@@ -108,8 +101,7 @@ function Get-QualysTag {
         if ( [string]::IsNullOrEmpty($responseTag.parentTagId) -eq $false -and $RetrieveParentTag ) {
             $params = @{
                 TagId             = $responseTag.parentTagId
-                InputCredential   = $InputCredential
-                InputQualysApiUrl = $InputQualysApiUrl
+                Credential   = $credential
             }
             if ($Recursive) {
                 $params.Add("Recursive", $true)
@@ -122,8 +114,7 @@ function Get-QualysTag {
         if ( $RetrieveChildTags ) {
             $params = @{
                 ParentTagId       = $responseTag.id
-                InputCredential   = $InputCredential
-                InputQualysApiUrl = $InputQualysApiUrl
+                Credential   = $credential
             }
             if ($Recursive) {
                 $params.Add("Recursive", $true)
@@ -136,11 +127,6 @@ function Get-QualysTag {
 
     # Restore progress preference
     $ProgressPreference = $origProgressPreference
-
-    # Stash non-secret connection info in new object
-    foreach ($responseTag in $responseTags) {
-        $responseTag.qualysApiUrl = $InputQualysApiUrl
-    }
 
     if ($responseTags.Count -eq 1) {
         return $responseTags[0]
