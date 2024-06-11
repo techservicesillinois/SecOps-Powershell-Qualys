@@ -70,17 +70,13 @@ function Add-QualysTagAssignment {
         # Note that value__ is not a typo.
         Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
         Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+        $ProgressPreference = $origProgressPreference
+        return "Error adding tag $tagId from asset $assetId."
     }
 
     # Restore progress preference
     $ProgressPreference = $origProgressPreference
 
-    # If response is an HTTP error code, return error
-    if ($responseAddTag.StatusCode -ne 200) {
-        return "Error adding tag $tagId to asset $assetId. HTTP status code: $($responseAddTag.StatusCode)."
-    }
-    else {
-        Write-Verbose "Tag $tagId added to asset $assetId."
         return $null
-    }
+
 }

@@ -72,16 +72,9 @@ function Remove-QualysTagAssignment {
         # Note that value__ is not a typo.
         Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
         Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+        $ProgressPreference = $origProgressPreference
+        return "Error removing tag $tagId from asset $assetId."
     }
-    # Restore progress preference
     $ProgressPreference = $origProgressPreference
-
-    # If response is an HTTP error code, return error
-    if ($responseRemoveTag.StatusCode -ne 200) {
-        return "Error removing tag $tagId from asset $assetId. HTTP status code: $($responseRemoveTag.StatusCode)."
-    }
-    else {
-        Write-Verbose "Tag $tagId removed from asset $assetId."
-        return $null
-    }
+    return $null
 }
