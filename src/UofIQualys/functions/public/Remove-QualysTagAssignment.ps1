@@ -16,6 +16,7 @@ function Remove-QualysTagAssignment {
             # We don't know the asset ID or tag ID, so we use the Get-QualysAsset and Get-QualysTag functions to get them.
             Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName "Server1").id -tagId (Get-QualysTag -tagName "Managed Linux").id -Credential $credential
     #>
+    [OutputType('System.String')]
     [CmdletBinding(SupportsShouldProcess)]
     param (
 

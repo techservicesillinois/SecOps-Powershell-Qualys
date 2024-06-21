@@ -21,6 +21,7 @@ function Add-QualysTagAssignment {
             The easiest way to get the tag ID is to use the Get-QualysTag function.
             You can combine these operations as shown in the example.
     #>
+    [OutputType('System.String')]
     param (
 
         [parameter(Mandatory = $true)]
