@@ -68,8 +68,8 @@ function Add-QualysTagAssignment {
     catch {
         # Dig into the exception to get the Response details.
         # Note that value__ is not a typo.
-        Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
-        Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+        Write-Verbose "StatusCode:" $_.Exception.Response.StatusCode.value__
+        Write-Verbose "StatusDescription:" $_.Exception.Response.StatusDescription
         $ProgressPreference = $OrigProgressPreference
         return "Error adding tag $TagId from asset $AssetId."
     }
