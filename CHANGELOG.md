@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sync-QualysTagAssignment: This function syncs Qualys tags on an asset or list of assets with tags assigned to the asset(s) from an external source of truth.
 - QualysAsset class: This class defines objects with properties that include all details returned by the QPS API about a host asset, plus optional metadata for function and method use.
 - QualysTag class: This class defines objects with properties that include all details returned by the QPS API about a tag, plus optional metadata and parent tag.
+- Support using environment variables to automatically override settings.json script-scoped parameters.
 
 ### Added
 
