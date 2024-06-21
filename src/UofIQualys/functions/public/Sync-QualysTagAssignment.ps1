@@ -13,7 +13,7 @@ function Sync-QualysTagAssignment {
         .EXAMPLE
             Sync-QualysTagAssignment -InputAsset $InputAsset -Credential $credential$QualysApiUrl -CategoryDefinitions $CategoryDefinitions
     #>
-
+    [OutputType('System.Collections.Hashtable')]
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
 

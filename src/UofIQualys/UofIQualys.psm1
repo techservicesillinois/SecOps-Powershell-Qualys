@@ -1,5 +1,14 @@
 $Script:Settings = Get-Content -Path "$PSScriptRoot\settings.json" | ConvertFrom-Json
 
+# Check $env:BasicAuthURI and $env:BaseURI and set $script:Settings.BasicAuthURI and $script:Settings.BaseURI from environment variables if present
+# This will override the settings.json file if required.
+if ($env:BasicAuthURI) {
+    $script:Settings.BasicAuthURI = $env:BasicAuthURI
+}
+if ($env:BaseURI) {
+    $script:Settings.BaseURI = $env:BaseURI
+}
+
 $Script:Session = $NULL
 [int]$Script:APICallCount = 0
 
