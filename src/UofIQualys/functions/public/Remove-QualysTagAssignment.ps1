@@ -16,6 +16,7 @@ function Remove-QualysTagAssignment {
             # We don't know the asset ID or tag ID, so we use the Get-QualysAsset and Get-QualysTag functions to get them.
             Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName "Server1").id -tagId (Get-QualysTag -tagName "Managed Linux").id -Credential $credential
     #>
+    [CmdletBinding(SupportsShouldProcess)]
     param (
 
         [parameter(Mandatory = $true)]
@@ -32,7 +33,8 @@ function Remove-QualysTagAssignment {
 
     )
 
-    $BodyRemoveTag = "<ServiceRequest>
+    if ($PSCmdlet.ShouldProcess("Asset ID: $AssetId, Tag ID: $TagId")) {
+        $BodyRemoveTag = "<ServiceRequest>
                         <data>
                             <HostAsset>
                                 <tags>
@@ -46,28 +48,29 @@ function Remove-QualysTagAssignment {
                         </data>
                     </ServiceRequest>"
 
-    # Store progress preference and set to SilentlyContinue
-    $origProgressPreference = $ProgressPreference
-    $ProgressPreference = 'SilentlyContinue'
+        # Store progress preference and set to SilentlyContinue
+        $origProgressPreference = $ProgressPreference
+        $ProgressPreference = 'SilentlyContinue'
 
-    $RestSplat = @{
-        RelativeUri = "qps/rest/2.0/update/am/hostasset/$AssetId"
-        Method      = 'POST'
-        XmlBody     = $BodyRemoveTag
-        Credential  = $Credential
-    }
+        $RestSplat = @{
+            RelativeUri = "qps/rest/2.0/update/am/hostasset/$AssetId"
+            Method      = 'POST'
+            XmlBody     = $BodyRemoveTag
+            Credential  = $Credential
+        }
 
-    try {
-        Invoke-QualysRestCall @RestSplat
-    }
-    catch {
-        # Dig into the exception to get the Response details.
-        # Note that value__ is not a typo.
-        Write-Verbose "StatusCode:" $_.Exception.Response.StatusCode.value__
-        Write-Verbose "StatusDescription:" $_.Exception.Response.StatusDescription
+        try {
+            Invoke-QualysRestCall @RestSplat
+        }
+        catch {
+            # Dig into the exception to get the Response details.
+            # Note that value__ is not a typo.
+            Write-Verbose "StatusCode:" $_.Exception.Response.StatusCode.value__
+            Write-Verbose "StatusDescription:" $_.Exception.Response.StatusDescription
+            $ProgressPreference = $OrigProgressPreference
+            return "Error removing tag $tagId from asset $assetId."
+        }
         $ProgressPreference = $OrigProgressPreference
-        return "Error removing tag $tagId from asset $assetId."
+        return $null
     }
-    $ProgressPreference = $OrigProgressPreference
-    return $null
 }
