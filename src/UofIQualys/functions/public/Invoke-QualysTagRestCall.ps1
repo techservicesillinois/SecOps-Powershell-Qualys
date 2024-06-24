@@ -26,8 +26,6 @@ function Invoke-QualysTagRestCall {
         [String]$RelativeURI,
         [Parameter(Mandatory=$true)]
         [String]$Method,
-        [Parameter(Mandatory=$true, ParameterSetName='Body')]
-        [hashtable]$Body,
         [Parameter(Mandatory=$true, ParameterSetName='XmlBody')]
         [String]$XmlBody,
         [System.Management.Automation.PSCredential]$Credential

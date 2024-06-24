@@ -28,8 +28,6 @@ function Invoke-QualysRestCall {
         [String]$Method,
         [Parameter(Mandatory=$true, ParameterSetName='Body')]
         [hashtable]$Body,
-        [Parameter(Mandatory=$true, ParameterSetName='XmlBody')]
-        [String]$XmlBody,
         [System.Management.Automation.PSCredential]$Credential
     )
 
