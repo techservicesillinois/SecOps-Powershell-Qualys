@@ -65,7 +65,7 @@ $BodyAsset = "<ServiceRequest>
     $OrigProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
-    # Use Invoke-QualysRestCall to make the API request
+    # Use Invoke-QualysTagRestCall to make the API request
     $RestSplat = @{
         Method = 'POST'
         RelativeURI = 'qps/rest/2.0/search/am/hostasset'
@@ -73,7 +73,7 @@ $BodyAsset = "<ServiceRequest>
         Credential = $Credential
     }
 
-    $ResponseContent = [Xml](Invoke-QualysRestCall @RestSplat)
+    $ResponseContent = [Xml](Invoke-QualysTagRestCall @RestSplat)
 
     if ($null -eq $ResponseContent.ServiceResponse.data.HostAsset) {
         return $null

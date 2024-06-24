@@ -69,7 +69,7 @@ function Get-QualysTag {
     $OrigProgressPreference = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
 
-    # Use Invoke-QualysRestCall to make the API request
+    # Use Invoke-QualysTagRestCall to make the API request
     $RestSplat = @{
         Method      = 'POST'
         RelativeURI = 'qps/rest/2.0/search/am/tag'
@@ -77,7 +77,7 @@ function Get-QualysTag {
         XmlBody     = $BodyTag
     }
 
-    $ResponseContent = [xml](Invoke-QualysRestCall @RestSplat)
+    $ResponseContent = [xml](Invoke-QualysTagRestCall @RestSplat)
 
     if ($null -eq $ResponseContent.ServiceResponse.data.Tag) {
         return $null
