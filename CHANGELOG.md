@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - QualysAsset class: This class defines objects with properties that include all details returned by the QPS API about a host asset, plus optional metadata for function and method use.
 - QualysTag class: This class defines objects with properties that include all details returned by the QPS API about a tag, plus optional metadata and parent tag.
 - Support using environment variables to automatically override settings.json script-scoped parameters.
+- Invoke-QualysTagRestCall: Modify the tagging functions to use this modified version of Invoke-QualysRestCall. The BaseURI for tagging endpoints is different from User Basic auth endpoints and there is nothing to clearly distinguish the two.
+- Added the tagging Base URI to the settings.json
 
 ### Added
 
