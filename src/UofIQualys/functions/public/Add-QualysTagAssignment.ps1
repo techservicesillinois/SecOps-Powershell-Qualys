@@ -64,7 +64,7 @@ function Add-QualysTagAssignment {
     }
 
     try {
-        Invoke-QualysRestCall @RestSplat
+        Invoke-QualysTagRestCall @RestSplat
     }
     catch {
         # Dig into the exception to get the Response details.

@@ -47,7 +47,7 @@ function Get-QualysAssetInventory {
             Credential  = $Credential
         }
 
-        $ResponseHostAdd = [xml](Invoke-QualysRestCall @RestSplat)
+        $ResponseHostAdd = [xml](Invoke-QualysTagRestCall @RestSplat)
 
         $ProgressPreference = $OrigProgressPreference
 
