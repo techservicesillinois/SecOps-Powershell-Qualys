@@ -7,18 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-- Add-QualysTagAssignment: This function takes an asset ID and a tag ID and adds the tag to the asset.
+- Add-QualysAssetTagAssignment: This function takes an asset ID and a tag ID and adds the tag to the asset.
 - Get-QualysAsset: This function takes an asset name or ID and returns the asset object.
 - Get-QualysAssetInventory: Fetches all Qualys host asset objects.
 - Get-QualysTag: This function takes a tag name or ID and returns the tag object.
 - Remove-QualysTagAssignment: This function takes an asset ID and a tag ID and removes the tag from the asset.
-- Sync-QualysTagAssignment: This function syncs Qualys tags on an asset or list of assets with tags assigned to the asset(s) from an external source of truth.
 - QualysAsset class: This class defines objects with properties that include all details returned by the QPS API about a host asset, plus optional metadata for function and method use.
 - QualysTag class: This class defines objects with properties that include all details returned by the QPS API about a tag, plus optional metadata and parent tag.
 - Support using environment variables to automatically override settings.json script-scoped parameters.
 - Invoke-QualysTagRestCall: Modify the tagging functions to use this modified version of Invoke-QualysRestCall. The BaseURI for tagging endpoints is different from User Basic auth endpoints and there is nothing to clearly distinguish the two.
 - Added the tagging Base URI to the settings.json
-- Added Add-QualysUserTagAssignment, renamed Add-QualysTagAssignment to Add-QualysAssetTagAssignment
+- Added Add-QualysUserTagAssignment: this function adds tag assignments to users.
 
 ### Added
 
