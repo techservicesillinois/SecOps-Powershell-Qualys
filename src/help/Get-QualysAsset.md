@@ -14,7 +14,7 @@ Returns an object or array of class QualysAsset using the Qualys QPS API.
 ## SYNTAX
 
 ```powershell
-Get-QualysAsset -AssetId <Int32>
+Get-QualysAsset -AssetId <Int64>
     -Credential <PSCredential>
     [<CommonParameters>]
 ```
@@ -74,7 +74,7 @@ Accept wildcard characters: False
 The ID number of the host asset in Qualys.
 
 ```yaml
-Type: Int32
+Type: Int64
 Parameter Sets: id
 Aliases:
 

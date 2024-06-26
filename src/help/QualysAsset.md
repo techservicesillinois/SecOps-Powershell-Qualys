@@ -44,7 +44,7 @@ Returns the Qualys asset and properties in JSON format.
 | `criticalityScore` | string |
 | `dnsHostName` | string |
 | `fqdn` | string |
-| `id` | Int32 |
+| `id` | Int64 |
 | `informationGatheredUpdated` | datetime |
 | `isDockerHost` | System.Boolean |
 | `lastComplianceScan` | datetime |
@@ -57,9 +57,9 @@ Returns the Qualys asset and properties in JSON format.
 | `name` | string |
 | `networkGuid` | guid |
 | `os` | string |
-| `qwebHostId` | int32 |
+| `qwebHostId` | Int64 |
 | `timezone` | string |
-| `totalMemory` | int32 |
+| `totalMemory` | Int64 |
 | `trackingMethod` | string |
 | `type` | string |
 | `vulnsUpdated` | datetime |
@@ -93,7 +93,7 @@ Returns the Qualys asset and properties in JSON format.
 |  |  | `activatedModule` | string[] | | |
 |  |  | `manifestVersion` | PSCustomObject | `vm` | string |
 |  |  |  |  | `sca` | string |
-|  |  | `agentConfiguration` | PSCustomObject | `id` | int32 |
+|  |  | `agentConfiguration` | PSCustomObject | `id` | Int64 |
 |  |  |  |  | `name` | string |
 |  |  | `activationKey` | PSCustomObject | `activationId` | Guid |
 |  |  |  |  | `title` | string |
@@ -102,18 +102,18 @@ Returns the Qualys asset and properties in JSON format.
 |  |  | `address` | IPAddress | | |
 |  |  | `gatewayAddress` | string | | |
 |  |  | `hostname` | string | | |
-| `openPort` | PSCustomObject[] | `port` | int32 | | |
+| `openPort` | PSCustomObject[] | `port` | Int64 | | |
 |  |  | `protocol` | string | | |
 | `processor` | PSCustomObject[] | `name` | string | | |
-|  |  | `speed` | int32 | | |
+|  |  | `speed` | Int64 | | |
 | `software` | PSCustomObject[] | `name` | string | | |
 |  |  | `version` | string | | |
-| `tags` | PSCustomObject[] | `id` | int32 | | |
+| `tags` | PSCustomObject[] | `id` | Int64 | | |
 |  |  | `name` | string | | |
 | `volume` | PSCustomObject[] | `name` | string | | |
 |  |  | `size` | int64 | | |
 |  |  | `free` | int64 | | |
-| `vuln` | PSCustomObject[] | `qid` | int32 | | |
-|  |  | `hostInstanceVulnId` | int32 | | |
+| `vuln` | PSCustomObject[] | `qid` | Int64 | | |
+|  |  | `hostInstanceVulnId` | Int64 | | |
 |  |  | `firstFound` | datetime | | |
 |  |  | `lastFound` | datetime | | |

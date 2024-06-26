@@ -69,7 +69,7 @@ s
     [string] $criticalityScore
     [string] $dnsHostName
     [string] $fqdn
-    [Int32] $id
+    [Int64] $id
     [datetime] $informationGatheredUpdated
     [System.Boolean] $isDockerHost
     [datetime] $lastComplianceScan
@@ -82,9 +82,9 @@ s
     [string] $name
     [guid] $networkGuid
     [string] $os
-    [int32] $qwebHostId
+    [Int64] $qwebHostId
     [string] $timezone
-    [int32] $totalMemory
+    [Int64] $totalMemory
     [string] $trackingMethod
     [string] $type
     [datetime] $vulnsUpdated
@@ -152,7 +152,7 @@ s
                     sca = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.sca
                 }
                 agentConfiguration   = New-Object PSCustomObject -Property @{
-                    id   = [int32]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
+                    id   = [Int64]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
                     name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
                 }
                 activationKey        = New-Object PSCustomObject -Property @{
@@ -176,14 +176,14 @@ s
 
         $this.openPort = $QualysAssetApiResponse.openPort.list.HostAssetOpenPort | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                port     = [int32]$_.port
+                port     = [Int64]$_.port
                 protocol = [string]$_.protocol
             }
         }
         $this.processor = if($QualysAssetApiResponse.processor.list.HostAssetProcessor) { $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name  = [string]$_.name
-                speed = [int32]$_.speed
+                speed = [Int64]$_.speed
             }
         }
     }
@@ -198,7 +198,7 @@ s
         else { $null }
         $this.tags = if ($QualysAssetApiResponse.tags.list.TagSimple) {$QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                id   = [int32]$_.id
+                id   = [Int64]$_.id
                 name = [string]$_.name
             }
         }
@@ -215,8 +215,8 @@ s
         else { $null }
         $this.vuln = if ($QualysAssetApiResponse.vuln.list.HostAssetVuln) {$QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                qid                = [int32]$_.qid
-                hostInstanceVulnId = [int32]$_.hostInstanceVulnId
+                qid                = [Int64]$_.qid
+                hostInstanceVulnId = [Int64]$_.hostInstanceVulnId
                 firstFound         = if ($_.firstFound) { [datetime]$_.firstFound } else { [datetime]'1970-01-01T00:00:00Z' }
                 lastFound          = if ($_.lastFound) { [datetime]$_.lastFound } else { [datetime]'1970-01-01T00:00:00Z' }
             }
@@ -251,10 +251,10 @@ class QualysTag {
 
     # Properties from Qualys QPS API
     [datetime] $created
-    [Int32] $id
+    [Int64] $id
     [datetime] $modified
     [string] $name
-    [Int32] $parentTagId
+    [Int64] $parentTagId
 
     # User-provided properties
     [QualysTag] $parentTag

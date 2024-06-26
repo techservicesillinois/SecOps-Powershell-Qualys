@@ -14,7 +14,7 @@ Returns an object or array of class QualysTag using the Qualys QPS API.
 ## SYNTAX
 
 ```powershell
-Get-QualysTag -TagId <Int32>
+Get-QualysTag -TagId <Int64>
     -Credential <PSCredential>
     [<CommonParameters>]
 ```
@@ -26,7 +26,7 @@ Get-QualysTag -TagName <String>
 ```
 
 ```powershell
-Get-QualysTag -ParentTagId <Int32>
+Get-QualysTag -ParentTagId <Int64>
     -Credential <PSCredential>
     [<CommonParameters>]
 ```
@@ -80,7 +80,7 @@ Accept wildcard characters: False
 The ID number of the tag in Qualys.
 
 ```yaml
-Type: Int32
+Type: Int64
 Parameter Sets: id
 Aliases:
 
@@ -96,7 +96,7 @@ Accept wildcard characters: False
 The ID number of the parent tag in Qualys.
 
 ```yaml
-Type: Int32
+Type: Int64
 Parameter Sets: parent
 Aliases:
 

@@ -26,7 +26,7 @@ function Get-QualysAsset {
         $AssetName,
 
         [Parameter(ParameterSetName='id', Mandatory=$true)]
-        [Int32]
+        [Int64]
         $AssetId,
 
         [Parameter(ParameterSetName='tagName', Mandatory=$true)]

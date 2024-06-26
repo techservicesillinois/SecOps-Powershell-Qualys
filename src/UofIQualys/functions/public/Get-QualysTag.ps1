@@ -25,11 +25,11 @@ function Get-QualysTag {
         $TagName,
 
         [Parameter(ParameterSetName = 'id', Mandatory = $true)]
-        [Int32]
+        [Int64]
         $TagId,
 
         [Parameter(ParameterSetName = 'parent', Mandatory = $true)]
-        [Int32]
+        [Int64]
         $ParentTagId,
 
         [Parameter(Mandatory = $true)]
