@@ -36,9 +36,9 @@ function Add-QualysUserTagAssignment {
     }
 
     $TagXml = $Tags | ForEach-Object {
-    "<TagData>
-    <$NameOrID>$_</$NameOrID>
-    </TagData>"
+        "<TagData>
+        <$NameOrID>$_</$NameOrID>
+        </TagData>"
     }
 
     $Body = @"
