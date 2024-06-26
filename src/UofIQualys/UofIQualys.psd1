@@ -10,7 +10,7 @@
 RootModule = 'UofIQualys.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.7.1'
+ModuleVersion = '1.7.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -93,12 +93,13 @@ FunctionsToExport = @(
     'Stop-QualysScan',
     'Close-QualysSession',
     'Get-QualysKBContent',
-    'Add-QualysTagAssignment',
+    'Add-QualysAssetTagAssignment',
     'Remove-QualysTagAssignment',
     'Get-QualysAsset',
     'Get-QualysAssetInventory',
     'Get-QualysTag',
-    'Sync-QualysTagAssignment'
+    'Sync-QualysTagAssignment',
+    'Add-QualysUserTagAssignment'
     )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

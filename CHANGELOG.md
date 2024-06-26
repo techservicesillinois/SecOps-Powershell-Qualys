@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support using environment variables to automatically override settings.json script-scoped parameters.
 - Invoke-QualysTagRestCall: Modify the tagging functions to use this modified version of Invoke-QualysRestCall. The BaseURI for tagging endpoints is different from User Basic auth endpoints and there is nothing to clearly distinguish the two.
 - Added the tagging Base URI to the settings.json
+- Added Add-QualysUserTagAssignment, renamed Add-QualysTagAssignment to Add-QualysAssetTagAssignment
 
 ### Added
 
