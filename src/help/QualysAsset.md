@@ -31,54 +31,6 @@ Returns the Qualys asset's name.
 
 Returns the Qualys asset and properties in JSON format.
 
-### AssignTag([QualysTag]$QualysTag, [PSCredential]$inputCredential)
-
-Assigns a Qualys tag object to the asset using the given credentials.
-
-### UnassignTag([QualysTag]$QualysTag, [PSCredential]$inputCredential)
-
-Unassigns a Qualys tag object from the asset using the given credentials.
-
-### AssignTags([QualysTag[]]$QualysTag, [PSCredential]$inputCredential)
-
-Assigns a list of Qualys tag objects to the asset using the given credentials.
-
-### UnassignTags([QualysTag[]]$QualysTag, [PSCredential]$inputCredential)
-
-Unassigns a list of Qualys tag objects from the asset using the given credentials.
-
-### AssignTagByName([String]$tagName, [PSCredential]$inputCredential)
-
-Assigns a Qualys tag object to the asset using the tag's name and the given credentials.
-
-### UnassignTagByName([String]$tagName, [PSCredential]$inputCredential)
-
-Unassigns a Qualys tag object to the asset using the tag's name and the given credentials.
-
-### AssignTagsByName([String[]]$tagName, [PSCredential]$inputCredential)
-
-Assigns a list of Qualys tag objects to the asset using the tag names and the given credentials.
-
-### UnassignTagsByName([String[]]$tagName, [PSCredential]$inputCredential)
-
-Unassigns a list of Qualys tag objects to the asset using the tag names and the given credentials.
-
-### AssignTagById([int32]$tagId, [PSCredential]$inputCredential)
-
-Assigns a Qualys tag object to the asset using the tag's ID and the given credentials.
-
-### UnassignTagById([int32]$tagId, [PSCredential]$inputCredential)
-
-Unassigns a Qualys tag object to the asset using the tag's ID and the given credentials.
-
-### AssignTagsById([int32[]]$tagId, [PSCredential]$inputCredential)
-
-Assigns a list of Qualys tag objects to the asset using the tag IDs and the given credentials.
-
-### UnassignTagsById([int32[]]$tagId, [PSCredential]$inputCredential)
-
-Unassigns a list of Qualys tag objects to the asset using the tag IDs and the given credentials.
-
 ## Properties
 
 ### 1st Level Properties
