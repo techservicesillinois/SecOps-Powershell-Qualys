@@ -98,7 +98,6 @@ FunctionsToExport = @(
     'Get-QualysAsset',
     'Get-QualysAssetInventory',
     'Get-QualysTag',
-    'Sync-QualysTagAssignment',
     'Add-QualysUserTagAssignment'
     )
 
