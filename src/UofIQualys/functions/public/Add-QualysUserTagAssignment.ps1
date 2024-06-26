@@ -42,18 +42,18 @@ function Add-QualysUserTagAssignment {
     }
 
     $Body = @"
-<?xml version="1.0" encoding="UTF-8" ?>
-<ServiceRequest>
-    <data>
-        <User>
-            <scopeTags>
-                <add>
-                        $($TagXml -join "`n")
-                </add>
-            </scopeTags>
-        </User>
-    </data>
-</ServiceRequest>
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <ServiceRequest>
+            <data>
+                <User>
+                    <scopeTags>
+                        <add>
+                                $($TagXml -join "`n")
+                        </add>
+                    </scopeTags>
+                </User>
+            </data>
+        </ServiceRequest>
 "@
 
     $RestSplat = @{
