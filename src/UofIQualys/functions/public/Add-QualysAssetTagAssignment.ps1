@@ -1,4 +1,4 @@
-function Add-QualysTagAssignment {
+function Add-QualysAssetTagAssignment {
     <#
         .SYNOPSIS
             Adds a tag to an asset in Qualys.
