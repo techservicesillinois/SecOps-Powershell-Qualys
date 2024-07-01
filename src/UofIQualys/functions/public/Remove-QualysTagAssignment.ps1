@@ -25,7 +25,7 @@ function Remove-QualysTagAssignment {
         $AssetId,
 
         [parameter(Mandatory = $true)]
-        [Int32]
+        [Int64]
         $TagId,
 
         [parameter(Mandatory = $true)]

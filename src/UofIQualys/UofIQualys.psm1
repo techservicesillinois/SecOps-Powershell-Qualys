@@ -69,7 +69,7 @@ s
     [string] $criticalityScore
     [string] $dnsHostName
     [string] $fqdn
-    [Int32] $id
+    [Int64] $id
     [datetime] $informationGatheredUpdated
     [System.Boolean] $isDockerHost
     [datetime] $lastComplianceScan
@@ -82,9 +82,9 @@ s
     [string] $name
     [guid] $networkGuid
     [string] $os
-    [int32] $qwebHostId
+    [Int64] $qwebHostId
     [string] $timezone
-    [int32] $totalMemory
+    [Int64] $totalMemory
     [string] $trackingMethod
     [string] $type
     [datetime] $vulnsUpdated
@@ -152,7 +152,7 @@ s
                     sca = [String]$QualysAssetApiResponse.agentInfo.manifestVersion.sca
                 }
                 agentConfiguration   = New-Object PSCustomObject -Property @{
-                    id   = [int32]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
+                    id   = [Int64]$QualysAssetApiResponse.agentInfo.agentConfiguration.id
                     name = [string]$QualysAssetApiResponse.agentInfo.agentConfiguration.name
                 }
                 activationKey        = New-Object PSCustomObject -Property @{
@@ -176,14 +176,14 @@ s
 
         $this.openPort = $QualysAssetApiResponse.openPort.list.HostAssetOpenPort | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                port     = [int32]$_.port
+                port     = [Int64]$_.port
                 protocol = [string]$_.protocol
             }
         }
         $this.processor = if($QualysAssetApiResponse.processor.list.HostAssetProcessor) { $QualysAssetApiResponse.processor.list.HostAssetProcessor | ForEach-Object {
             New-Object PSCustomObject -Property @{
                 name  = [string]$_.name
-                speed = [int32]$_.speed
+                speed = [Int64]$_.speed
             }
         }
     }
@@ -198,7 +198,7 @@ s
         else { $null }
         $this.tags = if ($QualysAssetApiResponse.tags.list.TagSimple) {$QualysAssetApiResponse.tags.list.TagSimple | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                id   = [int32]$_.id
+                id   = [Int64]$_.id
                 name = [string]$_.name
             }
         }
@@ -215,8 +215,8 @@ s
         else { $null }
         $this.vuln = if ($QualysAssetApiResponse.vuln.list.HostAssetVuln) {$QualysAssetApiResponse.vuln.list.HostAssetVuln | ForEach-Object {
             New-Object PSCustomObject -Property @{
-                qid                = [int32]$_.qid
-                hostInstanceVulnId = [int32]$_.hostInstanceVulnId
+                qid                = [Int64]$_.qid
+                hostInstanceVulnId = [Int64]$_.hostInstanceVulnId
                 firstFound         = if ($_.firstFound) { [datetime]$_.firstFound } else { [datetime]'1970-01-01T00:00:00Z' }
                 lastFound          = if ($_.lastFound) { [datetime]$_.lastFound } else { [datetime]'1970-01-01T00:00:00Z' }
             }
@@ -232,174 +232,6 @@ s
 
     [string] ToJson() {
         return $($this  | ConvertTo-Json)
-    }
-
-    [void] AssignTag (
-
-        [QualysTag]
-        $QualysTag,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign a tag to this asset
-        Add-QualysTagAssignment -assetId $this.id -tagId $QualysTag.id -Credential $Credential
-    }
-
-    [void] UnassignTag (
-
-        [QualysTag]
-        $QualysTag,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign a tag from this asset
-        Remove-QualysTagAssignment -assetId $this.id -tagId $QualysTag.id -Credential $Credential
-    }
-
-    [void] AssignTags (
-
-        [QualysTag[]]
-        $QualysTags,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign multiple tags to this asset
-        foreach ($tag in $QualysTags) {
-            Add-QualysTagAssignment -assetId $this.id -tagId $tag.id -Credential $Credential
-        }
-    }
-
-    [void] UnassignTags (
-
-        [QualysTag[]]
-        $QualysTags,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign multiple tags from this asset
-        foreach ($tag in $QualysTags) {
-            Remove-QualysTagAssignment -assetId $this.id -tagId $tag.id -Credential $Credential
-        }
-    }
-
-    [void] AssignTagByName (
-
-        [string]
-        $tagName,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign a tag to this asset by name
-        Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
-    }
-
-    [void] UnassignTagByName (
-
-        [string]
-        $tagName,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign a tag from this asset by name
-        Remove-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
-    }
-
-    [void] AssignTagsByName (
-
-        [string[]]
-        $tagNames,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign multiple tags to this asset by name
-        foreach ($tagName in $tagNames) {
-            Add-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
-        }
-    }
-
-    [void] UnassignTagsByName (
-
-        [string[]]
-        $tagNames,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign multiple tags from this asset by name
-        foreach ($tagName in $tagNames) {
-            Remove-QualysTagAssignment -assetId $this.id -tagId (Get-QualysTag -tagName $tagName -Credential $Credential ).id -Credential $Credential
-        }
-    }
-
-    [void] AssignTagById (
-
-        [Int32]
-        $tagId,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign a tag to this asset by ID
-        Add-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
-    }
-
-    [void] UnassignTagById (
-
-        [Int32]
-        $tagId,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign a tag from this asset by ID
-        Remove-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
-    }
-
-    [void] AssignTagsById (
-
-        [Int32[]]
-        $tagIds,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign multiple tags to this asset by ID
-        foreach ($tagId in $tagIds) {
-            Add-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
-        }
-    }
-
-    [void] UnassignTagsById (
-
-        [Int32[]]
-        $tagIds,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign multiple tags from this asset by ID
-        foreach ($tagId in $tagIds) {
-            Remove-QualysTagAssignment -assetId $this.id -tagId $tagId -Credential $Credential
-        }
     }
 }
 
@@ -419,10 +251,10 @@ class QualysTag {
 
     # Properties from Qualys QPS API
     [datetime] $created
-    [Int32] $id
+    [Int64] $id
     [datetime] $modified
     [string] $name
-    [Int32] $parentTagId
+    [Int64] $parentTagId
 
     # User-provided properties
     [QualysTag] $parentTag
@@ -448,110 +280,4 @@ class QualysTag {
     [string] ToJson() {
         return $($this | ConvertTo-Json)
     }
-
-    [void] Assign (
-
-        [QualysAsset]
-        $QualysAsset,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign this tag to a Qualys asset
-        Add-QualysTagAssignment -assetId $QualysAsset.id -tagId $this.id -Credential $Credential
-    }
-
-    [void] Unassign (
-
-        [QualysAsset]
-        $QualysAsset,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign this tag from a Qualys asset
-        Remove-QualysTagAssignment -assetId $QualysAsset.id -tagId $this.id -Credential $Credential
-    }
-
-    [void] AssignById (
-
-        [Int32]
-        $assetId,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign this tag to a Qualys asset by ID
-        Add-QualysTagAssignment -assetId $assetId -tagId $this.id -Credential $Credential
-    }
-
-    [void] UnassignById (
-
-        [Int32]
-        $assetId,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign this tag from a Qualys asset by ID
-        Remove-QualysTagAssignment -assetId $assetId -tagId $this.id -Credential $Credential
-    }
-
-    [void] AssignByName (
-
-        [string]
-        $assetName,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Assign this tag to a Qualys asset by name
-        Add-QualysTagAssignment -assetId (Get-QualysAsset -assetName $assetName -Credential $Credential ).id -tagId $this.id -Credential $Credential
-    }
-
-    [void] UnassignByName (
-
-        [string]
-        $assetName,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        # Unassign this tag from a Qualys asset by name
-        Remove-QualysTagAssignment -assetId (Get-QualysAsset -assetName $assetName -Credential $Credential ).id -tagId $this.id -Credential $Credential
-    }
-
-    # Method to pull parent tag
-    [void] GetParentTag (
-
-        [switch]
-        $Recursive = $false,
-
-        [PSCredential]
-        $Credential
-
-
-    ) {
-        $this.parentTag = Get-QualysTag -tagId $this.parentTagId -Credential $Credential  if { $Recursive } (-Recursive)
-    }
-
-    # Method to pull child tags
-    [void] GetChildTags (
-
-        [switch]
-        $Recursive = $false,
-
-        [PSCredential]
-        $Credential
-
-    ) {
-        $this.childTags = Get-QualysTag -parentTagId $this.id -Credential $Credential  if { $Recursive } (-Recursive)
-    }
-
 }

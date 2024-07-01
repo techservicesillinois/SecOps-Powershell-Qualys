@@ -31,54 +31,6 @@ Returns the Qualys asset's name.
 
 Returns the Qualys asset and properties in JSON format.
 
-### AssignTag([QualysTag]$QualysTag, [PSCredential]$inputCredential)
-
-Assigns a Qualys tag object to the asset using the given credentials.
-
-### UnassignTag([QualysTag]$QualysTag, [PSCredential]$inputCredential)
-
-Unassigns a Qualys tag object from the asset using the given credentials.
-
-### AssignTags([QualysTag[]]$QualysTag, [PSCredential]$inputCredential)
-
-Assigns a list of Qualys tag objects to the asset using the given credentials.
-
-### UnassignTags([QualysTag[]]$QualysTag, [PSCredential]$inputCredential)
-
-Unassigns a list of Qualys tag objects from the asset using the given credentials.
-
-### AssignTagByName([String]$tagName, [PSCredential]$inputCredential)
-
-Assigns a Qualys tag object to the asset using the tag's name and the given credentials.
-
-### UnassignTagByName([String]$tagName, [PSCredential]$inputCredential)
-
-Unassigns a Qualys tag object to the asset using the tag's name and the given credentials.
-
-### AssignTagsByName([String[]]$tagName, [PSCredential]$inputCredential)
-
-Assigns a list of Qualys tag objects to the asset using the tag names and the given credentials.
-
-### UnassignTagsByName([String[]]$tagName, [PSCredential]$inputCredential)
-
-Unassigns a list of Qualys tag objects to the asset using the tag names and the given credentials.
-
-### AssignTagById([int32]$tagId, [PSCredential]$inputCredential)
-
-Assigns a Qualys tag object to the asset using the tag's ID and the given credentials.
-
-### UnassignTagById([int32]$tagId, [PSCredential]$inputCredential)
-
-Unassigns a Qualys tag object to the asset using the tag's ID and the given credentials.
-
-### AssignTagsById([int32[]]$tagId, [PSCredential]$inputCredential)
-
-Assigns a list of Qualys tag objects to the asset using the tag IDs and the given credentials.
-
-### UnassignTagsById([int32[]]$tagId, [PSCredential]$inputCredential)
-
-Unassigns a list of Qualys tag objects to the asset using the tag IDs and the given credentials.
-
 ## Properties
 
 ### 1st Level Properties
@@ -92,7 +44,7 @@ Unassigns a list of Qualys tag objects to the asset using the tag IDs and the gi
 | `criticalityScore` | string |
 | `dnsHostName` | string |
 | `fqdn` | string |
-| `id` | Int32 |
+| `id` | Int64 |
 | `informationGatheredUpdated` | datetime |
 | `isDockerHost` | System.Boolean |
 | `lastComplianceScan` | datetime |
@@ -105,9 +57,9 @@ Unassigns a list of Qualys tag objects to the asset using the tag IDs and the gi
 | `name` | string |
 | `networkGuid` | guid |
 | `os` | string |
-| `qwebHostId` | int32 |
+| `qwebHostId` | Int64 |
 | `timezone` | string |
-| `totalMemory` | int32 |
+| `totalMemory` | Int64 |
 | `trackingMethod` | string |
 | `type` | string |
 | `vulnsUpdated` | datetime |
@@ -141,7 +93,7 @@ Unassigns a list of Qualys tag objects to the asset using the tag IDs and the gi
 |  |  | `activatedModule` | string[] | | |
 |  |  | `manifestVersion` | PSCustomObject | `vm` | string |
 |  |  |  |  | `sca` | string |
-|  |  | `agentConfiguration` | PSCustomObject | `id` | int32 |
+|  |  | `agentConfiguration` | PSCustomObject | `id` | Int64 |
 |  |  |  |  | `name` | string |
 |  |  | `activationKey` | PSCustomObject | `activationId` | Guid |
 |  |  |  |  | `title` | string |
@@ -150,18 +102,18 @@ Unassigns a list of Qualys tag objects to the asset using the tag IDs and the gi
 |  |  | `address` | IPAddress | | |
 |  |  | `gatewayAddress` | string | | |
 |  |  | `hostname` | string | | |
-| `openPort` | PSCustomObject[] | `port` | int32 | | |
+| `openPort` | PSCustomObject[] | `port` | Int64 | | |
 |  |  | `protocol` | string | | |
 | `processor` | PSCustomObject[] | `name` | string | | |
-|  |  | `speed` | int32 | | |
+|  |  | `speed` | Int64 | | |
 | `software` | PSCustomObject[] | `name` | string | | |
 |  |  | `version` | string | | |
-| `tags` | PSCustomObject[] | `id` | int32 | | |
+| `tags` | PSCustomObject[] | `id` | Int64 | | |
 |  |  | `name` | string | | |
 | `volume` | PSCustomObject[] | `name` | string | | |
 |  |  | `size` | int64 | | |
 |  |  | `free` | int64 | | |
-| `vuln` | PSCustomObject[] | `qid` | int32 | | |
-|  |  | `hostInstanceVulnId` | int32 | | |
+| `vuln` | PSCustomObject[] | `qid` | Int64 | | |
+|  |  | `hostInstanceVulnId` | Int64 | | |
 |  |  | `firstFound` | datetime | | |
 |  |  | `lastFound` | datetime | | |

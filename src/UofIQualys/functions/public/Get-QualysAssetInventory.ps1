@@ -18,7 +18,7 @@ function Get-QualysAssetInventory {
         [PSCredential]
         $Credential,
 
-        [int32]
+        [Int64]
         $BatchSize = 1000
     )
 
