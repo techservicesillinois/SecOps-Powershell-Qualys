@@ -9,7 +9,7 @@
 .EXAMPLE
     Save-QualysReport -ID '36743223'
 #>
-function Get-QualysReports{
+function Save-QualysReport{
     [CmdletBinding()]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '',
             Justification = 'This is consistent with the vendors verbiage')]
