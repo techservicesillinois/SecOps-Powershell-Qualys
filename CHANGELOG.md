@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Invoke-QualysTagRestCall: Modify the tagging functions to use this modified version of Invoke-QualysRestCall. The BaseURI for tagging endpoints is different from User Basic auth endpoints and there is nothing to clearly distinguish the two.
 - Added the tagging Base URI to the settings.json
 - Added Add-QualysUserTagAssignment: this function adds tag assignments to users.
+- Added functions Get-QualysReports and Save-QualysReport
 
 ### Added
 
