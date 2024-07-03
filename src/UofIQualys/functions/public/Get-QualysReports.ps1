@@ -40,13 +40,13 @@ function Get-QualysReports{
 
         #Takes any parameter that's set, except excluded ones, and adds one of the same name (or alias name if present) to the API body
         $PSBoundParameters.Keys | Where-Object -FilterScript {($_ -notin $Exclusions) -and $_} | ForEach-Object -Process {
-            $_ = $_.ToLower()
-            if($MyInvocation.MyCommand.Parameters[$_].Aliases[0]){
-                [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$_].Aliases[0]
-                $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$_]
+            $Param = $_.ToLower()
+            if($MyInvocation.MyCommand.Parameters[$Param].Aliases[0]){
+                [String]$APIKeyNames = $MyInvocation.MyCommand.Parameters[$Param].Aliases[0]
+                $RestSplat.Body.$APIKeyNames = $PSBoundParameters[$Param]
             }
             else {
-                $RestSplat.Body.$_ = $PSBoundParameters[$_]
+                $RestSplat.Body.$_ = $PSBoundParameters[$Param]
             }
         }
 
