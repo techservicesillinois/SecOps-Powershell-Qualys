@@ -20,7 +20,7 @@ function Add-QualysUserTagAssignment {
     [CmdletBinding()]
     param (
         [parameter(Mandatory = $true)]
-        [Int]$UserId,
+        [Int64]$UserId,
         [parameter(Mandatory = $true)]
         [String[]]$Tags,
         [parameter(Mandatory = $true)]
