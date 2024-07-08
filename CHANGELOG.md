@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Removed
+
 ## [1.8.0] - 2024-07-08
 
 ### Added
@@ -26,12 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Support using environment variables to automatically override settings.json script-scoped parameters.
-
-### Added
-
-### Changed
-
-### Removed
 
 ## [1.6.0] - 2023-05-02
 
