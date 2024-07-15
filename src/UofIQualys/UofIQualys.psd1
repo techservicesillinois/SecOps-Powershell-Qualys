@@ -74,6 +74,7 @@ FunctionsToExport = @(
     'Test-QualysHostAssets',
     'Get-QualysHostAssets',
     'Invoke-QualysRestCall',
+    'Invoke-QualysTagRestCall',
     'Get-QualysAssetGroups',
     'Add-QualysAssetGroups',
     'Set-QualysAssetGroups',
@@ -101,7 +102,8 @@ FunctionsToExport = @(
     'Sync-QualysTagAssignment',
     'Add-QualysUserTagAssignment',
     'Get-QualysReports',
-    'Save-QualysReport'
+    'Save-QualysReport',
+    'Get-QualysAMUser'
     )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
