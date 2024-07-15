@@ -9,14 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Removed
+
+## [1.8.1] - 2024-07-15
+
+### Added
+
 - Get-QualysAMUser: function that gets user information from the administration module. This supporting function is necessary for Add-QualysUserTagAssignment after discovering VMDR User IDs and Administration User IDs are not the same.
 - Invoke-QualysTagRestCall was missing from the module's functions to export.
 
 ### Changed
 
 - Add-QualysUserTagAssignment: Now takes a User Login instead of ID and gets the AM ID by using the Get-QualysAMUser function.
-
-### Removed
 
 ## [1.8.0] - 2024-07-08
 
