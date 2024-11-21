@@ -11,6 +11,8 @@
 
 function Remove-QualysHosts{
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '',
+            Justification = 'This is consistent with the vendors verbiage')]
     param (
         [Parameter(Mandatory=$true)]
         [String[]]$IPs
