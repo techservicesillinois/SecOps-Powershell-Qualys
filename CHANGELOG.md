@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.8.2] - 2024-11-21
+
+### Added
+
+- Remove-QualysHosts: Purges hosts based on IP from Qualys.
+
+### Changed
+
+- Set-QualysAssetGroups: Add Scanners parameter so you can add non-default scanners to asset groups
+- Add-QualysAssetGroups: Add Scanners parameter so you can add non-default scanners to asset groups
+
 ## [1.8.1] - 2024-07-15
 
 ### Added
