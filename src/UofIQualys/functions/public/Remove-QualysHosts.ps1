@@ -10,7 +10,7 @@
 #>
 
 function Remove-QualysHosts{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '',
             Justification = 'This is consistent with the vendors verbiage')]
     param (
@@ -19,15 +19,17 @@ function Remove-QualysHosts{
     )
 
     process{
-        $RestSplat = @{
-            Method = 'POST'
-            RelativeURI = 'asset/host/'
-            Body = @{
-                action = 'purge'
-                ips = ($IPs.Trim() -join ", ")
+        if ($PSCmdlet.ShouldProcess("$($IPs.count) IPs Will be purged from Qualys")){
+            $RestSplat = @{
+                Method = 'POST'
+                RelativeURI = 'asset/host/'
+                Body = @{
+                    action = 'purge'
+                    ips = ($IPs.Trim() -join ", ")
+                }
             }
+            $Response = Invoke-QualysRestCall @RestSplat
+            $Response.BATCH_RETURN.RESPONSE.BATCH_LIST.BATCH
         }
-        $Response = Invoke-QualysRestCall @RestSplat
-        $Response.BATCH_RETURN.RESPONSE.BATCH_LIST.BATCH
     }
 }
