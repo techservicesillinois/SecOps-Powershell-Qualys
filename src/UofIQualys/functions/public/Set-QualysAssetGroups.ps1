@@ -19,6 +19,8 @@
     The Division of the Asset Group, typically the Owner Code from CDB
 .PARAMETER DefaultScanner
     The ID of the scanner to use as the default scanner for this asset group
+.PARAMETER Scanners
+    Comma separated IDs of the scanners to assign to the asset group. Ex "1578772,1578773"
 .EXAMPLE
     Set-QualysAssetGroups -Identity '7445535' -Title "My Edited Asset Group Title"
 .EXAMPLE
@@ -37,7 +39,8 @@
             [String[]]$RemoveIPs,
             [String]$Comments,
             [String]$Division,
-            [Int]$DefaultScanner
+            [Int]$DefaultScanner,
+            [String]$Scanners
         )
 
         process{
@@ -88,6 +91,10 @@
                 If($DefaultScanner){
                     $RestSplat.Body['add_appliance_ids'] = $DefaultScanner
                     $RestSplat.Body['set_default_appliance_id'] = $DefaultScanner
+                }
+
+                If($Scanners){
+                    $RestSplat.Body['add_appliance_ids'] = $Scanners
                 }
 
                 $Response = Invoke-QualysRestCall @RestSplat
