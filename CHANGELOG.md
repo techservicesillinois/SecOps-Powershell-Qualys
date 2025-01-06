@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.8.3] - 2025-01-06
+
+### Changed
+
+- Add-QualysAssetGroups: DefaultScanner parameter was being overwritten by Scanner parameter. This has been fixed.
+
 ## [1.8.2] - 2024-11-21
 
 ### Added
