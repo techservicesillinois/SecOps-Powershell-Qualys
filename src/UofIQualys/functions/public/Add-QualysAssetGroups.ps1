@@ -30,7 +30,7 @@
             [String[]]$IPs,
             [String]$Comments,
             [String]$Division,
-            [Int]$DefaultScanner,
+            [String]$DefaultScanner,
             [String]$Scanners
         )
 
@@ -64,7 +64,12 @@
             }
 
             If($Scanners){
-                $RestSplat.Body['appliance_ids'] = $Scanners
+                If($DefaultScanner){
+                    $RestSplat.Body['appliance_ids'] += ",$($Scanners)"
+                }
+                Else{
+                    $RestSplat.Body['appliance_ids'] = $Scanners
+                }
             }
 
             $Response = Invoke-QualysRestCall @RestSplat
