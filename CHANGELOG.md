@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.8.4] - 2025-01-08
+
+### Changed
+
+- Add-QualysUser: DefaultScanner parameter was being overwritten by Scanner parameter. This has been fixed.
+
 ## [1.8.3] - 2025-01-06
 
 ### Changed
