@@ -103,11 +103,11 @@ function Set-QualysUser{
             }
 
             $Response = Invoke-QualysRestCall @RestSplat
-            if ($Response.USER_OUTPUT.RETURN.MESSAGE) {
-                Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE
+            if ($Response.USER_OUTPUT.RETURN.status -ne 'FAILED') {
+                Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE.'#cdata-section'
             }
             else {
-                $Response.USER_OUTPUT.RETURN.MESSAGE
+                $Response.USER_OUTPUT.RETURN.MESSAGE.'#cdata-section'
             }
         }
     }
