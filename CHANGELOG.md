@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Add-QualysUser: DefaultScanner parameter was being overwritten by Scanner parameter. This has been fixed.
+- Add-QualysUser and Set-QualysUser: Made output more useful for troubleshooting
 
 ## [1.8.3] - 2025-01-06
 
