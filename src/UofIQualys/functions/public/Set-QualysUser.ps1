@@ -107,11 +107,7 @@ function Set-QualysUser{
                 Write-Verbose -Message $Response.USER_OUTPUT.RETURN.MESSAGE.'#cdata-section'
             }
             else {
-<<<<<<< HEAD
                 Write-Error -Exception $Response.USER_OUTPUT.RETURN.MESSAGE.'#cdata-section'
-=======
-                $Response.USER_OUTPUT.RETURN.MESSAGE.'#cdata-section'
->>>>>>> origin/main
             }
         }
     }
