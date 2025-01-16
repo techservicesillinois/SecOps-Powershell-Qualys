@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-## [1.8.4] - 2025-01-08
+## [1.8.4] - 2025-01-16
 
 ### Changed
 
