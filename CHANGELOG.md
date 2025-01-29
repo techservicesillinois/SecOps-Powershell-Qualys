@@ -13,11 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-## [1.8.4] - 2025-01-08
+## [1.8.4] - 2025-01-16
 
 ### Changed
 
-- Add-QualysUser and Set-QualysUser: Made output more useful for troubleshooting
+- Add-QualysUser and Set-QualysUser: Made output more useful for troubleshooting, and error when there is a "failed" status because the API is returning a 200 even when the call fails.
 
 ## [1.8.3] - 2025-01-06
 
