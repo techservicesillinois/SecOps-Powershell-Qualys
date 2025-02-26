@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.8.5] - 2025-02-25
+
+### Changed
+
+- Add-QualysUser and Set-QualysUser: The MESSAGE property is not always present when the RETURN.STATUS property is not FAILED, so these functions were erroring when invoked via script. Modified to just return the raw response when Verbose is specified.
+
 ## [1.8.4] - 2025-01-16
 
 ### Changed
